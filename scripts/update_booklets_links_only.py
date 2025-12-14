@@ -28,6 +28,10 @@ from __future__ import annotations
 import os
 import re
 
+
+def md_link_escape_path(path: str) -> str:
+    return (path or "").replace(" ", "%20").replace("(", "%28").replace(")", "%29")
+
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BOOKLETS_MD = os.path.join(REPO_ROOT, "BOOKLETS.md")
 BOOKLETS_DIR = os.path.join(REPO_ROOT, "booklets")
@@ -131,9 +135,10 @@ def main() -> int:
         if m_pdf:
             prefix = m_pdf.group(1)
             if current_has_pdf and current_folder:
+                folder_md = md_link_escape_path(current_folder)
                 suffix = (
-                    f" ([目录](booklets/{current_folder}/) · "
-                    f"[booklet.pdf](booklets/{current_folder}/booklet.pdf))"
+                    f" ([目录](booklets/{folder_md}/) · "
+                    f"[booklet.pdf](booklets/{folder_md}/booklet.pdf))"
                 )
             else:
                 suffix = ""
@@ -144,9 +149,10 @@ def main() -> int:
         if m_zh:
             prefix = m_zh.group(1)
             if current_has_zh and current_folder:
+                folder_md = md_link_escape_path(current_folder)
                 suffix = (
-                    f" ([目录](booklets/{current_folder}/) · "
-                    f"[booklet_zh.md](booklets/{current_folder}/booklet_zh.md))"
+                    f" ([目录](booklets/{folder_md}/) · "
+                    f"[booklet_zh.md](booklets/{folder_md}/booklet_zh.md))"
                 )
             else:
                 suffix = ""

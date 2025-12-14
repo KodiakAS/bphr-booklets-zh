@@ -345,6 +345,31 @@ def extract_first_release_date(page_html: str) -> dt.date | None:
 LEADING_TITLE_TRIM_CHARS = " \t\r\n\u3000\"'“”‘’《》()[]【】{}·•—–-:：/\\"
 
 
+def md_link_escape_path(path: str) -> str:
+    """Escape characters that break Markdown links.
+
+    We keep non-ASCII characters as-is for readability and GitHub compatibility,
+    but URL-encode characters like parentheses/spaces that can terminate the link.
+    """
+
+    return (path or "").replace(" ", "%20").replace("(", "%28").replace(")", "%29")
+
+
+def completion_rank(has_pdf: bool, has_zh: bool) -> int:
+    """Ranking for checklist ordering.
+
+    0: translation done
+    1: booklet collected
+    2: others
+    """
+
+    if has_zh:
+        return 0
+    if has_pdf:
+        return 1
+    return 2
+
+
 def title_initial_key(title: str) -> tuple[str, str]:
     """Sort key for '按首字母' ordering.
 
@@ -639,8 +664,14 @@ def main(argv: list[str]) -> int:
             )
 
         items.append((best_display, best_url, best_local_pdf, best_local_zh, best_local_folder, best_local_norm))
-    # Sort by title initial.
-    items.sort(key=lambda x: (title_initial_key(x[0]), normalize_title_for_dir(x[0])))
+    # Sort by completion status first, then by title initial.
+    items.sort(
+        key=lambda x: (
+            completion_rank(x[2], x[3]),
+            title_initial_key(x[0]),
+            normalize_title_for_dir(x[0]),
+        )
+    )
 
     out_path = os.path.join(repo_root, args.output)
     with open(out_path, "w", encoding="utf-8") as f:
@@ -652,7 +683,7 @@ def main(argv: list[str]) -> int:
         f.write("- 每条发行物包含两项任务（均为 GitHub 可渲染的 task list）：\n")
         f.write("  - booklet 已收集：存在 `booklets/<标题>/booklet.pdf`\n")
         f.write("  - 中文翻译已完成：存在 `booklets/<标题>/booklet_zh.md`\n")
-        f.write("- 列表按制品标题首字母（首字符）排序\n\n")
+        f.write("- 列表按完成状态优先级排序（中文翻译已完成 > booklet 已收集 > 其他）；同一优先级内按制品标题首字母（首字符）排序\n\n")
 
         for display_title, url, has_pdf, has_zh, folder_name, _stable_norm in items:
             pdf_box = "x" if has_pdf else " "
@@ -661,10 +692,11 @@ def main(argv: list[str]) -> int:
             pdf_link = ""
             zh_link = ""
             if folder_name:
+                folder_md = md_link_escape_path(folder_name)
                 if has_pdf:
-                    pdf_link = f" ([目录](booklets/{folder_name}/) · [booklet.pdf](booklets/{folder_name}/booklet.pdf))"
+                    pdf_link = f" ([目录](booklets/{folder_md}/) · [booklet.pdf](booklets/{folder_md}/booklet.pdf))"
                 if has_zh:
-                    zh_link = f" ([目录](booklets/{folder_name}/) · [booklet_zh.md](booklets/{folder_name}/booklet_zh.md))"
+                    zh_link = f" ([目录](booklets/{folder_md}/) · [booklet_zh.md](booklets/{folder_md}/booklet_zh.md))"
             f.write(f"  - [{pdf_box}] booklet 已收集{pdf_link}\n")
             f.write(f"  - [{zh_box}] 中文翻译已完成{zh_link}\n")
             f.write(f"  - 购买链接：{url}\n")

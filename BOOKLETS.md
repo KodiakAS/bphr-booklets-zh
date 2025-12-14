@@ -6,7 +6,25 @@
 - 每条发行物包含两项任务（均为 GitHub 可渲染的 task list）：
   - booklet 已收集：存在 `booklets/<标题>/booklet.pdf`
   - 中文翻译已完成：存在 `booklets/<标题>/booklet_zh.md`
-- 列表按制品标题首字母（首字符）排序
+- 列表按完成状态优先级排序（中文翻译已完成 > booklet 已收集 > 其他）；同一优先级内按制品标题首字母（首字符）排序
+
+- 基里尔·别特连科指挥勃拉姆斯《悲剧序曲》与《第一交响曲》CD专辑
+  - [x] booklet 已收集 ([目录](booklets/基里尔·别特连科指挥勃拉姆斯《悲剧序曲》与《第一交响曲》CD专辑/) · [booklet.pdf](booklets/基里尔·别特连科指挥勃拉姆斯《悲剧序曲》与《第一交响曲》CD专辑/booklet.pdf))
+  - [x] 中文翻译已完成 ([目录](booklets/基里尔·别特连科指挥勃拉姆斯《悲剧序曲》与《第一交响曲》CD专辑/) · [booklet_zh.md](booklets/基里尔·别特连科指挥勃拉姆斯《悲剧序曲》与《第一交响曲》CD专辑/booklet_zh.md))
+  - 购买链接：https://www.berliner-philharmoniker-recordings.com/petrenko-brahms.html?___store=rec_zh
+- 安东·布鲁克纳：交响曲全集9 CD (Hybrid-SACD)
+  - [x] booklet 已收集 ([目录](booklets/安东·布鲁克纳：交响曲全集9CD%28Hybrid-SACD%29/) · [booklet.pdf](booklets/安东·布鲁克纳：交响曲全集9CD%28Hybrid-SACD%29/booklet.pdf))
+  - [x] 中文翻译已完成 ([目录](booklets/安东·布鲁克纳：交响曲全集9CD%28Hybrid-SACD%29/) · [booklet_zh.md](booklets/安东·布鲁克纳：交响曲全集9CD%28Hybrid-SACD%29/booklet_zh.md))
+  - 购买链接：https://www.berliner-philharmoniker-recordings.com/bruckner-symphonies.html?___store=rec_zh
+- 路德维希·凡·贝多芬 第1-5钢琴协奏曲5 CD (Hybrid-SACD)
+  - [x] booklet 已收集 ([目录](booklets/路德维希·凡·贝多芬第1-5钢琴协奏曲5CD%28Hybrid-SACD%29/) · [booklet.pdf](booklets/路德维希·凡·贝多芬第1-5钢琴协奏曲5CD%28Hybrid-SACD%29/booklet.pdf))
+  - [x] 中文翻译已完成 ([目录](booklets/路德维希·凡·贝多芬第1-5钢琴协奏曲5CD%28Hybrid-SACD%29/) · [booklet_zh.md](booklets/路德维希·凡·贝多芬第1-5钢琴协奏曲5CD%28Hybrid-SACD%29/booklet_zh.md))
+  - 购买链接：https://www.berliner-philharmoniker-recordings.com/beethoven-piano-concertos.html?___store=rec_zh
+
+- 西蒙·拉特爵士指挥《贝多芬交响曲全集》5CD+3蓝光碟+下载 ／ 硬壳精装版
+  - [x] booklet 已收集 ([目录](booklets/西蒙·拉特爵士指挥《贝多芬交响曲全集》5CD+3蓝光碟+下载／硬壳精装版/) · [booklet.pdf](booklets/西蒙·拉特爵士指挥《贝多芬交响曲全集》5CD+3蓝光碟+下载／硬壳精装版/booklet.pdf))
+  - [ ] 中文翻译已完成
+  - 购买链接：https://www.berliner-philharmoniker-recordings.com/rattle-beethoven-symphonies.html?___store=rec_zh
 
 - Nikolaus Harnoncourt conducts Schubert5 CD (Hybrid-SACD)
   - [ ] booklet 已收集
@@ -28,10 +46,6 @@
   - [ ] booklet 已收集
   - [ ] 中文翻译已完成
   - 购买链接：https://www.berliner-philharmoniker-recordings.com/petrenko-edition-1.html?___store=rec_zh
-- 基里尔·别特连科指挥勃拉姆斯《悲剧序曲》与《第一交响曲》CD专辑
-  - [x] booklet 已收集 ([目录](booklets/基里尔·别特连科指挥勃拉姆斯《悲剧序曲》与《第一交响曲》CD专辑/) · [booklet.pdf](booklets/基里尔·别特连科指挥勃拉姆斯《悲剧序曲》与《第一交响曲》CD专辑/booklet.pdf))
-  - [x] 中文翻译已完成 ([目录](booklets/基里尔·别特连科指挥勃拉姆斯《悲剧序曲》与《第一交响曲》CD专辑/) · [booklet_zh.md](booklets/基里尔·别特连科指挥勃拉姆斯《悲剧序曲》与《第一交响曲》CD专辑/booklet_zh.md))
-  - 购买链接：https://www.berliner-philharmoniker-recordings.com/petrenko-brahms.html?___store=rec_zh
 - 基里尔·别特连科指挥拉赫玛尼诺夫双CD与蓝光版
   - [ ] booklet 已收集
   - [ ] 中文翻译已完成
@@ -52,10 +66,6 @@
   - [ ] booklet 已收集
   - [ ] 中文翻译已完成
   - 购买链接：https://www.berliner-philharmoniker-recordings.com/radio-recordings-vinyl.html?___store=rec_zh
-- 安东·布鲁克纳：交响曲全集9 CD (Hybrid-SACD)
-  - [x] booklet 已收集 ([目录](booklets/安东·布鲁克纳：交响曲全集9CD%28Hybrid-SACD%29/) · [booklet.pdf](booklets/安东·布鲁克纳：交响曲全集9CD%28Hybrid-SACD%29/booklet.pdf))
-  - [x] 中文翻译已完成 ([目录](booklets/安东·布鲁克纳：交响曲全集9CD%28Hybrid-SACD%29/) · [booklet_zh.md](booklets/安东·布鲁克纳：交响曲全集9CD%28Hybrid-SACD%29/booklet_zh.md))
-  - 购买链接：https://www.berliner-philharmoniker-recordings.com/bruckner-symphonies.html?___store=rec_zh
 - 拉赫玛尼诺夫150基里尔·格斯坦、基里尔·别特连科与柏林爱乐乐团携手致敬
   - [ ] booklet 已收集
   - [ ] 中文翻译已完成
@@ -92,14 +102,6 @@
   - [ ] booklet 已收集
   - [ ] 中文翻译已完成
   - 购买链接：https://www.berliner-philharmoniker-recordings.com/simon-rattle-schumanns-symphonien.html?___store=rec_zh
-- 西蒙·拉特爵士指挥《贝多芬交响曲全集》5CD+3蓝光碟+下载 ／ 硬壳精装版
-  - [x] booklet 已收集 ([目录](booklets/西蒙·拉特爵士指挥《贝多芬交响曲全集》5CD+3蓝光碟+下载／硬壳精装版/) · [booklet.pdf](booklets/西蒙·拉特爵士指挥《贝多芬交响曲全集》5CD+3蓝光碟+下载／硬壳精装版/booklet.pdf))
-  - [ ] 中文翻译已完成
-  - 购买链接：https://www.berliner-philharmoniker-recordings.com/rattle-beethoven-symphonies.html?___store=rec_zh
-- 路德维希·凡·贝多芬 第1-5钢琴协奏曲5 CD (Hybrid-SACD)
-  - [x] booklet 已收集 ([目录](booklets/路德维希·凡·贝多芬第1-5钢琴协奏曲5CD%28Hybrid-SACD%29/) · [booklet.pdf](booklets/路德维希·凡·贝多芬第1-5钢琴协奏曲5CD%28Hybrid-SACD%29/booklet.pdf))
-  - [x] 中文翻译已完成 ([目录](booklets/路德维希·凡·贝多芬第1-5钢琴协奏曲5CD%28Hybrid-SACD%29/) · [booklet_zh.md](booklets/路德维希·凡·贝多芬第1-5钢琴协奏曲5CD%28Hybrid-SACD%29/booklet_zh.md))
-  - 购买链接：https://www.berliner-philharmoniker-recordings.com/beethoven-piano-concertos.html?___store=rec_zh
 
 ## 抓取/解析异常（供排查）
 - https://www.berliner-philharmoniker-recordings.com/simon-rattle-schumann-sacd.html?___store=rec_zh — curl: (22) The requested URL returned error: 404
