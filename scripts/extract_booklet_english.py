@@ -83,6 +83,30 @@ DE_STOPWORDS = {
 }
 
 
+_GERMAN_HINT_RE = re.compile(
+    r"[ÄÖÜäöüß]|\b(Symphonie|INHALT|Inhalt|Entstehungszeit|Uraufführung|Fassung|Brüder|Freude|überm|Satz|Takt|Dirigent|Mitglieder)\b",
+    flags=re.IGNORECASE,
+)
+
+
+_ENGLISH_HINT_RE = re.compile(
+    r"\b("
+    r"Symphony|Conductor|ORCHESTRATION|CONTENT|Year of composition|First performance|"
+    r"Flutes|Oboes|Clarinets|Bassoons|Horns|Trumpets|Trombones|Timpani|Percussion|Harp|"
+    r"Violins|Violas|Cellos|Double\s+basses"
+    r")\b",
+    flags=re.IGNORECASE,
+)
+
+
+def _looks_german(text: str) -> bool:
+    return bool(_GERMAN_HINT_RE.search(text))
+
+
+def _looks_english(text: str) -> bool:
+    return bool(_ENGLISH_HINT_RE.search(text))
+
+
 def _word_counts(text: str) -> dict[str, int]:
     words = re.findall(r"[A-Za-zÄÖÜäöüß']+", text.lower())
     counts: dict[str, int] = {}
@@ -113,26 +137,85 @@ def _filter_lines_by_language(lines: list[str], language_filter: str) -> list[st
             filtered.append("")
             continue
 
+        # Common bilingual pattern: "German · English".
+        # Keep the English fragment (preserving leading counts like "3 Flöten · Flutes").
+        if "·" in line:
+            left, right = [p.strip() for p in line.split("·", maxsplit=1)]
+            m_count = re.match(r"^(?P<count>\d+)\b", left)
+            if m_count:
+                line = f"{m_count.group('count')} {right}".strip()
+            else:
+                line = right
+
         # Keep obvious numeric/time/track lines; they're useful for later structuring.
         if re.search(r"\b\d{1,2}:\d{2}\b", line) or re.search(r"\bCD\b", line):
             filtered.append(line)
             continue
 
-        # Keep all-caps headings.
+        # Keep all-caps headings, but avoid obvious German-only ones.
         if line.isupper() and len(line) >= 6:
-            filtered.append(line)
+            if not _looks_german(line):
+                filtered.append(line)
             continue
 
         en, de = _lang_score(line)
-        # If the line has no signal, keep it (manual review will decide).
+
+        # If the line has no stopword signal, fall back to lightweight hints.
+        # This helps drop obvious German-only fragments that otherwise slip through.
         if en == 0 and de == 0:
-            filtered.append(line)
+            if not _looks_german(line):
+                filtered.append(line)
             continue
 
         if en >= de:
             filtered.append(line)
 
     return filtered
+
+
+def _page_lang_score(text: str) -> tuple[int, int]:
+    """Return (en_score, de_score) for an entire extracted page block."""
+
+    # Ignore very short lines and pure numeric markers.
+    kept: list[str] = []
+    for raw in text.split("\n"):
+        s = raw.strip()
+        if not s:
+            continue
+        if re.fullmatch(r"[\d:()\[\]–—\-./ ]+", s):
+            continue
+        if len(s) < 8:
+            continue
+        kept.append(s)
+    return _lang_score("\n".join(kept))
+
+
+def _should_drop_page(raw_page_text: str, extracted: str, language_filter: str) -> bool:
+    """Return True if we should drop this page block as non-English scope.
+
+    Safety rule: never drop a page if we can detect *any* English signal
+    (stopwords or stable English labels) in either the raw page text or
+    the filtered extracted text.
+    """
+
+    if language_filter != "en":
+        return False
+
+    raw_en, raw_de = _page_lang_score(raw_page_text)
+    extracted_en, extracted_de = _page_lang_score(extracted)
+
+    # Protect against losing pages that contain some English content.
+    if raw_en > 0 or extracted_en > 0:
+        return False
+    if _looks_english(raw_page_text) or _looks_english(extracted):
+        return False
+
+    # If we have no signal at all, don't drop.
+    if raw_en == 0 and raw_de == 0 and extracted_en == 0 and extracted_de == 0:
+        return False
+
+    # Drop pages that are clearly German-dominant.
+    return raw_de >= raw_en + 2
 
 
 def _normalize_text(text: str) -> str:
@@ -371,6 +454,21 @@ def main() -> int:
             "Always requires manual skim; set to 'none' to disable. Default: en"
         ),
     )
+    parser.add_argument(
+        "--drop-non-english-pages",
+        action="store_true",
+        default=True,
+        help=(
+            "When --language-filter=en, drop page blocks that are strongly German-dominant. "
+            "This keeps booklet_en.md closer to the actual translation scope. Default: enabled"
+        ),
+    )
+    parser.add_argument(
+        "--keep-non-english-pages",
+        action="store_true",
+        default=False,
+        help="Disable dropping and keep all extracted pages (even if German-dominant)",
+    )
     args = parser.parse_args()
 
     booklet_dir = Path(args.booklet_dir)
@@ -415,6 +513,8 @@ def main() -> int:
     )
     parts.append("")
 
+    dropped_pages: list[int] = []
+
     included_count = 0
 
     for p in pages:
@@ -440,16 +540,32 @@ def main() -> int:
         if not extracted:
             continue
 
+        if args.language_filter == "en" and args.drop_non_english_pages and not args.keep_non_english_pages:
+            if _should_drop_page(page_text, extracted, args.language_filter):
+                dropped_pages.append(p)
+                continue
+
         parts.append(f"## [PDF p.{p}]")
         parts.append("")
         parts.append(extracted)
         parts.append("")
         included_count += 1
 
+    if dropped_pages:
+        # Insert after the existing header bullets (right before the first blank line after them).
+        insert_at = 0
+        for i, line in enumerate(parts):
+            if line == "" and i > 0:
+                insert_at = i
+                break
+        parts.insert(insert_at, f"- Dropped pages (PDF): {', '.join(map(str, dropped_pages))} (German-dominant by heuristic)")
+
     cfg.out_path.write_text("\n".join(parts).rstrip() + "\n", encoding="utf-8")
 
     print(f"OK: wrote {cfg.out_path}")
     print(f"Included {included_count} page blocks out of {len(pages)} pages")
+    if dropped_pages:
+        print(f"Dropped {len(dropped_pages)} page blocks as non-English-dominant")
     return 0
 
 

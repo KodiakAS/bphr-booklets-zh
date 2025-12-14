@@ -9,15 +9,12 @@
 
 ## [PDF p.5]
 
-Tragische Ouvertüre d-Moll op. 81
 Tragic Overture in D minor, Op. 81
-Tragische Ouvertüre: Allegro ma non troppo –
 13:21
 Molto più moderato – Tempo primo
-Entstehungszeit · composition: 1880
-Uraufführung: 26. Dezember 1880, Wien, Musikvereinssaal
+composition: 1880
 First Performance: 26 December 1880, Vienna, Musikvereinssaal
-Dirigent · conductor: Hans Richter
+conductor: Hans Richter
 First performance by the Berliner Philharmoniker:
 8 October 1882, Braunschweig, under the name
 Ehemalige Bilsesche Kapelle (Former Bilse’s Ensemble)
@@ -25,9 +22,7 @@ Ehemalige Bilsesche Kapelle (Former Bilse’s Ensemble)
 ## [PDF p.6]
 
 Actus tragicus
-lich den weniger programmmusikverdächtigen Titel Tragische
 ma unterstellte man Brahms, Goethes Faust oder Shakespeares
-einen ›Actus tragicus‹ [...] überhaupt.«
 
 ## [PDF p.7]
 
@@ -58,7 +53,6 @@ end, tragedy asserts itself with unshakeable grandeur.
 
 ## [PDF p.9]
 
-Symphonie Nr. 1 c-Moll op. 68
 Symphony No. 1 in C minor, Op. 68
 1. Un poco sostenuto – Allegro
 13:08
@@ -69,24 +63,19 @@ Symphony No. 1 in C minor, Op. 68
 4. Adagio – Più Andante –
 16:00
 Allegro non troppo, ma con brio
-Entstehungszeit · composition: circa 1862 – 1876
-Uraufführung: 4. November 1876, Karlsruhe,
-Großherzoglich-Badisches Hoforchester
+composition: circa 1862 – 1876
 First Performance: 4 November 1876, Karlsruhe,
 Baden Court Orchestra
-Dirigent · conductor: Otto Dessoff
+conductor: Otto Dessoff
 27. November 1885
 First performance by the Berliner Philharmoniker:
 27 November 1885
-Dirigent · conductor: Karl Klindworth
+conductor: Karl Klindworth
 
 ## [PDF p.10]
 
 Kraftakt
-Brahms gegenüber Hermann Levi. »Du hast keinen Begriff davon,
 wen wundert es unter diesen Vorzeichen (c-Moll!)? –, »tiefernster,
-fast tragischer Grundstimmung«. Viel später wohlgemerkt,
-erweitert: fortwährende Verwandlung statt Statik.
 
 ## [PDF p.11]
 
@@ -126,41 +115,25 @@ that has finally been tamed.
 Johannes Brahms’s music room on Karlsgasse in Vienna
 Watercolour by Wilhelm Nowak, 1904
 
-## [PDF p.14]
-
-Schmerzenskind, erlösender Durchbruch:
-
-## [PDF p.15]
-
-symphonische Vorstellungen? Brahms hat über Werkstatt
-rechtmäßigen, wohlerworbenen Eigentum machen.«
-
 ## [PDF p.16]
 
 1. Juli an Joseph Joachim, was für Brahms’ Musik insgesamt gilt;
 »logischen«, zielstrebigen Hinleitung zum triumphalen Finale.
-Satz Abstand zum problemschweren Umfeld gesucht, musste
 
 ## [PDF p.17]
 
 innerhalb des Werkes mithilfe jener zweiten, ungleich gewagteren
-ständnis des Ganzen, wenn wir wüssten, wann ihm klar wurde,
-hymnische Zug des Finalthemas an beethovensche Prägungen,
 dessen vielberedetes Thema besorgt, fast nach dem Vorbild
 
 ## [PDF p.18]
 
 was klare Kontur betrifft, bereits hier zwei Prägungen: vom Horn,
 vermeidbare finale Aufgipfelung. Beides jedoch musste bereits
-thema eröffnenden Sekund-Abwärtsschritte nimmt er vor
-dessen Auftritt zwanzigmal drastisch verkürzt vorweg.
 Clara Schumanns schon zitierten Worten: alles »so interessant
 
 ## [PDF p.19]
 
-Erguß«. Ähnlich resümierend sein kritischer Freund Eduard
 Studiums.«
-Welche, wie viele bewältigte Hindernisse, Stolpersteine, Skrupel,
 
 ## [PDF p.20]
 
@@ -212,9 +185,7 @@ interestingly interwoven, yet as spirited as the first outburst; one
 
 ## [PDF p.53]
 
-großen Romantikers.
 Entwicklung in teils wechselvoller Geschichte. Zahlreiche
-Weise verpflichtet, dessen Laufbahn ebenfalls über Meiningen
 
 ## [PDF p.54]
 
@@ -376,7 +347,6 @@ attitude, the Duke was capable of showing appreciation —
 as in the case of clarinettist Richard Mühlfeld. Exceptional
 achievements were rewarded with medals, bonuses, and
 personal gifts.
-Bülow’s revolutionary promise
 Hans von Bülow offered the Duke a radical alternative to the
 status quo: the transformation of the court orchestra into an
 ensemble of international standing. Bülow’s vision extended far
@@ -583,7 +553,6 @@ Noah Bendix-Balgley
 1st concertmaster
 Daishin Kashimoto
 1. Konzertmeister
-Vineta Sareika-Völkner
 1. Konzertmeisterin
 Krzysztof Polonek
 Konzertmeister
@@ -597,12 +566,10 @@ Luiz Felipe Coelho
 Luis Esnaola
 Sebastian Heesch
 Aleksandar Ivić
-Hande Küden
 Kotowa Machida
 Álvaro Parra
 Johanna Pichlmair
 Eduardo Rios Silva
-Bastian Schäfer
 Harry Ward
 Roxana Wisniewska
 Dorian Xhoxhi
@@ -610,12 +577,9 @@ Minami Yoshida
 Zweite Violinen
 Second violins
 Marlene Ito
-1. Stimmführerin
 1st principal
 Thomas Timm
-1. Stimmführer
 Christophe Horák
-Stimmführer
 Raquel Areal Martínez
 Philipp Bohnen
 Stanley Dodds

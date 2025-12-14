@@ -35,9 +35,8 @@ Mitsuko Uchida and Sir Simon Rattle
 
 Berliner Philharmoniker
 
-Mitglieder · Members
+Members
 
-Inhalt
 Content
 
 ## [PDF p.4]
@@ -64,7 +63,6 @@ Piano Concerto No. 1 in C major, op. 15
 Year of composition:
 1795–1800
 First performance:
-First version: 29. März 1795, Wien,
 Final version: 2. April 1800, Wien,
 Beethovens
 first benefit concert
@@ -138,7 +136,7 @@ Year of composition:
 1786 four versions)
 First performance:
 Herbst 1798, Prag
-(erste gesicherte Fassung · first verified version)
+first verified version)
 Conductor / Pianist:
 Ludwig van Beethoven
 
@@ -157,7 +155,6 @@ Klavierkonzert Nr. 2
 anderes Rondofinale ersetzend. Erst 1798, nachdem Beethoven
 plette Partitur nieder. Seinem Verleger bietet er es zwei Jahre
 meinen besten ausgebe.«
-ersten Satz dem Seitenthema seinen Rang streitig machen, wie
 Piano Concerto No. 2
 The genesis of the B flat major Piano Concerto spans
 more than ten years and is difficult to reconstruct in detail. The second and third movements in particular may have been added at a
@@ -223,7 +220,6 @@ Strings
 ## [PDF p.11]
 
 Klavierkonzert Nr. 3
-rein unverständliche ägyptische Hieroglyphen hingekritzelt.«
 vielleicht inspiriert vom sachten Verklingen des Kopfsatzes in
 gefallen, er hat sie in seinen späteren Solokonzerten regelmäßig
 wiederholt.
@@ -270,7 +266,6 @@ Piano Concerto No. 4 in G major, op. 58
 Year of composition:
 1805/1806
 First performance:
-März 1807, Wien, Palais Lobkowitz
 Conductor / Pianist:
 Ludwig van Beethoven
 
@@ -293,7 +288,6 @@ Strings
 ## [PDF p.13]
 
 Klavierkonzert Nr. 4
-Gerne wäre man dabei gewesen, bei dem vierstün
 digen Konzert kurz vor Weihnachten 1808, in dem Beethovens
 Piano Concerto No. 4
 One would gladly have been present at the four-hour
@@ -359,11 +353,7 @@ Strings
 ## [PDF p.15]
 
 Klavierkonzert Nr. 5
-gleitumstände waren schwierig: Weil Napoleon Wien bombar
-geflohen. Beethovens stark zunehmende Taubheit führte außer
-meditativen Charakter weit über schlichte Schönheit hinaus.
 Beethoven vollendete nach diesem Konzert kein
-frühen Stadium liegen.
 Piano Concerto No. 5
 Today, the Fifth Piano Concerto almost approaches
 the level of popularity of the Fifth Symphony or the Moonlight
@@ -403,16 +393,10 @@ F. O. Schindler after a drawing by Ludwig Pietsch
 Beethovens Mozart
 Klavierkonzerten
 
-## [PDF p.18]
-
-zum kompositorischen Problem, sie läuft dem symphonischen Geist zuwider.
-
 ## [PDF p.19]
 
 Beethoven – nur entspringt Mozarts Streben nach Integration eher aus einem barocken
-objektivierte Moll-Dramatik ins Bekenntnishafte übersetzt. Alle Beethoven-Klavierkonzerte
 c-Moll-Konzert in merkwürdig leisen, geheimnisvollen Arpeggios versinkt, schreibt Beethoven in seiner Coda einen triumphalen Durchbruch, rettende Selbstbehauptung des Solisten.
-Grundsätzlicherem. Wenn bei Mozart individuelle Themencharaktere zum Allgemeinen
 
 ## [PDF p.20]
 
@@ -420,12 +404,10 @@ dreigestrichenes F.
 
 ## [PDF p.22]
 
-so untröstlichen, einsamen Mittelsatz bewegt hat, dem berühmten, nur 71 Takte langen
 ungeheuer ausdrucksstarken, deklamatorischen Sekundvorhalt verstummt.
 
 ## [PDF p.23]
 
-Klavierkonzert Nr. 4, Finale, Überleitung zum dritten Refrain des Rondos, Autograf
 Piano Concerto No. 4, Finale, transition to the 3rd refrain of the Rondo, autograph score
 
 ## [PDF p.24]
@@ -435,10 +417,6 @@ Baden-Baden, 2016
 ## [PDF p.25]
 
 pen, den Freudentaumel kaum mehr retardierenden Kadenz.
-
-## [PDF p.27]
-
-Simon Tönies
 
 ## [PDF p.28]
 
@@ -695,7 +673,6 @@ attraction of their utopias has perhaps rarely been as necessary as now, when hu
 tic ideals like reason and knowledge, tolerance and compassion again seem quite funda
 mentally at stake. It will also be a political act when the whole world celebrates Beethoven’s
 250th birthday in 2020.
-Simon Tönies
 Translation: Nancy Chapple
 
 ## [PDF p.40]
@@ -723,7 +700,6 @@ Spiegel, in den man schaut«.
 
 man in musikalischen Fragen toleranter sei, wisse in Wien jeder ganz genau, wie Beethoven
 weil Mitsuko Uchida einen ihrer eigenen Flügel mitgebracht hat, was sie sonst eher selten
-diese legendäre philharmonische Tradition.
 
 ## [PDF p.47]
 
@@ -823,7 +799,6 @@ Translation: Innes Wilson
 Berliner Philharmoniker
 2010
 Sir Simon Rattle
-Künstlerischer Leiter
 Chief Conductor
 Erste Violinen
 First violins
@@ -849,10 +824,8 @@ Felicitas Clamor-Hofmeister
 Laurentius Dinca
 Sebastian Heesch
 Aleksandar Ivić
-Rüdiger Liebermann
 Kotowa Machida
 Christoph Polonek
-Bastian Schäfer
 Dorian Xhoxhi
 Bratschen
 Violas
@@ -865,9 +838,7 @@ Solobratscher
 Micha Afkham
 Julia Gartemann
 Matthew Hunter
-Ulrich Knörzer
 Sebastian Krunnies
-Walter Küssner
 Ignacy Miecznikowski
 Zdzisław Polonek
 Martin Stegner
@@ -878,7 +849,6 @@ Georg Faust
 1. Solocellist
 Ludwig Quandt
 1. Solocellist
-Martin Löhr
 Solocellist
 Olaf Maninger
 Solocellist
@@ -888,10 +858,8 @@ Christoph Igelbrink
 Solène Kermarrec
 Martin Menking
 David Riniker
-Nikolaus Römisch
 Dietmar Schwalke
 Knut Weber
-Kontrabässe
 Double basses
 Matthew McDonald
 1. Solobassist
@@ -909,11 +877,8 @@ Ulrich Wolff
 Zweite Violinen
 Second violins
 Christian Stadelmann
-1. Stimmführer
 Thomas Timm
-1. Stimmführer
 Christophe Horak
-Stimmführer
 Daniel Bell
 Holm Birkholz
 Philipp Bohnen
@@ -932,7 +897,6 @@ Romano Tommasini
 
 ## [PDF p.55]
 
-Flöten
 Flutes
 Andreas Blau
 Solo
@@ -971,7 +935,6 @@ Markus Weidmann
 Marion Reinhard
 Kontrafagott
 Contrabassoon
-Hörner
 Horns
 Radek Baborak
 Solo
@@ -984,7 +947,6 @@ Klaus Wallendorf
 Sarah Willis
 Trompeten
 Trumpets
-Gábor Tarkövi
 Solo
 Tamás Velenczei
 Solo
@@ -994,7 +956,6 @@ Guillaume Jehl
 Martin Kretzer
 Posaunen
 Trombones
-Prof. Christhard Gössling
 Solo
 Olaf Ott
 Solo
@@ -1002,7 +963,6 @@ Thomas Leyendecker
 Stefan Schulz
 Jesper Busk Sørensen
 Tuba
-Paul Hümpel
 Pauken
 Timpani
 Rainer Seegers
@@ -1010,7 +970,6 @@ Wieland Welzel
 Schlagzeug
 Percussion
 Raphael Haeger
-Simon Rössler
 Franz Schindlbeck
 Jan Schlichte
 Harfe
@@ -1045,9 +1004,8 @@ Editorial: Gerhard Forck, Phyllis Anderson, Hendrikje Scholl, Markus Zint, Katri
 Assistant project manager: Timo Hagemeister
 Mitsuko Uchida appears courtesy of Decca Records
 Special thanks to Victoria Rowsell
-Cover image: Gerhard Richter, Großer Vorhang (163-1), 1967
 Oil on canvas, 200 x 280 cm
 BPHR 18024
-℗ & © 2010 / 2018 Berlin Phil Media GmbH · All rights reserved
+All rights reserved
 www.berliner-philharmoniker.de
 www.berliner-philharmoniker-recordings.com

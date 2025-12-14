@@ -5,6 +5,7 @@
 - Generated: 2025-12-14
 - Included pages (PDF): 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 53, 54, 55, 56, 57, 58, 61, 62, 63, 64, 65, 66, 67, 68, 79, 80, 81, 82, 83, 84, 95, 96
 - Skipped pages (PDF): 59, 60
+- Language filter: en (heuristic; manual skim required)
 - Manual checklist: skim each section; delete any leftover German-only lines; confirm cutoffs for biographies/credits/captions
 
 ## [PDF p.5]
@@ -27,16 +28,15 @@ its manifold riches.
 
 The present edition documents Bruckner performances given over the
 past ten years with long-standing partners held in high esteem: Herbert
-Blomstedt, Bernard Haitink, Mariss Jansons, Paavo Järvi, Zubin Mehta,
 Seiji Ozawa, Christian Thielemann and Simon Rattle. For us as musi-
 cians, the opportunity to explore Bruckner’s symphonies again and again
 is both essential and exhilarating. With this edition, we are pleased to
 present our audience with important milestones in this never-ending
 voyage of discovery.
 Stanley Dodds
-Violin · Media Chairman
+Media Chairman
 Olaf Maninger
-Principal Cello · Media Chairman
+Media Chairman
 
 ## [PDF p.6]
 
@@ -94,13 +94,11 @@ then here he is already entirely his own man.
 
 Symphony No. 2 in C minor
 Version from 1877
-Conductor: Paavo Järvi
 Recording date: 23.–25. Mai 2019
 Audio
 Blu-Ray/CD
 5  ①  1. Moderato
 6  ②  2. Andante. Feierlich, etwas bewegt
-7  ③  3. Scherzo. Mäßig schnell –
 Trio. Gleiches Tempo
 8  ④  4. Finale. Mehr schnell
 CD 2
@@ -149,14 +147,11 @@ Conductor: Herbert Blomstedt
 Recording date: 8.–10. Dezember 2017
 Audio
 Blu-Ray/CD
-9  ①  1. Gemäßigt, misterioso
 10  ②  2. Adagio. Feierlich
 11  ③  3. Scherzo. Ziemlich schnell –
-Trio. Gleiches Zeitmaß –
 Scherzo da capo
 12  ④  4. Finale. Allegro –
 Etwas langsamer –
-Erstes Zeitmaß
 CD 3
 Year of composition: 1872/73, mehrfach revidiert
 First performance: 16. Dezember 1877,
@@ -203,16 +198,12 @@ first great achievement.
 Symphony No. 4 in E-flat major “Romantic”
 Version from 1878/80
 Conductor: Bernard Haitink
-Recording date: 13.–15. März 2014
 Audio
 Blu-Ray/CD
-13  ①  1. Bewegt, nicht zu schnell
 14  ②  2. Andante quasi Allegretto
 15  ③  3. Scherzo. Bewegt –
-Trio. Nicht zu schnell,
 keinesfalls schleppend
 16  ④  4. Finale. Bewegt,
-doch nicht zu schnell
 CD 4
 Year of composition: 1874
 First performance: 20. Februar 1881,
@@ -261,7 +252,6 @@ output here becomes the main point.
 CD 5
 Year of composition: 1875/76
 First performance: 9. April 1894,
-Städtisches Orchester Graz, Theater am Stadtpark
 Conductor: Franz Schalk
 First performance by the Berliner Philharmoniker: 24. Oktober 1898
 Conductor: Arthur Nikisch
@@ -278,13 +268,11 @@ Timpani
 Strings
 Symphony No. 5 in B flat major
 Conductor: Bernard Haitink
-Recording date: 10.–12. März 2011
 Audio
 Blu-Ray/CD
 17  ①  1. Introduktion. Adagio – Allegro
 18  ②  2. Adagio. Sehr langsam
 19  ③  3. Scherzo. Molto vivace (Schnell) –
-Trio. Im gleichen Tempo
 20  ④  4. Finale. Adagio – Allegro moderato
 1:14:42
 21:01
@@ -317,19 +305,14 @@ Audio
 Blu-Ray/CD
 21  ①  1. Maestoso
 22  ②  2. Adagio. Sehr feierlich
-23  ③  3. Scherzo. Nicht schnell –
 Trio. Langsam –
 Scherzo da capo
-24  ④  4. Finale. Bewegt, doch nicht
-zu schnell – Bedeutend langsamer –
 Tempo primo
 Year of composition: 1879–1881
-First performance: Zweiter und dritter Satz am 11. Februar 1883,
 Wiener Philharmoniker, Wiener Musikvereinssaal;
 erstmals ungekürzt am 14. März 1901 in Stuttgart
 Conductor: Wilhelm Jahn (Wien), Karl Pohlig (Stuttgart)
 First performance by the Berliner Philharmoniker: 29. April 1910
-Conductor: Ernst von Schuch
 ORCHESTRATION
 2 Flutes
 2 Oboes
@@ -376,10 +359,8 @@ Audio
 Blu-Ray/CD
 25  ①  1. Allegro moderato
 26  ②  2. Adagio.
-Sehr feierlich und sehr langsam
 27  ③  3. Scherzo. Sehr schnell –
 Trio. Etwas langsamer
-28  ④  4. Finale. Bewegt, doch nicht schnell
 CD 7
 Year of composition: 1881–1883, Revision 1885
 First performance: 30. Dezember 1884,
@@ -428,15 +409,12 @@ that recalls the ending of Tristan. The horns awaken Rheingold associations.
 Symphony No. 8 in C minor
 Version from 1890
 Conductor: Zubin Mehta
-Recording date: 15.–17. März 2012
 Audio
 Blu-Ray/CD
 29  ①  1. Allegro moderato
 30  ②  2. Scherzo. Allegro moderato –
 Trio. Langsam
 31  ③  3. Adagio. Feierlich langsam,
-doch nicht schleppend
-32  ④  4. Finale. Feierlich, nicht schnell
 CD 8
 Year of composition: 1884–1887, Revision 1887–1890
 First performance: 18. Dezember 1892,
@@ -450,7 +428,6 @@ ORCHESTRATION
 3 Clarinets
 3 Bassoons
 Contrabassoon
-8 Hörner [5.–8. auch Waldhorntuba]
 French horns [5th–8th also Wagner tubas]
 3 Trumpets
 3 Trombones
@@ -488,7 +465,6 @@ Bruckner conductor.
 ## [PDF p.22]
 
 Symphony No. 9 in D minor
-Vervollständigte Aufführungsfassung des Finales von
 with the completed performance version of the 4th Movement
 by Samale-Phillips-Cohrs-Mazzuca (1985–2008/rev. 2010)
 Conductor: Sir Simon Rattle
@@ -499,12 +475,10 @@ Blu-Ray/CD
 34  ②  2. Scherzo. Bewegt, lebhaft –
 Trio. Schnell – Scherzo da capo
 35  ③  3. Adagio. Langsam, feierlich
-36  ④  4. Finale. [Misterioso, nicht schnell]
 CD 9
 Year of composition: 1887–1896
 First performance: 11. Februar 1903,
 Wiener Concertvereinsorchester, Wiener Musikvereinssaal
-Conductor: Ferdinand Löwe
 First performance by the Berliner Philharmoniker: 26. Oktober 1903
 Conductor: Arthur Nikisch
 ORCHESTRATION
@@ -512,7 +486,6 @@ ORCHESTRATION
 3 Oboes
 3 Clarinets
 3 Bassoons
-8 Hörner [5.–8. auch Waldhorntuba]
 French horns [5th–8th also Wagner tubas]
 3 Trumpets
 3 Trombones
@@ -847,7 +820,6 @@ kinship that no one else seems to have perceived – not since the
 Counter-Reformation, at any rate – with the music of Catholic worship. When functioning at maximum potency, both engaged what
 Wagner called the Gefühlsverständnis – the “feeling’s understanding”, a palpable, engulfing and, finally, irresistible emotional force
 that only music could provide. For only music could express what
-Wagner called einen unsäglichen Inhalt (an unsayable content).
 Bruckner, trained in the technique of making music to the point of
 past mastery, nevertheless remained committed to maximizing the
 spiritual and emotional effect of what he made. And, unlike Wagner,
@@ -1014,7 +986,6 @@ from his predecessors precisely as a priest is distinguished from
 a preacher. A preacher addresses people, while a priest addresses God Himself. Even Beethoven, Halm wrote, “wants listeners”,
 while Bruckner’s music “has to do with the cosmos, not the world
 in which we humans find ourselves”. That is taking the idea of
-absolute music rather far. Listeners whose Gefühlsverständnis has
 been gripped by Bruckner’s rhetoric may be reluctant to relinquish
 their sense that the music addresses them. Can we admit that and
 still regard Bruckner’s symphonies as absolute music?
@@ -1082,7 +1053,6 @@ late 19th-century symphony orchestra. Beginning with the Third, it
 exceeds that of, say, Tchaikovsky’s symphonies by only a single
 trumpet. The addition of the four “Wagner” tubas in the last three
 symphonies augments the size of the section to that of Wagner’s
-Götterdämmerung (minus Wagner’s bass trumpet). But even before
 that augmentation Bruckner’s brass was uniquely prominent, as a
 result not of its sheer numbers but of its deployment as a unit, in
 rhythmic unison.
@@ -1341,7 +1311,6 @@ to play piano reductions of the symphonies, fatally engaged two
 conductors for the Philharmonic who had no Bruckner ambitions whatsoever. Franz Wüllner, who premiered Das Rheingold
 and Die Walküre against Wagner’s wishes, felt obliged in his later
 years to perform the Fourth and Seventh Symphonies with the
-Gürzenich-Orchester in Cologne, while Hans von Bülow, conductor
 of the premieres of Tristan und Isolde and Die Meistersinger von
 Nürnberg, condemned with deliberate malice “the harmful demeanour” of Bruckner in a letter to Richard Strauss. It was also
 Bülow – not Mahler – who notoriously described Bruckner as
@@ -1445,7 +1414,6 @@ of Hans Richter’s death in 1916, Nikisch stood unchallenged as
 Bruckner’s most important champion, if not as the greatest conductor of his time. But in 1918, world-shattering events occurred
 not only on the western front in France but also on the orchestral
 front in Bernburger Strasse: a comparatively young man named
-Wilhelm Furtwängler presented Bruckner’s Seventh Symphony
 in the old Philharmonie. His view of Bruckner, of “the divine in
 him and above him”, was by no means new, corresponding to the
 common understanding of this composer as a mystic of monumental greatness. But Furtwängler was able to translate this conception into music with almost unique authority, and he even remained faithful to it in his own works, as revealed by his grandiose
