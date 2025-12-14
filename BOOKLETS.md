@@ -16,16 +16,14 @@
   - [x] booklet 已收集 ([目录](booklets/安东·布鲁克纳：交响曲全集9CD%28Hybrid-SACD%29/) · [booklet.pdf](booklets/安东·布鲁克纳：交响曲全集9CD%28Hybrid-SACD%29/booklet.pdf))
   - [x] 中文翻译已完成 ([目录](booklets/安东·布鲁克纳：交响曲全集9CD%28Hybrid-SACD%29/) · [booklet_zh.md](booklets/安东·布鲁克纳：交响曲全集9CD%28Hybrid-SACD%29/booklet_zh.md))
   - 购买链接：https://www.berliner-philharmoniker-recordings.com/bruckner-symphonies.html?___store=rec_zh
-- 路德维希·凡·贝多芬 第1-5钢琴协奏曲5 CD (Hybrid-SACD)
-  - [x] booklet 已收集 ([目录](booklets/路德维希·凡·贝多芬第1-5钢琴协奏曲5CD%28Hybrid-SACD%29/) · [booklet.pdf](booklets/路德维希·凡·贝多芬第1-5钢琴协奏曲5CD%28Hybrid-SACD%29/booklet.pdf))
-  - [x] 中文翻译已完成 ([目录](booklets/路德维希·凡·贝多芬第1-5钢琴协奏曲5CD%28Hybrid-SACD%29/) · [booklet_zh.md](booklets/路德维希·凡·贝多芬第1-5钢琴协奏曲5CD%28Hybrid-SACD%29/booklet_zh.md))
-  - 购买链接：https://www.berliner-philharmoniker-recordings.com/beethoven-piano-concertos.html?___store=rec_zh
-
 - 西蒙·拉特爵士指挥《贝多芬交响曲全集》5CD+3蓝光碟+下载 ／ 硬壳精装版
   - [x] booklet 已收集 ([目录](booklets/西蒙·拉特爵士指挥《贝多芬交响曲全集》5CD+3蓝光碟+下载／硬壳精装版/) · [booklet.pdf](booklets/西蒙·拉特爵士指挥《贝多芬交响曲全集》5CD+3蓝光碟+下载／硬壳精装版/booklet.pdf))
   - [x] 中文翻译已完成 ([目录](booklets/西蒙·拉特爵士指挥《贝多芬交响曲全集》5CD+3蓝光碟+下载／硬壳精装版/) · [booklet_zh.md](booklets/西蒙·拉特爵士指挥《贝多芬交响曲全集》5CD+3蓝光碟+下载／硬壳精装版/booklet_zh.md))
   - 购买链接：https://www.berliner-philharmoniker-recordings.com/rattle-beethoven-symphonies.html?___store=rec_zh
-
+- 路德维希·凡·贝多芬 第1-5钢琴协奏曲5 CD (Hybrid-SACD)
+  - [x] booklet 已收集 ([目录](booklets/路德维希·凡·贝多芬第1-5钢琴协奏曲5CD%28Hybrid-SACD%29/) · [booklet.pdf](booklets/路德维希·凡·贝多芬第1-5钢琴协奏曲5CD%28Hybrid-SACD%29/booklet.pdf))
+  - [x] 中文翻译已完成 ([目录](booklets/路德维希·凡·贝多芬第1-5钢琴协奏曲5CD%28Hybrid-SACD%29/) · [booklet_zh.md](booklets/路德维希·凡·贝多芬第1-5钢琴协奏曲5CD%28Hybrid-SACD%29/booklet_zh.md))
+  - 购买链接：https://www.berliner-philharmoniker-recordings.com/beethoven-piano-concertos.html?___store=rec_zh
 - Nikolaus Harnoncourt conducts Schubert5 CD (Hybrid-SACD)
   - [ ] booklet 已收集
   - [ ] 中文翻译已完成
@@ -37,7 +35,7 @@
 - 克劳迪奥·阿巴多与柏林爱乐乐团2 CD (Hybrid-SACD)
   - [ ] booklet 已收集
   - [ ] 中文翻译已完成
-  - 购买链接：https://www.berliner-philharmoniker-recordings.com/abbado-the-last-concert.html?___store=rec_zh
+  - 购买链接：https://www.berliner-philharmoniker-recordings.com/abbado-the-last-concert-sacd.html?___store=rec_zh
 - 古斯塔夫·马勒交响曲10CD+4蓝光碟+下载 ／ 硬壳精装版
   - [ ] booklet 已收集
   - [ ] 中文翻译已完成
@@ -104,5 +102,5 @@
   - 购买链接：https://www.berliner-philharmoniker-recordings.com/simon-rattle-schumanns-symphonien.html?___store=rec_zh
 
 ## 抓取/解析异常（供排查）
-- https://www.berliner-philharmoniker-recordings.com/simon-rattle-schumann-sacd.html?___store=rec_zh — curl: (22) The requested URL returned error: 404
 - https://www.berliner-philharmoniker-recordings.com/john-adams-edition-814.html?___store=rec_zh — curl: (22) The requested URL returned error: 404
+- https://www.berliner-philharmoniker-recordings.com/simon-rattle-schumann-sacd.html?___store=rec_zh — curl: (22) The requested URL returned error: 404
