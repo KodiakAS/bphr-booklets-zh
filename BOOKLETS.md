@@ -23,7 +23,7 @@
 
 - 西蒙·拉特爵士指挥《贝多芬交响曲全集》5CD+3蓝光碟+下载 ／ 硬壳精装版
   - [x] booklet 已收集 ([目录](booklets/西蒙·拉特爵士指挥《贝多芬交响曲全集》5CD+3蓝光碟+下载／硬壳精装版/) · [booklet.pdf](booklets/西蒙·拉特爵士指挥《贝多芬交响曲全集》5CD+3蓝光碟+下载／硬壳精装版/booklet.pdf))
-  - [ ] 中文翻译已完成 ([目录](booklets/西蒙·拉特爵士指挥《贝多芬交响曲全集》5CD+3蓝光碟+下载／硬壳精装版/) · [booklet_zh.md](booklets/西蒙·拉特爵士指挥《贝多芬交响曲全集》5CD+3蓝光碟+下载／硬壳精装版/booklet_zh.md))
+  - [x] 中文翻译已完成 ([目录](booklets/西蒙·拉特爵士指挥《贝多芬交响曲全集》5CD+3蓝光碟+下载／硬壳精装版/) · [booklet_zh.md](booklets/西蒙·拉特爵士指挥《贝多芬交响曲全集》5CD+3蓝光碟+下载／硬壳精装版/booklet_zh.md))
   - 购买链接：https://www.berliner-philharmoniker-recordings.com/rattle-beethoven-symphonies.html?___store=rec_zh
 
 - Nikolaus Harnoncourt conducts Schubert5 CD (Hybrid-SACD)

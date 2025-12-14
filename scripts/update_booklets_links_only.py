@@ -43,8 +43,8 @@ TITLE_RE = re.compile(r"^- (?!\[)(?P<title>.+?)\s*$")
 # Match the whole line and keep only the leading checklist text.
 # This makes the updater idempotent even when existing suffix contains nested parentheses
 # from Markdown links.
-PDF_LINE_RE = re.compile(r"^(\s*- \[[ xX]\] booklet 已收集).*$")
-ZH_LINE_RE = re.compile(r"^(\s*- \[[ xX]\] 中文翻译已完成).*$")
+PDF_LINE_RE = re.compile(r"^(?P<indent>\s*)- \[[ xX]\] booklet 已收集.*$")
+ZH_LINE_RE = re.compile(r"^(?P<indent>\s*)- \[[ xX]\] 中文翻译已完成.*$")
 LEGACY_EXTRA_RE = re.compile(r"^\s*- (目录：|原文：|译文：).*$")
 
 
@@ -81,7 +81,9 @@ def main() -> int:
 
         m_pdf = PDF_LINE_RE.match(line)
         if m_pdf:
-            prefix = m_pdf.group(1)
+            indent = m_pdf.group("indent")
+            mark = "x" if current_has_pdf else " "
+            prefix = f"{indent}- [{mark}] booklet 已收集"
             if current_has_pdf and current_folder:
                 folder_md = md_link_escape_path(current_folder)
                 suffix = (
@@ -95,7 +97,9 @@ def main() -> int:
 
         m_zh = ZH_LINE_RE.match(line)
         if m_zh:
-            prefix = m_zh.group(1)
+            indent = m_zh.group("indent")
+            mark = "x" if current_has_zh else " "
+            prefix = f"{indent}- [{mark}] 中文翻译已完成"
             if current_has_zh and current_folder:
                 folder_md = md_link_escape_path(current_folder)
                 suffix = (
