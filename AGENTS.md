@@ -18,6 +18,36 @@
   - 避免在目录名中使用 ASCII 冒号 `:` 等跨平台不兼容字符；不把“CD专辑/专辑”写进目录名。
   - 仓库语境统一称 `booklet`（不要混用“CD小册子”“CD专辑文案”等作为仓库术语）。
 
+## booklet 原件收集（booklet.pdf）
+
+- 结论：`booklet.pdf` 通常无法通过 Berliner Philharmoniker Recordings 商品页直接获得稳定的公开直链下载。
+  - 官网页面可能会标注 “Digital Booklet/数字手册/手册”，但实际 PDF 多数需要购买并登录后下载。
+- 因此：本仓库放弃“通过脚本自动拉取 booklet 原件”的方案。
+- 维护者流程：请通过合法方式获取 PDF（例如购买并登录后下载），并放置到目标目录：
+  - `booklets/<booklet-标题>/booklet.pdf`
+
+提示：如果你暂时无法获得 PDF，可先用脚本生成目录与 `SOURCE.md` 占位，后续再补齐原件。
+
+## 自动化脚本
+
+- 生成/更新发行物清单（含本地完成状态与快捷链接）
+  - `python3 scripts/generate_booklet_checklist.py`
+  - 产物：仓库根目录 `BOOKLETS.md`
+  - 说明：该脚本会抓取官网页面用于识别“是否标注 booklet”，但不会下载 `booklet.pdf`。
+
+- 仅根据本地文件状态为 `BOOKLETS.md` 补齐/更新快捷链接（不联网）
+  - `python3 scripts/update_booklets_links_only.py`
+  - 说明：当你手动放入/更新 `booklet.pdf` 或 `booklet_zh.md` 后，可用它快速刷新链接显示。
+
+- 为未收集条目生成目录与来源记录（不联网、不下载 PDF）
+  - `python3 scripts/collect_missing_booklets.py`
+  - 作用：对 `BOOKLETS.md` 中 “booklet 已收集” 未勾选的条目，创建 `booklets/<标题>/` 并写入 `SOURCE.md`。
+
+- 清理 `booklets/` 下不再需要的占位目录（不联网）
+  - `python3 scripts/prune_unused_booklets.py`（dry-run）
+  - `python3 scripts/prune_unused_booklets.py --apply`（实际删除）
+  - 说明：当清单去重/变动后，用于删除未在 `BOOKLETS.md` 中出现且不包含 `booklet.pdf`/`booklet_zh.md` 的占位目录。
+
 ## 术语规范（音乐/出版）
 
 - `booklet`：在仓库语境中一律使用 `booklet` 指代唱片内页/小册子（不要混用“CD小册子”“CD专辑文案”等作为仓库术语）。
