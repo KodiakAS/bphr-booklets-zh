@@ -501,15 +501,18 @@ def main(argv: list[str]) -> int:
             "数据来源：Berliner Philharmoniker Recordings 官网中文站（根据官方 sitemap 扫描页面内容，是否出现 `Digital Booklet/Booklet` 标记）。\n\n"
         )
         f.write("说明：\n")
-        f.write(
-            "- 每行两个选框：第 1 个表示 booklet 已收集（存在 `booklets/<标题>/booklet.pdf`）；第 2 个表示中文翻译已完成（存在 `booklets/<标题>/booklet_zh.md`）\n"
-        )
+        f.write("- 每条发行物包含两项任务（均为 GitHub 可渲染的 task list）：\n")
+        f.write("  - booklet 已收集：存在 `booklets/<标题>/booklet.pdf`\n")
+        f.write("  - 中文翻译已完成：存在 `booklets/<标题>/booklet_zh.md`\n")
         f.write("- 列表按制品标题首字母（首字符）排序\n\n")
         for norm_title, display_title, url in items:
             has_pdf, has_zh = local_status.get(norm_title, (False, False))
             pdf_box = "x" if has_pdf else " "
             zh_box = "x" if has_zh else " "
-            f.write(f"- [{pdf_box}] [{zh_box}] {display_title} — {url}\n")
+            f.write(f"- {display_title}\n")
+            f.write(f"  - [{pdf_box}] booklet 已收集\n")
+            f.write(f"  - [{zh_box}] 中文翻译已完成\n")
+            f.write(f"  - 购买链接：{url}\n")
 
         if errors:
             f.write("\n## 抓取/解析异常（供排查）\n")

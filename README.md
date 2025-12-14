@@ -9,7 +9,7 @@
 
 ## 清单
 
-- 含 booklet 的官方发行物清单（仅实体版；每行两个选框分别表示“booklet PDF 收集情况 / 中文翻译完成情况”；按制品标题首字母/首字符排序）：[BOOKLETS.md](BOOKLETS.md)
+- 含 booklet 的官方发行物清单（仅实体版；每条发行物下有两项任务，分别表示“booklet PDF 收集情况 / 中文翻译完成情况”；按制品标题首字母/首字符排序）：[BOOKLETS.md](BOOKLETS.md)
 
 ## 生成/更新清单
 在仓库根目录运行：
