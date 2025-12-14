@@ -28,67 +28,15 @@ from __future__ import annotations
 import os
 import re
 
-
-def md_link_escape_path(path: str) -> str:
-    return (path or "").replace(" ", "%20").replace("(", "%28").replace(")", "%29")
+from booklets_common import (
+    get_local_status_by_normalized_title,
+    md_link_escape_path,
+    normalize_title_for_dir,
+)
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BOOKLETS_MD = os.path.join(REPO_ROOT, "BOOKLETS.md")
 BOOKLETS_DIR = os.path.join(REPO_ROOT, "booklets")
-
-WHITESPACE_RE = re.compile(r"\s+")
-
-_FS_UNSAFE_TRANSLATION = str.maketrans(
-    {
-        "/": "／",
-        "\\": "＼",
-        ":": "：",
-        "*": "＊",
-        "?": "？",
-        '"': "＂",
-        "<": "＜",
-        ">": "＞",
-        "|": "｜",
-    }
-)
-
-
-def sanitize_title_for_fs(title: str) -> str:
-    return title.translate(_FS_UNSAFE_TRANSLATION)
-
-
-def normalize_title_for_dir(title: str) -> str:
-    title = sanitize_title_for_fs(title)
-    return WHITESPACE_RE.sub("", title).strip()
-
-
-def get_local_status_by_normalized_title() -> dict[str, tuple[bool, bool, str]]:
-    status: dict[str, tuple[bool, bool, str]] = {}
-    if not os.path.isdir(BOOKLETS_DIR):
-        return status
-
-    for folder_name in os.listdir(BOOKLETS_DIR):
-        folder_path = os.path.join(BOOKLETS_DIR, folder_name)
-        if not os.path.isdir(folder_path):
-            continue
-
-        norm = normalize_title_for_dir(folder_name)
-        has_pdf = os.path.isfile(os.path.join(folder_path, "booklet.pdf"))
-        has_zh = os.path.isfile(os.path.join(folder_path, "booklet_zh.md"))
-
-        if norm in status:
-            prev_pdf, prev_zh, prev_folder = status[norm]
-            merged_pdf = has_pdf or prev_pdf
-            merged_zh = has_zh or prev_zh
-            if (has_pdf or has_zh) and not (prev_pdf or prev_zh):
-                chosen_folder = folder_name
-            else:
-                chosen_folder = prev_folder
-            status[norm] = (merged_pdf, merged_zh, chosen_folder)
-        else:
-            status[norm] = (has_pdf, has_zh, folder_name)
-
-    return status
 
 
 TITLE_RE = re.compile(r"^- (?!\[)(?P<title>.+?)\s*$")
@@ -101,7 +49,7 @@ LEGACY_EXTRA_RE = re.compile(r"^\s*- (目录：|原文：|译文：).*$")
 
 
 def main() -> int:
-    local_status = get_local_status_by_normalized_title()
+    local_status = get_local_status_by_normalized_title(BOOKLETS_DIR)
 
     with open(BOOKLETS_MD, "r", encoding="utf-8") as f:
         lines = f.readlines()

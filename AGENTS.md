@@ -48,6 +48,40 @@
   - `python3 scripts/prune_unused_booklets.py --apply`（实际删除）
   - 说明：当清单去重/变动后，用于删除未在 `BOOKLETS.md` 中出现且不包含 `booklet.pdf`/`booklet_zh.md` 的占位目录。
 
+### 脚本验证（维护/改动后必做）
+
+目标：当你修改 `scripts/` 下任一脚本（尤其是清单生成/链接更新/目录归一化逻辑）后，用一组**可重复**的检查尽快发现回归。
+
+约定：验证命令建议在仓库根目录执行（例如 `python3 scripts/update_booklets_links_only.py`）。
+
+#### 1) 离线验证（不联网，必须跑）
+
+- 语法与导入检查：
+  - `python3 -m py_compile scripts/*.py`
+- 不联网脚本冒烟：
+  - `python3 scripts/update_booklets_links_only.py`
+  - `python3 scripts/prune_unused_booklets.py`（默认 dry-run）
+  - `python3 scripts/collect_missing_booklets.py --limit 1 --dry-run`
+- 联网脚本仅做入口检查（不触网）：
+  - `python3 scripts/generate_booklet_checklist.py --help`
+
+说明：`collect_missing_booklets.py` 的 `--dry-run` 用于安全验证解析与归一化逻辑，不会创建目录/写文件。
+
+#### 2) 在线验证（联网，尽量跑）
+
+注意：`generate_booklet_checklist.py` 默认会写入 `BOOKLETS.md`。为了验证而不影响仓库文件，推荐使用 `--output` 写到临时文件。
+
+- 小规模在线冒烟（建议每次改动都跑）：
+  - `python3 scripts/generate_booklet_checklist.py --url '<购买链接1>' --url '<购买链接2>' --output /tmp/BOOKLETS.online-smoke.md`
+- 全量在线扫描（网络稳定时再跑，或准备发布/提交前跑）：
+  - `python3 scripts/generate_booklet_checklist.py --workers 6 --output /tmp/BOOKLETS.online-full.md`
+  - 查看抓取/解析告警：`grep -n 'Warning\|error\|failed' /tmp/BOOKLETS.online-full.md | head`
+
+在线告警的常见原因：
+- sitemap 可能包含已下线页面，导致 `curl ... 404`；这类告警通常不代表脚本逻辑问题。
+- 若告警数量显著增加或出现非 404 的失败（例如大量超时/解析失败），再回查对应 URL 的页面结构是否变更。
+
+
 ## 术语规范（音乐/出版）
 
 - `booklet`：在仓库语境中一律使用 `booklet` 指代唱片内页/小册子（不要混用“CD小册子”“CD专辑文案”等作为仓库术语）。

@@ -34,6 +34,13 @@ import time
 import xml.etree.ElementTree as ET
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+from booklets_common import (
+    get_local_status_by_normalized_title,
+    md_link_escape_path,
+    normalize_title_for_dir,
+    sanitize_title_for_fs,
+)
+
 SITEMAP_URL = "https://www.berliner-philharmoniker-recordings.com/sitemap.xml"
 STORE_PARAM = "___store=rec_zh"
 OUTPUT_FILE = "BOOKLETS.md"
@@ -68,29 +75,6 @@ NON_RECORDING_URL_HINT_RE = re.compile(
     r"(?:^|/)(?:gift-ideas|audio|video|books)\.html(?:\?|$)|(?:^|/)sbph-|thermos|flask|pen-|lamy-|dch-card|xmasticketdvd",
     re.I,
 )
-
-WHITESPACE_RE = re.compile(r"\s+")
-
-# Cross-platform filesystem-unsafe characters (esp. Windows) that may appear
-# in product titles/subtitles on the store site.
-_FS_UNSAFE_TRANSLATION = str.maketrans(
-    {
-        "/": "／",
-        "\\": "＼",
-        ":": "：",
-        "*": "＊",
-        "?": "？",
-        '"': "＂",
-        "<": "＜",
-        ">": "＞",
-        "|": "｜",
-    }
-)
-
-
-def sanitize_title_for_fs(title: str) -> str:
-    return title.translate(_FS_UNSAFE_TRANSLATION)
-
 
 def curl(url: str) -> str:
     # Avoid hanging forever on a single slow/broken page.
@@ -165,13 +149,6 @@ def clean_text(text: str) -> str:
     return text
 
 
-def normalize_title_for_dir(title: str) -> str:
-    # Make titles usable as directory names across platforms.
-    title = sanitize_title_for_fs(title)
-    # Remove all whitespace to make the title safe/convenient as a directory name.
-    return WHITESPACE_RE.sub("", title).strip()
-
-
 def add_store_param(url: str) -> str:
     if STORE_PARAM in url:
         return url
@@ -200,39 +177,6 @@ def get_translated_names(repo_root: str) -> set[str]:
         if os.path.isfile(path):
             translated.add(name)
     return translated
-
-
-def get_local_status_by_normalized_title(repo_root: str) -> dict[str, tuple[bool, bool, str]]:
-    """Return map: normalized_title -> (has_booklet_pdf, has_translation_md, folder_name)."""
-
-    status: dict[str, tuple[bool, bool, str]] = {}
-    booklets_dir = os.path.join(repo_root, "booklets")
-    if not os.path.isdir(booklets_dir):
-        return status
-
-    for folder_name in os.listdir(booklets_dir):
-        folder_path = os.path.join(booklets_dir, folder_name)
-        if not os.path.isdir(folder_path):
-            continue
-
-        norm = normalize_title_for_dir(folder_name)
-        has_pdf = os.path.isfile(os.path.join(folder_path, "booklet.pdf"))
-        has_zh = os.path.isfile(os.path.join(folder_path, "booklet_zh.md"))
-
-        if norm in status:
-            prev_pdf, prev_zh, prev_folder = status[norm]
-            merged_pdf = has_pdf or prev_pdf
-            merged_zh = has_zh or prev_zh
-            # Prefer a folder that actually contains something useful.
-            if (has_pdf or has_zh) and not (prev_pdf or prev_zh):
-                chosen_folder = folder_name
-            else:
-                chosen_folder = prev_folder
-            status[norm] = (merged_pdf, merged_zh, chosen_folder)
-        else:
-            status[norm] = (has_pdf, has_zh, folder_name)
-
-    return status
 
 
 def parse_sitemap_locs(xml_text: str) -> list[str]:
@@ -343,16 +287,6 @@ def extract_first_release_date(page_html: str) -> dt.date | None:
 
 
 LEADING_TITLE_TRIM_CHARS = " \t\r\n\u3000\"'“”‘’《》()[]【】{}·•—–-:：/\\"
-
-
-def md_link_escape_path(path: str) -> str:
-    """Escape characters that break Markdown links.
-
-    We keep non-ASCII characters as-is for readability and GitHub compatibility,
-    but URL-encode characters like parentheses/spaces that can terminate the link.
-    """
-
-    return (path or "").replace(" ", "%20").replace("(", "%28").replace(")", "%29")
 
 
 def completion_rank(has_pdf: bool, has_zh: bool) -> int:
@@ -544,7 +478,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
 def main(argv: list[str]) -> int:
     args = parse_args(argv)
     repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-    local_status = get_local_status_by_normalized_title(repo_root)
+    local_status = get_local_status_by_normalized_title(os.path.join(repo_root, "booklets"))
 
     if args.url:
         scan_urls = [u.strip() for u in args.url if u and u.strip()]

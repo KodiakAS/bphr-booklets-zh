@@ -24,6 +24,7 @@ Usage:
 
 Options:
     --limit N   Only process first N missing items
+    --dry-run   Show actions without writing files
 """
 
 from __future__ import annotations
@@ -34,34 +35,11 @@ import re
 from dataclasses import dataclass
 from typing import Iterable
 
+from booklets_common import normalize_title_for_dir, sanitize_title_for_fs
+
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BOOKLETS_MD = os.path.join(REPO_ROOT, "BOOKLETS.md")
 BOOKLETS_DIR = os.path.join(REPO_ROOT, "booklets")
-
-WHITESPACE_RE = re.compile(r"\s+")
-
-_FS_UNSAFE_TRANSLATION = str.maketrans(
-    {
-        "/": "／",
-        "\\": "＼",
-        ":": "：",
-        "*": "＊",
-        "?": "？",
-        '"': "＂",
-        "<": "＜",
-        ">": "＞",
-        "|": "｜",
-    }
-)
-
-def sanitize_title_for_fs(title: str) -> str:
-    return title.translate(_FS_UNSAFE_TRANSLATION)
-
-
-def normalize_title_for_dir(title: str) -> str:
-    title = sanitize_title_for_fs(title)
-    return WHITESPACE_RE.sub("", title).strip()
-
 
 @dataclass(frozen=True)
 class BookletItem:
@@ -134,6 +112,7 @@ def write_source_md(folder_path: str, title: str, purchase_url: str, note: str) 
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int, default=0, help="only process first N missing items")
+    ap.add_argument("--dry-run", action="store_true", help="show actions without writing files")
     args = ap.parse_args()
 
     with open(BOOKLETS_MD, "r", encoding="utf-8") as f:
@@ -161,9 +140,12 @@ def main() -> int:
             print(f"[SKIP] already exists: {folder_name}/booklet.pdf")
             continue
 
-        os.makedirs(folder_path, exist_ok=True)
-
         needs_manual += 1
+        if args.dry_run:
+            print(f"[DRY-RUN] would prepare source: {folder_name}")
+            continue
+
+        os.makedirs(folder_path, exist_ok=True)
         write_source_md(
             folder_path,
             safe_title,

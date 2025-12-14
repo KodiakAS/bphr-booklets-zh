@@ -22,35 +22,11 @@ import os
 import re
 import shutil
 
+from booklets_common import normalize_title_for_dir
+
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BOOKLETS_MD = os.path.join(REPO_ROOT, "BOOKLETS.md")
 BOOKLETS_DIR = os.path.join(REPO_ROOT, "booklets")
-
-WHITESPACE_RE = re.compile(r"\s+")
-
-_FS_UNSAFE_TRANSLATION = str.maketrans(
-    {
-        "/": "／",
-        "\\": "＼",
-        ":": "：",
-        "*": "＊",
-        "?": "？",
-        '"': "＂",
-        "<": "＜",
-        ">": "＞",
-        "|": "｜",
-    }
-)
-
-
-def sanitize_title_for_fs(title: str) -> str:
-    return title.translate(_FS_UNSAFE_TRANSLATION)
-
-
-def normalize_title_for_dir(title: str) -> str:
-    title = sanitize_title_for_fs(title)
-    return WHITESPACE_RE.sub("", title).strip()
-
 
 TITLE_RE = re.compile(r"^- (?!\[)(?P<title>.+?)\s*$")
 
