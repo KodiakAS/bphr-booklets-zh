@@ -35,7 +35,7 @@
 - 克劳迪奥·阿巴多与柏林爱乐乐团2 CD (Hybrid-SACD)
   - [ ] booklet 已收集
   - [ ] 中文翻译已完成
-  - 购买链接：https://www.berliner-philharmoniker-recordings.com/abbado-the-last-concert-sacd.html?___store=rec_zh
+  - 购买链接：https://www.berliner-philharmoniker-recordings.com/abbado-the-last-concert.html?___store=rec_zh
 - 古斯塔夫·马勒交响曲10CD+4蓝光碟+下载 ／ 硬壳精装版
   - [ ] booklet 已收集
   - [ ] 中文翻译已完成

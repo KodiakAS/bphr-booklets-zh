@@ -142,6 +142,56 @@ def curl(url: str) -> str:
     raise RuntimeError(stderr or f"curl failed: {url}")
 
 
+def _curl_with_retry(url: str) -> str:
+    """curl() wrapper with one general retry for transient errors (non-404).
+
+    This helps stabilize results across runs when the site intermittently times
+    out or resets connections under higher concurrency.
+    """
+
+    try:
+        return curl(url)
+    except RuntimeError as e:
+        msg = str(e)
+        if "returned error: 404" in msg:
+            raise
+
+        # One conservative retry with longer timeouts and HTTP/1.1.
+        time.sleep(0.4)
+        retry_cmd = [
+            "curl",
+            "-L",
+            "--silent",
+            "--show-error",
+            "--fail",
+            "--http1.1",
+            "--connect-timeout",
+            "10",
+            "--max-time",
+            "24",
+            url,
+        ]
+
+        try:
+            result = subprocess.run(
+                retry_cmd,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                timeout=35,
+            )
+        except Exception:
+            raise
+
+        if result.returncode == 0:
+            return result.stdout
+
+        stderr_lines = [line.strip() for line in (result.stderr or "").splitlines() if line.strip()]
+        if stderr_lines and all(line == stderr_lines[0] for line in stderr_lines):
+            raise RuntimeError(stderr_lines[0])
+        raise RuntimeError(" ".join(stderr_lines).strip() or msg)
+
+
 def clean_text(text: str) -> str:
     text = htmlmod.unescape(text)
     text = text.replace("\xa0", " ")
@@ -155,6 +205,16 @@ def add_store_param(url: str) -> str:
     if "?" in url:
         return url + "&" + STORE_PARAM
     return url + "?" + STORE_PARAM
+
+
+def _stable_url_key(url: str) -> str:
+    """Return a stable comparable key for URLs.
+
+    We normalize the store param so URLs compare consistently regardless of
+    whether they already contain `___store=rec_zh`.
+    """
+
+    return add_store_param((url or "").strip())
 
 
 def should_skip_url_pre_fetch(url: str) -> bool:
@@ -442,7 +502,7 @@ def is_physical_release(url: str, name: str) -> bool:
 
 def fetch_page(url: str) -> tuple[str, str | None, str | None]:
     try:
-        html = curl(add_store_param(url))
+        html = _curl_with_retry(add_store_param(url))
         return url, html, None
     except Exception as e:
         return url, None, str(e)
@@ -568,25 +628,62 @@ def main(argv: list[str]) -> int:
         seen.add(key)
         bucket.append((norm_title, display_title, url, pages, score))
 
+    # Stabilize candidate ordering within each group so that selection is
+    # deterministic even under concurrent fetching.
+    #
+    # Primary: deluxe score (desc)
+    # Ties: pick by URL, then by normalized title, then by display title.
+    for _gk, bucket in grouped.items():
+        bucket.sort(
+            key=lambda x: (
+                x[4],
+                _stable_url_key(x[2]),
+                x[0],
+                normalize_title_for_dir(x[1]),
+            ),
+            reverse=True,
+        )
+
     # Choose best candidate per group.
     # Also compute local status by checking the chosen display title folder.
     items: list[tuple[str, str, bool, bool, str, str]] = []
     dedupe_debug: list[tuple[str, list[str], str]] = []
-    for group_key, candidates in grouped.items():
-        # Pick deluxe/high-price candidate.
-        best = max(candidates, key=lambda x: x[4])
-        best_norm, best_display, best_url, _pages, _score = best
+    for group_key in sorted(grouped.keys()):
+        candidates = grouped[group_key]
+        # Pick deluxe/high-price candidate (bucket is already stably sorted).
+        best_norm, best_display, best_url, _pages, _score = candidates[0]
 
         # Prefer linking against whichever local folder already contains booklet/translation.
         best_local_pdf = False
         best_local_zh = False
         best_local_folder = ""
         best_local_norm = best_norm
+        # Deterministic local folder selection:
+        # - Prefer higher (has_pdf, has_zh)
+        # - Then prefer having a concrete folder name
+        # - Then folder name lexicographically
+        # - Then by candidate normalized title
+        local_candidates: list[tuple[tuple[bool, bool], str, str]] = []
         for cand_norm, _cand_display, _cand_url, _cand_pages, _cand_score in candidates:
             lp, lz, lfolder = local_status.get(cand_norm, (False, False, ""))
-            if (lp, lz) > (best_local_pdf, best_local_zh):
-                best_local_pdf, best_local_zh, best_local_folder = lp, lz, lfolder
-                best_local_norm = cand_norm
+            local_candidates.append(((lp, lz), lfolder or "", cand_norm))
+
+        best_status = max((s for s, _folder, _norm in local_candidates), default=(False, False))
+        # Filter to best status; then pick a stable winner.
+        best_locals = [c for c in local_candidates if c[0] == best_status]
+        if best_locals:
+            # Prefer non-empty folder names (so links resolve), then stable folder name and norm.
+            _status, chosen_folder, chosen_norm = sorted(
+                best_locals,
+                key=lambda x: (
+                    0 if x[1] else 1,
+                    x[1],
+                    x[2],
+                ),
+            )[0]
+            best_local_pdf, best_local_zh = best_status
+            best_local_folder = chosen_folder
+            best_local_norm = chosen_norm
 
         if args.debug_dedupe and len(candidates) > 1:
             dedupe_debug.append(
@@ -637,10 +734,18 @@ def main(argv: list[str]) -> int:
 
         if errors:
             f.write("\n## 抓取/解析异常（供排查）\n")
-            for url, msg in errors[:100]:
+            # Stable ordering to avoid noisy diffs between runs.
+            errors_sorted = sorted(
+                errors,
+                key=lambda x: (
+                    _stable_url_key(x[0]),
+                    " ".join((x[1] or "").split()),
+                ),
+            )
+            for url, msg in errors_sorted[:100]:
                 f.write(f"- {url} — {msg}\n")
-            if len(errors) > 100:
-                f.write(f"- ……（共 {len(errors)} 条，已截断）\n")
+            if len(errors_sorted) > 100:
+                f.write(f"- ……（共 {len(errors_sorted)} 条，已截断）\n")
 
         if args.debug_dedupe and dedupe_debug:
             print("\nDedupe groups (multiple editions merged):")
