@@ -1,0 +1,247 @@
+# AGENTS.md
+
+本仓库用于整理与翻译古典音乐相关的 `booklet`（唱片内页/小册子）文档，产物以 Markdown 为主。
+
+## 语言与沟通
+
+- 默认语言：中文（简体）。讨论、评审、提交信息等优先使用中文。
+- 外部工具/命令/参数/文件路径保持英文原文，不做翻译（示例：`git status`、`booklets/`）。
+
+## 仓库结构与命名
+
+- 所有 `booklet` 项目统一放在 `booklets/` 下，并且每个 `booklet` 独占一个目录：
+  - `booklets/<booklet-标题>/booklet.pdf`：原件 PDF（由维护者后续添加）
+  - `booklets/<booklet-标题>/booklet_zh.md`：中文 Markdown 译文（统一使用 `_zh` 后缀）
+- 目录命名建议：
+  - 以可检索为目标，优先包含“指挥/作曲家 + 作品名”。
+  - 使用中文书名号 `《》`；人名用中文常用译名并用 `·` 分隔（如 `汉斯·里希特`）。
+  - 避免在目录名中使用 ASCII 冒号 `:` 等跨平台不兼容字符；不把“CD专辑/专辑”写进目录名。
+  - 仓库语境统一称 `booklet`（不要混用“CD小册子”“CD专辑文案”等作为仓库术语）。
+
+## 术语规范（音乐/出版）
+
+- `booklet`：在仓库语境中一律使用 `booklet` 指代唱片内页/小册子（不要混用“CD小册子”“CD专辑文案”等作为仓库术语）。
+- 作品体裁常用译法（优先以数字音乐厅中文为准；未出现则按业界主流译法）：
+  - 交响/管弦乐
+    - Symphony：交响曲
+    - Chamber Symphony：室内交响曲
+    - Sinfonietta：小交响曲
+    - Symphonic Poem / Tone Poem：交响诗（音诗）
+    - Symphonic sketches：交响素描
+    - Symphonic Variations：交响变奏曲
+    - Overture：序曲
+    - Concert Overture：音乐会序曲
+    - Suite / Orchestral Suite：组曲 / 管弦组曲
+    - Symphonic Suite：交响组曲
+    - Ballet / Ballet Suite：芭蕾舞剧 / 芭蕾组曲
+    - Serenade：小夜曲
+    - Divertimento：嬉游曲
+    - Rhapsody：狂想曲
+    - Fantasia / Fantasy：幻想曲
+    - Idyll：牧歌
+    - March：进行曲
+    - Waltz：圆舞曲
+    - Polonaise：波兰舞曲
+    - Mazurka：玛祖卡
+  - 协奏
+    - Concerto：协奏曲
+    - Concerto for Orchestra：乐队协奏曲
+    - Concerto grosso：大协奏曲
+    - Sinfonia concertante：交响协奏曲
+    - Double Concerto：双重协奏曲
+    - Triple Concerto：三重协奏曲
+    - Violin / Piano / Cello Concerto：小提琴 / 钢琴 / 大提琴协奏曲（以此类推）
+  - 歌剧/舞台
+    - Opera：歌剧
+    - Operetta：轻歌剧
+    - Singspiel：歌唱剧
+    - Incidental music：戏剧配乐（或：舞台配乐）
+  - 声乐/合唱
+    - Oratorio：神剧
+    - Cantata：康塔塔
+    - Mass：弥撒曲
+    - Requiem：安魂曲
+    - Passion：受难曲
+    - Motet：经文歌
+    - Stabat Mater：圣母悼歌
+    - Te Deum：感恩颂
+    - Magnificat：尊主颂
+    - Song cycle：歌曲套曲（或：艺术歌曲套曲）
+    - Lied：艺术歌曲
+  - 室内乐/独奏
+    - Sonata：奏鸣曲
+    - Duo：二重奏
+    - Trio：三重奏
+    - Quartet：四重奏
+    - Quintet：五重奏
+    - Sextet：六重奏
+    - Septet：七重奏
+    - Octet：八重奏
+    - Nonet：九重奏
+    - String Quartet：弦乐四重奏
+    - Piano Trio / Piano Quartet / Piano Quintet：钢琴三重奏 / 钢琴四重奏 / 钢琴五重奏
+    - Prelude：前奏曲
+    - Fugue：赋格
+    - Toccata：托卡塔
+    - Etude：练习曲
+    - Nocturne：夜曲
+    - Scherzo：谐谑曲
+    - Ballade：叙事曲
+    - Impromptu：即兴曲
+    - Intermezzo：间奏曲
+    - Capriccio：随想曲
+    - Humoresque：幽默曲
+    - Romance：浪漫曲
+    - Elegy：挽歌
+    - Variations：变奏曲
+- 合奏/机构相关常用译法：
+  - Court Orchestra / Hoforchester：宫廷乐团（必要时保留原文）
+- 调性写法：`c 小调 / C 大调`；需要降/升号时优先用 `♭/♯`（或“降/升”），同一文档内保持一致。
+- 作品编号：`作品 68`、`作品 81`；若出现 `Op.` 可在首次出现处补充 `Op.` 与中文“作品号”的对应关系。
+- 速度/力度术语：原文保留（可用斜体，如 `*fortissimo*`）；正文尽量避免用加粗做强调，需强调时优先改写句子或调整结构。
+
+## 人名与地名翻译规范（古典音乐通用做法）
+
+总体原则：以柏林爱乐官方中文为第一优先级，并按以下来源顺序统一译名与术语：
+
+1) 柏林爱乐数字音乐厅（Digital Concert Hall）中文站（人名/乐团/栏目/功能与演出相关术语优先）
+   - https://www.digitalconcerthall.com/zh/concerts
+   - https://www.digitalconcerthall.com/zh/categories
+
+2) Berliner Philharmoniker Recordings 中文站（唱片厂牌/发行物相关用语优先）
+   - https://www.berliner-philharmoniker-recordings.com/?___store=rec_zh
+
+若官方页面已给出译名，则在本仓库中统一使用其写法（包含头衔如“爵士”的处理、`冯/凡/范` 等小品词用字、分隔号 `·` 的使用等）。若官方渠道未提供或出现多种写法，则采用更通行的译名，并在首次出现处保留原文以便核对，同时记录在下方“常见对照”中以便后续统一。
+
+写法规则：
+
+- 首次出现建议使用“中文译名（原文/通行拉丁转写）”，后文可仅用中文译名。
+- 西文人名使用间隔号 `·`；贵族小品词按官方写法（常见如 `冯·/凡·/范·`）。
+- 头衔处理：若数字音乐厅的中文“艺术家”页将头衔作为姓名的一部分（如 `西蒙·拉特爵士`），则统一保留；否则不强行添加。原文头衔可保留在括注中。
+- 机构/团体：
+  - Berliner Philharmoniker / Berlin Philharmonic：柏林爱乐乐团（首次可括注原文）
+
+常见对照（以数字音乐厅中文为准，可按需增补/统一）：
+
+- Kirill Petrenko：基里尔·别特连科
+- Sir Simon Rattle：西蒙·拉特爵士
+- Nikolaus Harnoncourt：尼克劳斯·哈农库特
+- Daniel Harding：丹尼尔·哈丁
+- Leonidas Kavakos：列奥尼达·卡瓦克斯
+- Johannes Brahms：约翰内斯·勃拉姆斯
+- Ludwig van Beethoven：路德维希·凡·贝多芬（或常用简称：贝多芬）
+- Wolfgang Amadeus Mozart：沃尔夫冈·阿马德乌斯·莫扎特（或：莫扎特）
+- Robert Schumann：罗伯特·舒曼
+- Clara Schumann：克拉拉·舒曼
+- Eduard Hanslick：爱德华·汉斯立克
+- Hans von Bülow：汉斯·冯·彪罗
+- Richard Strauss：理查·施特劳斯
+- Herbert von Karajan：赫伯特·冯·卡拉扬
+- Claudio Abbado：克劳迪奥·阿巴多
+- Daniel Barenboim：丹尼尔·巴伦博伊姆
+
+## 术语与栏目（以数字音乐厅中文为准）
+
+音乐会系列/栏目（Digital Concert Hall `分类`）：
+
+- Europakonzert：欧洲圣城音乐会
+- Waldbühne：森林音乐会
+- Silvesterkonzert：除夕音乐会
+- Late Night：深夜音乐会
+- Education：寓教于乐
+- Opera：歌剧
+- Chamber Music：室内乐
+- Tour concerts：巡演音乐会
+
+常见“艺术家/角色/分工”用词：
+
+- Conductor：指挥
+- Chief Conductor：首席指挥
+- Composer：作曲（数字音乐厅用法）
+- Soprano：女高音
+- Mezzo-soprano：次女高音（数字音乐厅用法）
+- Tenor：男高音
+- Baritone：男中音
+- Bass：男低音
+- Narration / Speaker：朗诵
+- Host / Presenter：主持（如“中提琴与主持”）
+- Lighting design：灯光设计
+- Chorus master / Choir conductor：合唱指挥
+- Choral director：合唱艺术指导
+
+常见乐器/声部（数字音乐厅用法示例）：
+
+- Violin：小提琴
+- Viola：中提琴
+- Cello：大提琴
+- Double bass：低音提琴
+- Piano：钢琴
+- Harp：竖琴
+- Organ：管风琴
+- Flute：长笛
+- Oboe：双簧管
+- Clarinet：单簧管
+- Bassoon：大管
+- Horn：圆号
+- Trumpet：小号
+- Trombone：长号
+- Tuba：大号
+- Timpani：定音鼓
+- Percussion：打击乐
+- (其余按通行译法；新增时优先查数字音乐厅“艺术家”页或曲目页标注)
+
+常见团体/机构（数字音乐厅用法示例）：
+
+- Rundfunkchor Berlin：柏林广播合唱团
+
+## 文档排版建议（Markdown）
+
+- “乐章/速度/时长”与“创作/首演/首演指挥/柏林爱乐首演”等信息，建议用表格集中呈现，位置保持在作品标题后的开头区域。
+- 列表/引用/标题层级保持清晰；避免在同一段落中混用多种强调方式。
+
+## AI 翻译策略（booklet）
+
+目标：从 `booklets/<booklet-标题>/booklet.pdf` 生成 `booklets/<booklet-标题>/booklet_zh.md`，并在全篇保持术语、人名、体裁等译法一致。
+
+### 输入与原文范围
+
+- 读取目标目录下的 `booklet.pdf` 作为唯一输入源。
+- 以 PDF 的**可选中英文文本**为原文进行翻译与改写（不以图片/扫描文字为原文）。
+- 若 PDF 缺少文本层（例如整页为扫描图片导致无法提取英文文本），则停止并提示维护者补充可提取文本的版本；默认不做 OCR（见“忽略图片”）。
+
+### 文本提取与预处理
+
+- 先提取文本层（保持段落/标题层级，必要时做断行合并、断词还原、连字符断行修复）。
+- 仅保留与正文相关的文本流：标题、作者、正文、脚注/来源、曲目/人员表等；不尝试“描述版式”。
+
+### 曲目基本信息（严格规则）
+
+对于每一首（或每一部）作品的正文部分，在该作品正文开始之前必须按以下结构给出“曲目基本信息块”，位置固定在作品标题后，且格式统一：
+
+1) 作品标题行（Markdown 标题）  
+   - 使用 `#`（或在同一层级中一致的标题级别），格式建议：`# 《中文作品名》（英文作品名）`
+
+2) 作品识别行（单独一行）  
+   - 优先从 PDF 读取并翻译：调性、作品号/目录号等信息；示例：`《第一交响曲》c 小调，作品 68`
+
+3) 表格（必须使用 Markdown 表格）
+   - 若为**单乐章/无分乐章**作品：使用一张“项目/内容”表：
+     - 表头固定为 `| 项目 | 内容 |`
+     - 常用项目键（按需出现，但同类信息用词必须一致）：`速度与时长`、`创作时间`、`首演`、`首演指挥`、`柏林爱乐乐团首演`、`柏林爱乐乐团首演指挥`
+   - 若为**多乐章**作品：先给一张“乐章/速度标记/时长”表，再给一张“项目/内容”表：
+     - 乐章表表头固定为 `| 乐章 | 速度标记 | 时长 |`
+     - `乐章` 使用罗马数字（`I`/`II`/`III`/…）；若 PDF 使用其他编号体系则保持一致但需全文统一
+     - `速度标记` 逐字保留 PDF 中的速度术语/变速序列（通常为意/德文），用 ` — `（长破折号，前后各一空格）连接；不在此处额外添加解释性中文（除非 PDF 原文包含）
+     - `时长` 使用 `M:SS`（秒始终两位）或 `H:MM:SS`；若 PDF 未提供则写 `—`
+
+### 忽略图片
+
+- 不翻译图片中的文字，不对图片做 OCR，不写“图片描述/图注式”补充说明。
+- 若 PDF 的图注是可选中文本且属于正文内容，可照常翻译；否则一律忽略。
+
+### 长文处理与一致性（效率与质量）
+
+- 长文本按“章节/小节/自然段”分块处理，避免一次性堆入导致一致性丢失；分块时保持少量上下文衔接（例如上一段末句与下一段首句）。
+- 在翻译开始前先建立/复用本仓库的术语与人名对照（见本文件相关章节），翻译过程中持续维护一个“临时术语表”，在全文结束后做一次统一回查：
+  - 人名、团体名、地名、体裁名、专有名词是否前后一致
+  - 同一作品/主题的指代是否统一（避免同一术语多译）

@@ -1,0 +1,39 @@
+# 柏林爱乐音像制品（含 booklet）翻译清单
+
+数据来源：Berliner Philharmoniker Recordings 官网中文站（根据官方 sitemap 扫描页面内容，是否出现 `Digital Booklet/Booklet` 标记）。
+
+说明：
+- 每行两个选框：第 1 个表示 booklet 已收集（存在 `booklets/<标题>/booklet.pdf`）；第 2 个表示中文翻译已完成（存在 `booklets/<标题>/booklet_zh.md`）
+- 列表按制品标题首字母（首字符）排序
+
+- [ ] [ ] Nikolaus Harnoncourt conducts Schubert5 CD (Hybrid-SACD) — https://www.berliner-philharmoniker-recordings.com/harnoncourt-schubert-edition.html?___store=rec_zh
+- [ ] [ ] Simon Rattle conducts Sibelius – vinyl edition7 LP · 180g clear vinyl · limited and numbered box set: 2000 copies worldwide — https://www.berliner-philharmoniker-recordings.com/sibelius-vinyl.html?___store=rec_zh
+- [ ] [ ] 克劳迪奥·阿巴多与柏林爱乐乐团2 CD (Hybrid-SACD) — https://www.berliner-philharmoniker-recordings.com/abbado-the-last-concert.html?___store=rec_zh
+- [ ] [ ] 古斯塔夫·马勒交响曲10CD+4蓝光碟+下载 / 硬壳精装版 — https://www.berliner-philharmoniker-recordings.com/mahler-symphonies-html.html?___store=rec_zh
+- [ ] [ ] 古斯塔夫·马勒交响曲17张唱片（180克黑胶）全球限量1000套 — https://www.berliner-philharmoniker-recordings.com/mahler-symphonies.html?___store=rec_zh
+- [ ] [ ] 基里尔·别特连科与柏林爱乐乐团：合作关系的展开4 SACD — https://www.berliner-philharmoniker-recordings.com/petrenko-edition-1.html?___store=rec_zh
+- [ ] [ ] 基里尔·别特连科与柏林爱乐乐团：合作关系的展开6张黑胶版 — https://www.berliner-philharmoniker-recordings.com/petrenko-edition-1-vinyl.html?___store=rec_zh
+- [x] [x] 基里尔·别特连科指挥勃拉姆斯《悲剧序曲》与《第一交响曲》CD专辑 — https://www.berliner-philharmoniker-recordings.com/petrenko-brahms.html?___store=rec_zh
+- [ ] [ ] 基里尔·别特连科指挥拉赫玛尼诺夫双CD与蓝光版 — https://www.berliner-philharmoniker-recordings.com/rachmaninoff.html?___store=rec_zh
+- [ ] [ ] 基里尔·别特连科指挥肖斯塔科维奇第8-10交响曲双CD与蓝光 — https://www.berliner-philharmoniker-recordings.com/shostakovich.html?___store=rec_zh
+- [ ] [ ] 基里尔·别特连科指挥阿诺德·勋伯格作品3张CD与蓝光 — https://www.berliner-philharmoniker-recordings.com/schoenberg-edition.html?___store=rec_zh
+- [ ] [ ] 威廉·富特文格勒：1939-1945年广播录音最新数字化修复处理 - 22张CD/SACD - 184页资料册 — https://www.berliner-philharmoniker-recordings.com/radio-recordings-877.html?___store=rec_zh
+- [ ] [ ] 威廉·富特文格勒：1939至1945年广播录音8张180克黑胶 · 独立编号限量款 · 全球1886套 — https://www.berliner-philharmoniker-recordings.com/radio-recordings-vinyl.html?___store=rec_zh
+- [ ] [ ] 安东·布鲁克纳：交响曲全集9 CD (Hybrid-SACD) — https://www.berliner-philharmoniker-recordings.com/bruckner-symphonies.html?___store=rec_zh
+- [ ] [ ] 拉赫玛尼诺夫150基里尔·格斯坦、基里尔·别特连科与柏林爱乐乐团携手致敬 — https://www.berliner-philharmoniker-recordings.com/rachmaninoff-150.html?___store=rec_zh
+- [ ] [ ] 柏林爱乐乐团与小泽征尔6张CD与蓝光影碟组成的纪念专辑 — https://www.berliner-philharmoniker-recordings.com/ozawa-edition.html?___store=rec_zh
+- [ ] [ ] 柏林爱乐乐团与赫伯特·冯·卡拉扬：1953 - 1969 柏林现场 — https://www.berliner-philharmoniker-recordings.com/karajan-edition.html?___store=rec_zh
+- [ ] [ ] 柏林爱乐乐团与赫伯特·冯·卡拉扬：1970 - 1979 柏林现场 — https://www.berliner-philharmoniker-recordings.com/karajan-1970s.html?___store=rec_zh
+- [ ] [ ] 柏林爱乐乐团演绎陈银淑作品双CD与蓝光 — https://www.berliner-philharmoniker-recordings.com/unsuk-chin-edition.html?___store=rec_zh
+- [ ] [ ] 约翰·亚当斯合集CD与蓝光碟 — https://www.berliner-philharmoniker-recordings.com/john-adams-edition.html?___store=rec_zh
+- [ ] [ ] 约翰·塞巴斯蒂安·巴赫《马太受难曲》2 DVD + 1 蓝光碟（亚麻精装） — https://www.berliner-philharmoniker-recordings.com/rattle-sellars-matthaeus-passion.html?___store=rec_zh
+- [ ] [ ] 西蒙·拉特指挥《西贝柳斯交响曲全集》4 CD + 2 蓝光碟+ 下载 / 硬壳精装 — https://www.berliner-philharmoniker-recordings.com/rattle-sibelius-symphonies.html?___store=rec_zh
+- [ ] [ ] 西蒙·拉特爵士指挥《舒曼交响曲》2 CD + 1 蓝光碟+ 下载 / 亚麻硬壳精装 — https://www.berliner-philharmoniker-recordings.com/simon-rattle-schumanns-symphonien.html?___store=rec_zh
+- [ ] [ ] 西蒙·拉特爵士指挥《贝多芬交响曲全集》5 CD (Hybrid-SACD) — https://www.berliner-philharmoniker-recordings.com/rattle-beethoven-sacd.html?___store=rec_zh
+- [ ] [ ] 西蒙·拉特爵士指挥《贝多芬交响曲全集》5CD+3蓝光碟+下载 / 硬壳精装版 — https://www.berliner-philharmoniker-recordings.com/rattle-beethoven-symphonies.html?___store=rec_zh
+- [ ] [ ] 路德维希·凡·贝多芬 第1-5钢琴协奏曲5 CD (Hybrid-SACD) — https://www.berliner-philharmoniker-recordings.com/beethoven-piano-concertos.html?___store=rec_zh
+- [ ] [ ] 路德维希·凡·贝多芬 第1-5钢琴协奏曲西蒙·拉特爵士、内田光子、柏林爱乐乐团 — https://www.berliner-philharmoniker-recordings.com/uchida-cd-bluray.html?___store=rec_zh
+
+## 抓取/解析异常（供排查）
+- https://www.berliner-philharmoniker-recordings.com/john-adams-edition-814.html?___store=rec_zh — curl: (22) The requested URL returned error: 404
+- https://www.berliner-philharmoniker-recordings.com/simon-rattle-schumann-sacd.html?___store=rec_zh — curl: (22) The requested URL returned error: 404
