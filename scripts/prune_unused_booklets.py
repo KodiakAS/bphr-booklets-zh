@@ -49,7 +49,7 @@ def read_keep_norms() -> set[str]:
 def has_real_files(folder_path: str) -> bool:
     return any(
         os.path.isfile(os.path.join(folder_path, name))
-        for name in ("booklet.pdf", "booklet_zh.md")
+        for name in ("booklet.pdf", "booklet_zh.md", "MANUAL_KEEP")
     )
 
 

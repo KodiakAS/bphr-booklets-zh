@@ -8,6 +8,18 @@ import re
 
 WHITESPACE_RE = re.compile(r"\s+")
 
+# Normalize various Unicode dash characters to ASCII hyphen to avoid
+# near-duplicate titles caused by typography differences.
+_DASH_TRANSLATION = str.maketrans(
+    {
+        "–": "-",  # en dash
+        "—": "-",  # em dash
+        "‑": "-",  # non-breaking hyphen
+        "−": "-",  # minus sign
+        "―": "-",  # horizontal bar
+    }
+)
+
 # Cross-platform filesystem-unsafe characters (esp. Windows) that may appear
 # in product titles/subtitles on the store site.
 _FS_UNSAFE_TRANSLATION = str.maketrans(
@@ -26,7 +38,40 @@ _FS_UNSAFE_TRANSLATION = str.maketrans(
 
 
 def sanitize_title_for_fs(title: str) -> str:
-    return (title or "").translate(_FS_UNSAFE_TRANSLATION)
+    return (title or "").translate(_DASH_TRANSLATION).translate(_FS_UNSAFE_TRANSLATION)
+
+
+_MEDIA_UNIT_RE = re.compile(r"(?i)(\d)\s+(CD|SACD|DVD|LP)\b")
+_MEDIA_PAREN_RE = re.compile(r"(?i)\b(CD|SACD|DVD|LP)\s+\(")
+
+
+def normalize_title_for_display(title: str) -> str:
+    """Normalize a title for display in Markdown.
+
+    Goal: avoid cosmetic inconsistencies caused by scraping/hand edits, e.g.
+    - "4 CD" vs "4CD"
+    - "CD (Hybrid-SACD)" vs "CD(Hybrid-SACD)"
+    - extra spaces around + / ／
+
+    This does NOT aim to be a perfect official-title formatter; it only
+    removes common noisy spacing.
+    """
+
+    t = sanitize_title_for_fs(title)
+    t = WHITESPACE_RE.sub(" ", t).strip()
+
+    # Tighten common separators.
+    t = re.sub(r"\s*\+\s*", "+", t)
+    t = re.sub(r"\s*／\s*", "／", t)
+
+    # Tighten common Chinese patterns: "2 蓝光" -> "2蓝光".
+    t = re.sub(r"(\d)\s+([\u4e00-\u9fff])", r"\1\2", t)
+
+    # Tighten media count patterns.
+    t = _MEDIA_UNIT_RE.sub(r"\1\2", t)
+    t = _MEDIA_PAREN_RE.sub(lambda m: f"{m.group(1)}(", t)
+
+    return t
 
 
 def normalize_title_for_dir(title: str) -> str:

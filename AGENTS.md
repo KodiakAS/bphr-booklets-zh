@@ -12,6 +12,10 @@
 - 所有 `booklet` 项目统一放在 `booklets/` 下，并且每个 `booklet` 独占一个目录：
   - `booklets/<booklet-标题>/booklet.pdf`：原件 PDF（由维护者后续添加）
   - `booklets/<booklet-标题>/booklet_zh.md`：中文 Markdown 译文（统一使用 `_zh` 后缀）
+
+提示：当本地目录名与官网标题不一致、且你希望 `BOOKLETS.md` 中显示为官网标题时，可在对应目录的 `SOURCE.md` 中额外添加一行：
+- `- 官方标题：<官网页面显示的标题>`
+脚本会优先用该标题作为清单展示名，但仍保持目录名不变。
 - 目录命名建议：
   - 以可检索为目标，优先包含“指挥/作曲家 + 作品名”。
   - 使用中文书名号 `《》`；人名用中文常用译名并用 `·` 分隔（如 `汉斯·里希特`）。
@@ -35,6 +39,28 @@
   - 产物：仓库根目录 `BOOKLETS.md`
   - 说明：该脚本会抓取官网页面用于识别“是否标注 booklet”，但不会下载 `booklet.pdf`。
 
+### 清单去重与“豪华版本”规则（维护要点）
+
+官网同一发行物可能存在多个页面/版本（例如：同一套装的 `CD (Hybrid-SACD)`、`CD & Blu-ray`、`Vinyl`、以及合集页/专题页）。为避免 `BOOKLETS.md` 出现“同一专辑多个条目”或“标题完全相同但重复列出”的情况，`scripts/generate_booklet_checklist.py` 的核心策略是：
+
+- **去重分组键**：优先使用页面主区域的 `product-title`（即页面上作品/发行物的主标题）作为同专辑的分组依据。
+  - 原因：`og:title` / HTML `<title>` 往往会因页面类型不同而变化（例如“专题页标题”vs“具体版本页标题”），用它们做分组更容易把同专辑拆成多组。
+- **选择“最豪华版本”**：在同一分组内，优先选择 **价格更高的实体版本** 作为代表条目；再用“蓝光/精装/限量”等关键词作为次级加权；并避免把 download-only 页面当作代表条目。
+
+如果你发现 `BOOKLETS.md` 又出现重复条目，可先用下列命令做快速自检（不改文件，只输出重复标题）：
+
+- `python3 - <<'PY'
+import re
+from collections import Counter
+lines=open('BOOKLETS.md','r',encoding='utf-8').read().splitlines()
+rx=re.compile(r'^- (?!\[)(.+)$')
+c=Counter(m.group(1).strip() for line in lines if (m:=rx.match(line)))
+dups=[(t,n) for t,n in c.items() if n>1]
+print('duplicate_titles:', len(dups))
+for t,n in sorted(dups, key=lambda x:(-x[1], x[0])):
+    print(n, t)
+PY`
+
 - 仅根据本地文件状态为 `BOOKLETS.md` 补齐/更新快捷链接（不联网）
   - `python3 scripts/update_booklets_links_only.py`
   - 说明：当你手动放入/更新 `booklet.pdf` 或 `booklet_zh.md` 后，可用它快速刷新链接显示。
@@ -47,6 +73,7 @@
   - `python3 scripts/prune_unused_booklets.py`（dry-run）
   - `python3 scripts/prune_unused_booklets.py --apply`（实际删除）
   - 说明：当清单去重/变动后，用于删除未在 `BOOKLETS.md` 中出现且不包含 `booklet.pdf`/`booklet_zh.md` 的占位目录。
+  - 保护手工条目：若某目录属于“官网未列出、需手工维护”的条目，但暂时还没有 `booklet.pdf`/`booklet_zh.md`，可在目录内放置空文件 `MANUAL_KEEP` 以避免被清理脚本删除。
 
 ### 脚本验证（维护/改动后必做）
 

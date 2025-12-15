@@ -15,10 +15,18 @@ Local status:
 - "booklet 已收集" when `booklets/<name>/booklet.pdf` exists.
 
 Usage:
-  python3 scripts/generate_booklet_checklist.py
+    python3 scripts/generate_booklet_checklist.py
 
 Outputs:
 - BOOKLETS.md (repo root)
+
+Notes:
+- Primary discovery uses the official sitemap.
+- To cover releases missing from the sitemap, the script also scans any purchase links
+    recorded in local `booklets/<title>/SOURCE.md` (line: `- 购买链接：...`).
+- Download-only pages are normally excluded by heuristics, but will be included when
+    they are pinned by local SOURCE.md links and a local `booklet.pdf`/`booklet_zh.md`
+    exists (e.g. `asia-tour.html`).
 """
 
 from __future__ import annotations
@@ -38,12 +46,15 @@ from booklets_common import (
     get_local_status_by_normalized_title,
     md_link_escape_path,
     normalize_title_for_dir,
+    normalize_title_for_display,
     sanitize_title_for_fs,
 )
 
 SITEMAP_URL = "https://www.berliner-philharmoniker-recordings.com/sitemap.xml"
 STORE_PARAM = "___store=rec_zh"
 OUTPUT_FILE = "BOOKLETS.md"
+
+MD_TITLE_RE = re.compile(r"^- (?!\[)(?P<title>.+?)\s*$")
 
 PRODUCT_TITLE_RE = re.compile(r'class="product-title"[^>]*>\s*([^<]+?)\s*</h3>', re.I)
 PRODUCT_SUBTITLE_RE = re.compile(r'class="product-subtitle"[^>]*>\s*([^<]+?)\s*</p>', re.I)
@@ -55,6 +66,9 @@ PRODUCT_TITLE_SUBTITLE_PAIR_RE = re.compile(
 )
 
 BOOKLET_MARK_RE = re.compile(r"<(?:strong|b)>\s*(?:Digital\s+Booklet|Booklet|手册)\s*</(?:strong|b)>", re.I)
+
+OG_TITLE_RE = re.compile(r'<meta\s+property="og:title"\s+content="([^"]+?)"\s*/?>', re.I)
+HTML_TITLE_RE = re.compile(r"<title>\s*([^<]+?)\s*</title>", re.I)
 
 # Extract booklet page counts like "76 pages" or "76页" near booklet labels.
 BOOKLET_PAGES_RE = re.compile(
@@ -70,6 +84,13 @@ PRICE_RE = re.compile(
 DOWNLOAD_URL_HINT_RE = re.compile(r"(?:^|/)[^/]*(?:24-bit-)?download[^/]*\.html(?:\?|$)", re.I)
 PHYSICAL_HINT_RE = re.compile(r"(CD|DVD|Blu-?ray|SACD|黑胶|唱片|蓝光)")
 DOWNLOAD_NAME_HINT_RE = re.compile(r"(?:\bdownload\b|24-bit|下载)", re.I)
+
+# Some pages list a base product title with per-variant subtitles like "4 SACD",
+# "6张黑胶版", or "24-bit 下载". Those short subtitles are useful for choosing
+# a deluxe variant but should not be merged into the display title.
+_VARIANT_SUBTITLE_RE = re.compile(
+    r"(?ix)^(?:\d+\s*(?:CD|SACD|DVD|LP)\b|\d+\s*张(?:黑胶|唱片|CD|DVD|蓝光)(?:版)?|24-bit\b|download\b|下载\b)"
+)
 
 NON_RECORDING_URL_HINT_RE = re.compile(
     r"(?:^|/)(?:gift-ideas|audio|video|books)\.html(?:\?|$)|(?:^|/)sbph-|thermos|flask|pen-|lamy-|dch-card|xmasticketdvd",
@@ -140,6 +161,56 @@ def curl(url: str) -> str:
             stderr = " ".join(retry_lines).strip() or stderr
 
     raise RuntimeError(stderr or f"curl failed: {url}")
+
+
+def _read_purchase_link_from_source(booklets_dir: str, folder_name: str) -> str | None:
+    source_path = os.path.join(booklets_dir, folder_name, "SOURCE.md")
+    if not os.path.isfile(source_path):
+        return None
+    try:
+        with open(source_path, "r", encoding="utf-8") as f:
+            for raw in f:
+                line = raw.strip()
+                if line.startswith("- 购买链接："):
+                    url = line.split("：", 1)[1].strip()
+                    if not url or url == "待补充":
+                        return None
+                    if not (url.startswith("http://") or url.startswith("https://")):
+                        return None
+                    return url
+    except Exception:
+        return None
+    return None
+
+
+def _read_official_title_from_source(booklets_dir: str, folder_name: str) -> str | None:
+    """Read an optional official display title override from SOURCE.md.
+
+    Supported keys (first match wins):
+    - `- 官方标题：...`
+    - `- 官方名称：...`
+    - `- 标题：...`
+
+    This lets us keep the directory name stable while showing the official title
+    in BOOKLETS.md.
+    """
+
+    source_path = os.path.join(booklets_dir, folder_name, "SOURCE.md")
+    if not os.path.isfile(source_path):
+        return None
+
+    keys = ("- 官方标题：", "- 官方名称：", "- 标题：")
+    try:
+        with open(source_path, "r", encoding="utf-8") as f:
+            for raw in f:
+                line = raw.strip()
+                for k in keys:
+                    if line.startswith(k):
+                        title = line.split("：", 1)[1].strip()
+                        return title or None
+    except Exception:
+        return None
+    return None
 
 
 def _curl_with_retry(url: str) -> str:
@@ -221,9 +292,70 @@ def should_skip_url_pre_fetch(url: str) -> bool:
     lower_url = url.lower()
     if NON_RECORDING_URL_HINT_RE.search(lower_url):
         return True
-    if DOWNLOAD_URL_HINT_RE.search(lower_url):
-        return True
     return False
+
+
+def _build_source_purchase_url_index(
+    booklets_dir: str,
+) -> tuple[dict[str, str], list[str], dict[str, str]]:
+    """Build a mapping from purchase URL -> local folder name.
+
+    This is used to:
+    - Discover releases whose product pages are not present in the official sitemap.
+    - Associate a product URL with a local folder when the on-page title differs
+      from our preferred directory naming.
+
+    Returns: (stable_url_key -> folder_name, urls, folder_name -> official_title)
+    """
+
+    def folder_preference(folder_name: str) -> tuple[bool, bool, int, str]:
+        """Higher is better.
+
+        Prefer folders that already contain collected/translated assets, then
+        prefer shorter (more canonical) folder names.
+        """
+
+        folder_path = os.path.join(booklets_dir, folder_name)
+        has_pdf = os.path.isfile(os.path.join(folder_path, "booklet.pdf"))
+        has_zh = os.path.isfile(os.path.join(folder_path, "booklet_zh.md"))
+        return (has_pdf, has_zh, -len(folder_name), folder_name)
+
+    url_to_folder: dict[str, str] = {}
+    urls: list[str] = []
+    folder_to_official_title: dict[str, str] = {}
+    if not os.path.isdir(booklets_dir):
+        return url_to_folder, urls, folder_to_official_title
+
+    for folder in sorted(os.listdir(booklets_dir)):
+        if folder.startswith("."):
+            continue
+        folder_path = os.path.join(booklets_dir, folder)
+        if not os.path.isdir(folder_path):
+            continue
+        url = _read_purchase_link_from_source(booklets_dir, folder)
+        if not url:
+            continue
+        key = _stable_url_key(url)
+        prev = url_to_folder.get(key)
+        if not prev or folder_preference(folder) > folder_preference(prev):
+            url_to_folder[key] = folder
+        urls.append(url)
+
+        official = _read_official_title_from_source(booklets_dir, folder)
+        if official:
+            folder_to_official_title[folder] = official
+
+    # De-dup urls while keeping order
+    seen: set[str] = set()
+    deduped: list[str] = []
+    for u in urls:
+        k = _stable_url_key(u)
+        if k in seen:
+            continue
+        seen.add(k)
+        deduped.append(u)
+
+    return url_to_folder, deduped, folder_to_official_title
 
 
 def get_translated_names(repo_root: str) -> set[str]:
@@ -408,6 +540,37 @@ def extract_base_title(page_html: str) -> str | None:
     return title or None
 
 
+def extract_official_page_title(page_html: str) -> str | None:
+    """Best-effort extraction of the page's own title.
+
+    This is more robust than scanning for `product-title` elements because
+    cross-sell widgets may contain similar markup.
+    """
+
+    if not page_html:
+        return None
+
+    for rx in (OG_TITLE_RE, HTML_TITLE_RE):
+        m = rx.search(page_html)
+        if not m:
+            continue
+        raw = clean_text(m.group(1))
+        if not raw:
+            continue
+
+        # Strip common site suffixes.
+        for sep in (" | ", " - "):
+            if sep in raw:
+                left, right = raw.split(sep, 1)
+                # Keep the left part if the right looks like a site name.
+                if any(k in right.lower() for k in ("berliner", "recordings", "phil", "shop")):
+                    raw = left.strip()
+                    break
+        return raw or None
+
+    return None
+
+
 def extract_booklet_pages(page_html: str) -> int | None:
     if not page_html:
         return None
@@ -433,29 +596,39 @@ def extract_usd_price(page_html: str) -> float | None:
     return max(prices) if prices else None
 
 
-def deluxe_score(url: str, display_title: str, page_html: str, price: float | None) -> tuple[int, float, int]:
+def deluxe_score(url: str, display_title: str, page_html: str, price: float | None) -> tuple[float, int, int]:
     """Higher is better.
 
-    Heuristic priority:
-    - Prefer editions that mention Blu-ray/蓝光 (typically the deluxe box).
-    - Then higher price.
-    - Then longer title for readability.
+    We treat “most deluxe” as primarily “higher priced physical edition”, then
+    refine with a few content hints.
+
+    Note: some pages contain multiple variants; `extract_usd_price()` currently
+    returns the highest visible USD price, which generally aligns with choosing
+    the most deluxe variant on those pages.
     """
 
     text = (display_title + " " + (page_html or "")).lower()
-    score = 0
+    feature = 0
+
     if "blu-ray" in text or "bluray" in text or "蓝光" in (display_title + (page_html or "")):
-        score += 200
+        feature += 30
     if "硬壳精装" in (display_title + (page_html or "")) or "精装" in (display_title + (page_html or "")):
-        score += 40
-    if "+" in display_title or "下载" in display_title:
-        score += 10
+        feature += 10
+    if "limited" in text or "numbered" in text or "限量" in (display_title + (page_html or "")) or "独立编号" in (display_title + (page_html or "")):
+        feature += 12
     if "vinyl" in text or "黑胶" in (display_title + (page_html or "")):
-        score += 5
+        feature += 4
+
+    lower_url = url.lower()
+    effective_price = float(price or 0.0)
+
     # Prefer non-download-only product pages.
-    if "download" in url.lower():
-        score -= 50
-    return (score, float(price or 0.0), len(display_title))
+    if "download" in lower_url:
+        feature -= 30
+        effective_price = 0.0
+
+    # Primary: price. Secondary: feature hints. Tertiary: longer title.
+    return (effective_price, int(feature), len(display_title))
 
 
 def pick_physical_name(page_html: str) -> str | None:
@@ -468,19 +641,31 @@ def pick_physical_name(page_html: str) -> str | None:
         product_title = clean_text(title_match.group(1))
         subtitle_match = PRODUCT_SUBTITLE_RE.search(page_html) or SUBTITLE_LIGHT_RE.search(page_html)
         subtitle = clean_text(subtitle_match.group(1)) if subtitle_match else ""
-        candidate = (product_title + subtitle).strip()
+        subtitle = subtitle.strip()
+        if subtitle and _VARIANT_SUBTITLE_RE.search(subtitle):
+            candidate = product_title.strip()
+        else:
+            candidate = (product_title + subtitle).strip()
         return candidate or None
 
     # Prefer the first variant that clearly contains physical media (CD / Blu-ray / SACD / vinyl, etc.).
     # Note: some physical editions also include download codes; they still count as physical.
     for title, subtitle in pairs:
-        candidate = (title + subtitle).strip()
+        subtitle = (subtitle or "").strip()
+        if subtitle and _VARIANT_SUBTITLE_RE.search(subtitle):
+            candidate = (title or "").strip()
+        else:
+            candidate = (title + subtitle).strip()
         if PHYSICAL_HINT_RE.search(candidate):
             return candidate
 
     # Fallback: if nothing is explicitly marked physical, pick the first non-download variant.
     for title, subtitle in pairs:
-        candidate = (title + subtitle).strip()
+        subtitle = (subtitle or "").strip()
+        if subtitle and _VARIANT_SUBTITLE_RE.search(subtitle):
+            candidate = (title or "").strip()
+        else:
+            candidate = (title + subtitle).strip()
         if not DOWNLOAD_NAME_HINT_RE.search(candidate):
             return candidate
 
@@ -538,7 +723,9 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
 def main(argv: list[str]) -> int:
     args = parse_args(argv)
     repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-    local_status = get_local_status_by_normalized_title(os.path.join(repo_root, "booklets"))
+    booklets_dir = os.path.join(repo_root, "booklets")
+    local_status = get_local_status_by_normalized_title(booklets_dir)
+    source_url_to_folder, source_urls, folder_to_official_title = _build_source_purchase_url_index(booklets_dir)
 
     if args.url:
         scan_urls = [u.strip() for u in args.url if u and u.strip()]
@@ -547,6 +734,21 @@ def main(argv: list[str]) -> int:
         locs = parse_sitemap_locs(sitemap_xml)
         # Scan all HTML pages from the sitemap. Current size is manageable.
         scan_urls = [u for u in locs if u.endswith(".html") and not should_skip_url_pre_fetch(u)]
+        # Also scan local SOURCE.md purchase links to cover releases missing from sitemap.
+        scan_urls.extend(source_urls)
+
+    # De-dup scan URLs using stable store-param normalization.
+    seen_scan: set[str] = set()
+    scan_urls_dedup: list[str] = []
+    for u in scan_urls:
+        if not u:
+            continue
+        key = _stable_url_key(u)
+        if key in seen_scan:
+            continue
+        seen_scan.add(key)
+        scan_urls_dedup.append(u)
+    scan_urls = scan_urls_dedup
 
     # (group_key, norm_title, display_title, url, pages, score)
     found: list[tuple[str, str, str, str, int | None, tuple[int, float, int]]] = []
@@ -560,16 +762,32 @@ def main(argv: list[str]) -> int:
             if err or page is None:
                 errors.append((zh_url, " ".join((err or "").splitlines()).strip()))
                 continue
-            if not BOOKLET_MARK_RE.search(page):
+            pinned_folder = source_url_to_folder.get(_stable_url_key(zh_url))
+            pinned_norm = normalize_title_for_dir(pinned_folder) if pinned_folder else ""
+            pinned_has_pdf, pinned_has_zh, _p_folder = local_status.get(pinned_norm, (False, False, ""))
+
+            has_booklet_label = bool(BOOKLET_MARK_RE.search(page))
+            if not (has_booklet_label or pinned_has_pdf or pinned_has_zh):
                 continue
-            name = pick_physical_name(page)
-            if not name:
+
+            name = pick_physical_name(page) or extract_official_page_title(page) or extract_base_title(page)
+            if not name and not pinned_folder:
                 continue
-            if not is_physical_release(zh_url, name):
+
+            if name and (not is_physical_release(zh_url, name)) and not (pinned_has_pdf or pinned_has_zh):
+                # Keep pinned/local-booklet releases even if they are download-only.
                 continue
-            display_title = sanitize_title_for_fs(name.strip())
-            norm_title = normalize_title_for_dir(display_title)
-            base_title = extract_base_title(page) or display_title
+
+            override_title = folder_to_official_title.get(pinned_folder or "") if pinned_folder else None
+            # Prefer explicit official title override; else use the page-derived name.
+            display_title = normalize_title_for_display((override_title or name or pinned_folder or "").strip())
+            # IMPORTANT: keep the internal normalized key aligned with the local folder
+            # so local status + links still work even if display_title differs.
+            norm_title = pinned_norm or normalize_title_for_dir(display_title)
+            # Dedupe key: use the on-page product title (stable across editions/variants).
+            # Avoid using og:title/<title> here because those can differ across variant pages
+            # even when the underlying release is the same.
+            base_title = override_title or extract_base_title(page) or display_title
             base_norm = normalize_title_for_dir(base_title)
             pages = extract_booklet_pages(page)
             # De-duplicate across editions (CD / Blu-ray deluxe box / vinyl) by base title.
@@ -594,16 +812,25 @@ def main(argv: list[str]) -> int:
                 if err or page is None:
                     errors.append((zh_url, " ".join((err or "").splitlines()).strip()))
                     continue
-                if not BOOKLET_MARK_RE.search(page):
+                pinned_folder = source_url_to_folder.get(_stable_url_key(zh_url))
+                pinned_norm = normalize_title_for_dir(pinned_folder) if pinned_folder else ""
+                pinned_has_pdf, pinned_has_zh, _p_folder = local_status.get(pinned_norm, (False, False, ""))
+
+                has_booklet_label = bool(BOOKLET_MARK_RE.search(page))
+                if not (has_booklet_label or pinned_has_pdf or pinned_has_zh):
                     continue
-                name = pick_physical_name(page)
-                if not name:
+
+                name = pick_physical_name(page) or extract_official_page_title(page) or extract_base_title(page)
+                if not name and not pinned_folder:
                     continue
-                if not is_physical_release(zh_url, name):
+
+                if name and (not is_physical_release(zh_url, name)) and not (pinned_has_pdf or pinned_has_zh):
                     continue
-                display_title = sanitize_title_for_fs(name.strip())
-                norm_title = normalize_title_for_dir(display_title)
-                base_title = extract_base_title(page) or display_title
+
+                override_title = folder_to_official_title.get(pinned_folder or "") if pinned_folder else None
+                display_title = normalize_title_for_display((override_title or name or pinned_folder or "").strip())
+                norm_title = pinned_norm or normalize_title_for_dir(display_title)
+                base_title = override_title or extract_base_title(page) or display_title
                 base_norm = normalize_title_for_dir(base_title)
                 pages = extract_booklet_pages(page)
                 group_key = base_norm
@@ -664,6 +891,12 @@ def main(argv: list[str]) -> int:
         # - Then folder name lexicographically
         # - Then by candidate normalized title
         local_candidates: list[tuple[tuple[bool, bool], str, str]] = []
+        # Also consider the base-title group key itself as a lookup into local folders.
+        # This covers cases where the page-derived display title includes media subtitles
+        # (e.g. "4 SACD") but the local folder is named by the base product title.
+        g_pdf, g_zh, g_folder = local_status.get(group_key, (False, False, ""))
+        if g_folder:
+            local_candidates.append(((g_pdf, g_zh), g_folder or "", group_key))
         for cand_norm, _cand_display, _cand_url, _cand_pages, _cand_score in candidates:
             lp, lz, lfolder = local_status.get(cand_norm, (False, False, ""))
             local_candidates.append(((lp, lz), lfolder or "", cand_norm))
@@ -695,7 +928,23 @@ def main(argv: list[str]) -> int:
             )
 
         items.append((best_display, best_url, best_local_pdf, best_local_zh, best_local_folder, best_local_norm))
+    out_path = os.path.join(repo_root, args.output)
+    online_norms: set[str] = {stable_norm for *_rest, stable_norm in items}
+    # Merge local-only releases (missing from sitemap scan) into the main list.
+    for norm, (has_pdf, has_zh, folder) in local_status.items():
+        if norm in online_norms:
+            continue
+        if not (has_pdf or has_zh):
+            continue
+        if not folder:
+            continue
+        purchase = _read_purchase_link_from_source(booklets_dir, folder)
+        official_title = folder_to_official_title.get(folder)
+        display_title = normalize_title_for_display((official_title or folder).strip())
+        items.append((display_title, purchase or "待补充", has_pdf, has_zh, folder, norm))
+
     # Sort by completion status first, then by title initial.
+    # IMPORTANT: run after merging local-only entries so they follow the same rule.
     items.sort(
         key=lambda x: (
             completion_rank(x[2], x[3]),
@@ -704,7 +953,6 @@ def main(argv: list[str]) -> int:
         )
     )
 
-    out_path = os.path.join(repo_root, args.output)
     with open(out_path, "w", encoding="utf-8") as f:
         f.write("# 柏林爱乐音像制品（含 booklet）翻译清单\n\n")
         f.write(

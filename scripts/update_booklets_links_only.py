@@ -27,6 +27,7 @@ from __future__ import annotations
 
 import os
 import re
+import urllib.parse
 
 from booklets_common import (
     get_local_status_by_normalized_title,
@@ -47,6 +48,14 @@ PDF_LINE_RE = re.compile(r"^(?P<indent>\s*)- \[[ xX]\] booklet 已收集.*$")
 ZH_LINE_RE = re.compile(r"^(?P<indent>\s*)- \[[ xX]\] 中文翻译已完成.*$")
 LEGACY_EXTRA_RE = re.compile(r"^\s*- (目录：|原文：|译文：).*$")
 
+# Extract folder name from existing directory links, if present.
+DIR_LINK_RE = re.compile(r"\[目录\]\(booklets/(?P<folder>[^)]+)/\)")
+
+MANUAL_EXPLANATION_TITLE_PREFIXES = (
+    "本章节会在重新生成清单时被保留",
+    "该章节用于维护",
+)
+
 
 def main() -> int:
     local_status = get_local_status_by_normalized_title(BOOKLETS_DIR)
@@ -60,12 +69,25 @@ def main() -> int:
     current_has_pdf = False
     current_has_zh = False
 
+    def _decode_folder(md_folder: str) -> str:
+        # md_link_escape_path uses percent-encoding for some characters.
+        return urllib.parse.unquote(md_folder)
+
+    def _folder_status(folder: str) -> tuple[bool, bool]:
+        folder_path = os.path.join(BOOKLETS_DIR, folder)
+        has_pdf = os.path.isfile(os.path.join(folder_path, "booklet.pdf"))
+        has_zh = os.path.isfile(os.path.join(folder_path, "booklet_zh.md"))
+        return has_pdf, has_zh
+
     for raw in lines:
         line = raw.rstrip("\n")
 
         m_title = TITLE_RE.match(line)
         if m_title:
             title = m_title.group("title").strip()
+            if any(title.startswith(p) for p in MANUAL_EXPLANATION_TITLE_PREFIXES):
+                out.append(raw)
+                continue
             norm = normalize_title_for_dir(title)
             has_pdf, has_zh, folder = local_status.get(norm, (False, False, ""))
             current_norm = norm
@@ -82,6 +104,15 @@ def main() -> int:
         m_pdf = PDF_LINE_RE.match(line)
         if m_pdf:
             indent = m_pdf.group("indent")
+            folder = current_folder
+            if not folder:
+                m_dir = DIR_LINK_RE.search(line)
+                if m_dir:
+                    folder = _decode_folder(m_dir.group("folder"))
+                    current_folder = folder
+            if folder:
+                current_has_pdf, current_has_zh = _folder_status(folder)
+
             mark = "x" if current_has_pdf else " "
             prefix = f"{indent}- [{mark}] booklet 已收集"
             if current_has_pdf and current_folder:
@@ -98,6 +129,15 @@ def main() -> int:
         m_zh = ZH_LINE_RE.match(line)
         if m_zh:
             indent = m_zh.group("indent")
+            folder = current_folder
+            if not folder:
+                m_dir = DIR_LINK_RE.search(line)
+                if m_dir:
+                    folder = _decode_folder(m_dir.group("folder"))
+                    current_folder = folder
+            if folder:
+                current_has_pdf, current_has_zh = _folder_status(folder)
+
             mark = "x" if current_has_zh else " "
             prefix = f"{indent}- [{mark}] 中文翻译已完成"
             if current_has_zh and current_folder:
