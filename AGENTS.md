@@ -63,7 +63,7 @@ PY`
 
 - 仅根据本地文件状态为 `BOOKLETS.md` 补齐/更新快捷链接（不联网）
   - `python3 scripts/update_booklets_links_only.py`
-  - 说明：当你手动放入/更新 `booklet.pdf` 或 `booklet_zh.md` 后，可用它快速刷新链接显示。
+  - 说明：当你手动放入/更新 `booklet.pdf` 或 `booklet_zh.md` 后，可用它快速刷新链接显示，并按清单头部声明的规则自动重排条目（`中文翻译已完成 > booklet 已收集 > 其他`；同一优先级内按标题首字符排序）。
 
 - 为未收集条目生成目录与来源记录（不联网、不下载 PDF）
   - `python3 scripts/collect_missing_booklets.py`
@@ -316,6 +316,7 @@ PY`
 - 在完成翻译后：
   - 用最新遇到的坑点反向检查：是否需要更新本文件（`AGENTS.md`）中的规则/清单（例如：某类双语版式、某类截断点、某类页面噪声）。
   - 若需要，及时把经验写入 `AGENTS.md`，确保下次可复用。
+  - 运行 `python3 scripts/update_booklets_links_only.py`，同步刷新 `BOOKLETS.md` 的完成勾选、快捷链接与排序。
 
 #### 人工检查清单（必须）
 

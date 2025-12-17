@@ -8,6 +8,10 @@
   - 中文翻译已完成：存在 `booklets/<标题>/booklet_zh.md`
 - 列表按完成状态优先级排序（中文翻译已完成 > booklet 已收集 > 其他）；同一优先级内按制品标题首字母（首字符）排序
 
+- 基里尔·别特连科与柏林爱乐乐团：合作关系的展开
+  - [x] booklet 已收集 ([目录](booklets/基里尔·别特连科与柏林爱乐乐团：合作关系的展开/) · [booklet.pdf](booklets/基里尔·别特连科与柏林爱乐乐团：合作关系的展开/booklet.pdf))
+  - [x] 中文翻译已完成 ([目录](booklets/基里尔·别特连科与柏林爱乐乐团：合作关系的展开/) · [booklet_zh.md](booklets/基里尔·别特连科与柏林爱乐乐团：合作关系的展开/booklet_zh.md))
+  - 购买链接：https://www.berliner-philharmoniker-recordings.com/petrenko-edition-1.html?___store=rec_zh
 - 基里尔·别特连科指挥勃拉姆斯《悲剧序曲》与《第一交响曲》CD专辑
   - [x] booklet 已收集 ([目录](booklets/基里尔·别特连科指挥勃拉姆斯《悲剧序曲》与《第一交响曲》CD专辑/) · [booklet.pdf](booklets/基里尔·别特连科指挥勃拉姆斯《悲剧序曲》与《第一交响曲》CD专辑/booklet.pdf))
   - [x] 中文翻译已完成 ([目录](booklets/基里尔·别特连科指挥勃拉姆斯《悲剧序曲》与《第一交响曲》CD专辑/) · [booklet_zh.md](booklets/基里尔·别特连科指挥勃拉姆斯《悲剧序曲》与《第一交响曲》CD专辑/booklet_zh.md))
@@ -28,10 +32,6 @@
   - [x] booklet 已收集 ([目录](booklets/克劳迪奥·阿巴多与柏林爱乐乐团2CD%20%28Hybrid-SACD%29/) · [booklet.pdf](booklets/克劳迪奥·阿巴多与柏林爱乐乐团2CD%20%28Hybrid-SACD%29/booklet.pdf))
   - [ ] 中文翻译已完成
   - 购买链接：https://www.berliner-philharmoniker-recordings.com/abbado-the-last-concert.html?___store=rec_zh
-- 基里尔·别特连科与柏林爱乐乐团：合作关系的展开
-  - [x] booklet 已收集 ([目录](booklets/基里尔·别特连科与柏林爱乐乐团：合作关系的展开/) · [booklet.pdf](booklets/基里尔·别特连科与柏林爱乐乐团：合作关系的展开/booklet.pdf))
-  - [ ] 中文翻译已完成
-  - 购买链接：https://www.berliner-philharmoniker-recordings.com/petrenko-edition-1.html?___store=rec_zh
 - 基里尔·别特连科指挥柴可夫斯基《第六交响曲“悲怆”》
   - [x] booklet 已收集 ([目录](booklets/基里尔·别特连科指挥柴可夫斯基《第六交响曲“悲怆”》/) · [booklet.pdf](booklets/基里尔·别特连科指挥柴可夫斯基《第六交响曲“悲怆”》/booklet.pdf))
   - [ ] 中文翻译已完成
@@ -40,10 +40,6 @@
   - [x] booklet 已收集 ([目录](booklets/柏林爱乐乐团与小泽征尔6张CD与蓝光影碟组成的纪念专辑/) · [booklet.pdf](booklets/柏林爱乐乐团与小泽征尔6张CD与蓝光影碟组成的纪念专辑/booklet.pdf))
   - [ ] 中文翻译已完成
   - 购买链接：https://www.berliner-philharmoniker-recordings.com/ozawa-edition.html?___store=rec_zh
-- 约翰·亚当斯合集CD与蓝光碟
-  - [ ] booklet 已收集
-  - [ ] 中文翻译已完成
-  - 购买链接：https://www.berliner-philharmoniker-recordings.com/john-adams-edition.html?___store=rec_zh
 - 西蒙·拉特指挥《西贝柳斯交响曲全集》4CD+2蓝光碟+下载／硬壳精装
   - [x] booklet 已收集 ([目录](booklets/西蒙·拉特指挥《西贝柳斯交响曲全集》4CD+2蓝光碟+下载／硬壳精装/) · [booklet.pdf](booklets/西蒙·拉特指挥《西贝柳斯交响曲全集》4CD+2蓝光碟+下载／硬壳精装/booklet.pdf))
   - [ ] 中文翻译已完成
@@ -104,6 +100,10 @@
   - [ ] booklet 已收集
   - [ ] 中文翻译已完成
   - 购买链接：https://www.berliner-philharmoniker-recordings.com/unsuk-chin-edition.html?___store=rec_zh
+- 约翰·亚当斯合集CD与蓝光碟
+  - [ ] booklet 已收集
+  - [ ] 中文翻译已完成
+  - 购买链接：https://www.berliner-philharmoniker-recordings.com/john-adams-edition.html?___store=rec_zh
 - 约翰·塞巴斯蒂安·巴赫《马太受难曲》2DVD+1蓝光碟（亚麻精装）
   - [ ] booklet 已收集
   - [ ] 中文翻译已完成

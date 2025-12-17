@@ -4,7 +4,11 @@
 """Update BOOKLETS.md by inlining local jump links on completed checklist lines.
 
 Goal:
-- Keep the existing BOOKLETS.md structure.
+- Update checklist marks/links based on local filesystem state.
+- Keep non-checklist sections intact (header + any following `## ...` sections).
+- Re-sort release entries to match the documented ordering rule:
+    中文翻译已完成 > booklet 已收集 > 其他；
+    同一优先级内按制品标题首字母（首字符）排序。
 - For lines like:
     - [x] booklet 已收集
     - [x] 中文翻译已完成
@@ -55,6 +59,11 @@ MANUAL_EXPLANATION_TITLE_PREFIXES = (
     "本章节会在重新生成清单时被保留",
     "该章节用于维护",
 )
+
+LEADING_TITLE_TRIM_CHARS = " \t\r\n\u3000\"'“”‘’《》()[]【】{}·•—–-:：/\\"
+
+PDF_CHECK_RE = re.compile(r"^\s*- \[(?P<mark>[ xX])\] booklet 已收集\b")
+ZH_CHECK_RE = re.compile(r"^\s*- \[(?P<mark>[ xX])\] 中文翻译已完成\b")
 
 
 def main() -> int:
@@ -154,11 +163,170 @@ def main() -> int:
         out.append(raw)
 
     new_text = "".join(out)
+    new_text = _sort_booklets_checklist_blocks(new_text)
     with open(BOOKLETS_MD, "w", encoding="utf-8") as f:
         f.write(new_text)
 
     print("Updated BOOKLETS.md inline links based on local files.")
     return 0
+
+
+def completion_rank(has_pdf: bool, has_zh: bool) -> int:
+    """Ranking for checklist ordering.
+
+    0: translation done
+    1: booklet collected
+    2: others
+    """
+
+    if has_zh:
+        return 0
+    if has_pdf:
+        return 1
+    return 2
+
+
+def title_initial_key(title: str) -> tuple[str, str]:
+    """Sort key for '按首字母（首字符）' ordering.
+
+    - Trims common leading punctuation/quotes.
+    - Uses A-Z for ASCII letters.
+    - Uses '#' for digits.
+    - Otherwise uses the first remaining character as a bucket.
+
+    Returns: (bucket, full_title_key)
+    """
+
+    t = (title or "").strip().lstrip(LEADING_TITLE_TRIM_CHARS)
+    if not t:
+        return ("~", "")
+
+    first = t[0]
+    if "A" <= first <= "Z" or "a" <= first <= "z":
+        bucket = first.upper()
+    elif first.isdigit():
+        bucket = "#"
+    else:
+        bucket = first
+
+    return (bucket, t.casefold())
+
+
+def _is_release_block_start(lines: list[str], idx: int) -> bool:
+    if not (0 <= idx < len(lines)):
+        return False
+    line = lines[idx].rstrip("\n")
+    m = TITLE_RE.match(line)
+    if not m:
+        return False
+    title = m.group("title").strip()
+    if any(title.startswith(p) for p in MANUAL_EXPLANATION_TITLE_PREFIXES):
+        return False
+
+    # A release entry is followed by indented checklist lines.
+    j = idx + 1
+    while j < len(lines):
+        if lines[j].startswith("## "):
+            return False
+        if lines[j].strip() == "":
+            j += 1
+            continue
+        return bool(PDF_CHECK_RE.match(lines[j].rstrip("\n")))
+    return False
+
+
+def _is_release_block(block: list[str]) -> bool:
+    for raw in block:
+        line = raw.rstrip("\n")
+        if PDF_CHECK_RE.match(line):
+            return True
+    return False
+
+
+def _block_status(block: list[str]) -> tuple[bool, bool]:
+    has_pdf = False
+    has_zh = False
+    for raw in block:
+        line = raw.rstrip("\n")
+        m_pdf = PDF_CHECK_RE.match(line)
+        if m_pdf:
+            has_pdf = m_pdf.group("mark").strip().lower() == "x"
+            continue
+        m_zh = ZH_CHECK_RE.match(line)
+        if m_zh:
+            has_zh = m_zh.group("mark").strip().lower() == "x"
+            continue
+    return has_pdf, has_zh
+
+
+def _block_sort_key(block: list[str]) -> tuple[int, tuple[str, str], str]:
+    title_line = block[0].rstrip("\n")
+    m = TITLE_RE.match(title_line)
+    title = m.group("title").strip() if m else title_line.lstrip("- ").strip()
+    has_pdf, has_zh = _block_status(block)
+    return (
+        completion_rank(has_pdf, has_zh),
+        title_initial_key(title),
+        normalize_title_for_dir(title),
+    )
+
+
+def _sort_booklets_checklist_blocks(text: str) -> str:
+    """Sort release entries in BOOKLETS.md by status + title initial.
+
+    Only reorders the main release checklist block region (the `- <title>` items),
+    leaving the header and any following `## ...` sections (e.g. errors) intact.
+    """
+
+    lines = text.splitlines(keepends=True)
+    start = None
+    for i in range(len(lines)):
+        if _is_release_block_start(lines, i):
+            start = i
+            break
+    if start is None:
+        return text
+
+    end = len(lines)
+    for i in range(start, len(lines)):
+        if lines[i].startswith("## "):
+            end = i
+            break
+
+    prefix = lines[:start]
+    body = lines[start:end]
+    suffix = lines[end:]
+
+    blocks: list[list[str]] = []
+    current: list[str] = []
+    for raw in body:
+        if raw.startswith("- "):
+            if current:
+                blocks.append(current)
+            current = [raw]
+            continue
+        if not current:
+            prefix.append(raw)
+            continue
+        current.append(raw)
+    if current:
+        blocks.append(current)
+
+    sorted_blocks: list[list[str]] = []
+    segment: list[list[str]] = []
+    for block in blocks:
+        if _is_release_block(block):
+            segment.append(block)
+            continue
+        if segment:
+            sorted_blocks.extend(sorted(segment, key=_block_sort_key))
+            segment = []
+        sorted_blocks.append(block)
+    if segment:
+        sorted_blocks.extend(sorted(segment, key=_block_sort_key))
+
+    out_lines = prefix + [line for block in sorted_blocks for line in block] + suffix
+    return "".join(out_lines)
 
 
 if __name__ == "__main__":
