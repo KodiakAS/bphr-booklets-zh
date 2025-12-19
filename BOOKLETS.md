@@ -20,6 +20,10 @@
   - [x] booklet 已收集 ([目录](booklets/基里尔·别特连科指挥勃拉姆斯《悲剧序曲》与《第一交响曲》CD专辑/) · [booklet.pdf](booklets/基里尔·别特连科指挥勃拉姆斯《悲剧序曲》与《第一交响曲》CD专辑/booklet.pdf))
   - [x] 中文翻译已完成 ([目录](booklets/基里尔·别特连科指挥勃拉姆斯《悲剧序曲》与《第一交响曲》CD专辑/) · [booklet_zh.md](booklets/基里尔·别特连科指挥勃拉姆斯《悲剧序曲》与《第一交响曲》CD专辑/booklet_zh.md))
   - 购买链接：https://www.berliner-philharmoniker-recordings.com/petrenko-brahms.html?___store=rec_zh
+- 基里尔·别特连科指挥柴可夫斯基《第六交响曲“悲怆”》
+  - [x] booklet 已收集 ([目录](booklets/基里尔·别特连科指挥柴可夫斯基《第六交响曲“悲怆”》/) · [booklet.pdf](booklets/基里尔·别特连科指挥柴可夫斯基《第六交响曲“悲怆”》/booklet.pdf))
+  - [x] 中文翻译已完成 ([目录](booklets/基里尔·别特连科指挥柴可夫斯基《第六交响曲“悲怆”》/) · [booklet_zh.md](booklets/基里尔·别特连科指挥柴可夫斯基《第六交响曲“悲怆”》/booklet_zh.md))
+  - 购买链接：待补充
 - 安东·布鲁克纳：交响曲全集9CD (Hybrid-SACD)
   - [x] booklet 已收集 ([目录](booklets/安东·布鲁克纳：交响曲全集9CD%20%28Hybrid-SACD%29/) · [booklet.pdf](booklets/安东·布鲁克纳：交响曲全集9CD%20%28Hybrid-SACD%29/booklet.pdf))
   - [x] 中文翻译已完成 ([目录](booklets/安东·布鲁克纳：交响曲全集9CD%20%28Hybrid-SACD%29/) · [booklet_zh.md](booklets/安东·布鲁克纳：交响曲全集9CD%20%28Hybrid-SACD%29/booklet_zh.md))
@@ -36,10 +40,6 @@
   - [x] booklet 已收集 ([目录](booklets/路德维希·凡·贝多芬%20第1-5钢琴协奏曲5CD%20%28Hybrid-SACD%29/) · [booklet.pdf](booklets/路德维希·凡·贝多芬%20第1-5钢琴协奏曲5CD%20%28Hybrid-SACD%29/booklet.pdf))
   - [x] 中文翻译已完成 ([目录](booklets/路德维希·凡·贝多芬%20第1-5钢琴协奏曲5CD%20%28Hybrid-SACD%29/) · [booklet_zh.md](booklets/路德维希·凡·贝多芬%20第1-5钢琴协奏曲5CD%20%28Hybrid-SACD%29/booklet_zh.md))
   - 购买链接：https://www.berliner-philharmoniker-recordings.com/beethoven-piano-concertos.html?___store=rec_zh
-- 基里尔·别特连科指挥柴可夫斯基《第六交响曲“悲怆”》
-  - [x] booklet 已收集 ([目录](booklets/基里尔·别特连科指挥柴可夫斯基《第六交响曲“悲怆”》/) · [booklet.pdf](booklets/基里尔·别特连科指挥柴可夫斯基《第六交响曲“悲怆”》/booklet.pdf))
-  - [ ] 中文翻译已完成
-  - 购买链接：待补充
 - 柏林爱乐乐团与小泽征尔6张CD与蓝光影碟组成的纪念专辑
   - [x] booklet 已收集 ([目录](booklets/柏林爱乐乐团与小泽征尔6张CD与蓝光影碟组成的纪念专辑/) · [booklet.pdf](booklets/柏林爱乐乐团与小泽征尔6张CD与蓝光影碟组成的纪念专辑/booklet.pdf))
   - [ ] 中文翻译已完成
