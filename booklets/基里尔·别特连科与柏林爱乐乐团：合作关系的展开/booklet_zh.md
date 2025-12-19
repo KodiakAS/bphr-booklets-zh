@@ -66,7 +66,7 @@
 | --- | --- |
 | 指挥 | 基里尔·别特连科 |
 | 乐谱校订 | 乔纳森·德尔·马尔（Jonathan del Mar） |
-| 独唱 | 玛莉丝·彼得森（Marlis Petersen，女高音）；伊丽莎白·库尔曼（Elisabeth Kulman，次女高音）；本雅明·布伦斯（Benjamin Bruns，男高音）；尹光哲（Kwangchul Youn，男低音） |
+| 独唱 | 玛莉丝·彼得森（Marlis Petersen，女高音）；伊丽莎白·库尔曼（Elisabeth Kulman，女中音）；本雅明·布伦斯（Benjamin Bruns，男高音）；尹光哲（Kwangchul Youn，男低音） |
 | 合唱 | 柏林广播合唱团（Rundfunkchor Berlin） |
 | 合唱指挥 | 吉斯·莱纳尔斯（Gijs Leenaars） |
 | 创作时间 | 1822–1824 年 |

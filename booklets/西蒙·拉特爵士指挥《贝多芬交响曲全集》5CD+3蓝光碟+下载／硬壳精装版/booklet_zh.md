@@ -236,7 +236,7 @@
 
 《第九交响曲“合唱”》d 小调，作品 125
 
-独唱：安妮特·达施（Annette Dasch，女高音）、伊娃·福格尔（Eva Vogel，次女高音）、克里斯蒂安·埃尔斯纳（Christian Elsner，男高音）、德米特里·伊瓦申科（Dimitry Ivashchenko，男低音）
+独唱：安妮特·达施（Annette Dasch，女高音）、伊娃·福格尔（Eva Vogel，女中音）、克里斯蒂安·埃尔斯纳（Christian Elsner，男高音）、德米特里·伊瓦申科（Dimitry Ivashchenko，男低音）
 
 合唱：柏林广播合唱团（Rundfunkchor Berlin）｜合唱指挥：西蒙·哈尔西（Simon Halsey）
 
