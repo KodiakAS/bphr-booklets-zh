@@ -129,3 +129,65 @@ def get_local_status_by_normalized_title(booklets_dir: str) -> dict[str, tuple[b
             status[norm] = (has_pdf, has_zh, folder_name)
 
     return status
+
+
+def read_purchase_link_from_source(
+    booklets_dir: str,
+    folder_name: str,
+    *,
+    require_url: bool = True,
+) -> str | None:
+    """Read the purchase link recorded in `booklets/<folder>/SOURCE.md`.
+
+    - When `require_url=True` (default), only returns http(s) URLs and ignores placeholders like `待补充`.
+    - When `require_url=False`, returns any non-empty value after `- 购买链接：`.
+    """
+
+    source_path = os.path.join(booklets_dir, folder_name, "SOURCE.md")
+    if not os.path.isfile(source_path):
+        return None
+    try:
+        with open(source_path, "r", encoding="utf-8") as f:
+            for raw in f:
+                line = raw.strip()
+                if not line.startswith("- 购买链接："):
+                    continue
+                value = line.split("：", 1)[1].strip()
+                if not value:
+                    return None
+                if require_url:
+                    if value == "待补充":
+                        return None
+                    if not (value.startswith("http://") or value.startswith("https://")):
+                        return None
+                return value
+    except Exception:
+        return None
+    return None
+
+
+def read_official_title_from_source(booklets_dir: str, folder_name: str) -> str | None:
+    """Read an optional official display title override from SOURCE.md.
+
+    Supported keys (first match wins):
+    - `- 官方标题：...`
+    - `- 官方名称：...`
+    - `- 标题：...`
+    """
+
+    source_path = os.path.join(booklets_dir, folder_name, "SOURCE.md")
+    if not os.path.isfile(source_path):
+        return None
+
+    keys = ("- 官方标题：", "- 官方名称：", "- 标题：")
+    try:
+        with open(source_path, "r", encoding="utf-8") as f:
+            for raw in f:
+                line = raw.strip()
+                for k in keys:
+                    if line.startswith(k):
+                        title = line.split("：", 1)[1].strip()
+                        return title or None
+    except Exception:
+        return None
+    return None

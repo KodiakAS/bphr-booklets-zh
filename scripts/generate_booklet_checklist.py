@@ -47,6 +47,8 @@ from booklets_common import (
     md_link_escape_path,
     normalize_title_for_dir,
     normalize_title_for_display,
+    read_official_title_from_source,
+    read_purchase_link_from_source,
     sanitize_title_for_fs,
 )
 
@@ -161,56 +163,6 @@ def curl(url: str) -> str:
             stderr = " ".join(retry_lines).strip() or stderr
 
     raise RuntimeError(stderr or f"curl failed: {url}")
-
-
-def _read_purchase_link_from_source(booklets_dir: str, folder_name: str) -> str | None:
-    source_path = os.path.join(booklets_dir, folder_name, "SOURCE.md")
-    if not os.path.isfile(source_path):
-        return None
-    try:
-        with open(source_path, "r", encoding="utf-8") as f:
-            for raw in f:
-                line = raw.strip()
-                if line.startswith("- 购买链接："):
-                    url = line.split("：", 1)[1].strip()
-                    if not url or url == "待补充":
-                        return None
-                    if not (url.startswith("http://") or url.startswith("https://")):
-                        return None
-                    return url
-    except Exception:
-        return None
-    return None
-
-
-def _read_official_title_from_source(booklets_dir: str, folder_name: str) -> str | None:
-    """Read an optional official display title override from SOURCE.md.
-
-    Supported keys (first match wins):
-    - `- 官方标题：...`
-    - `- 官方名称：...`
-    - `- 标题：...`
-
-    This lets us keep the directory name stable while showing the official title
-    in BOOKLETS.md.
-    """
-
-    source_path = os.path.join(booklets_dir, folder_name, "SOURCE.md")
-    if not os.path.isfile(source_path):
-        return None
-
-    keys = ("- 官方标题：", "- 官方名称：", "- 标题：")
-    try:
-        with open(source_path, "r", encoding="utf-8") as f:
-            for raw in f:
-                line = raw.strip()
-                for k in keys:
-                    if line.startswith(k):
-                        title = line.split("：", 1)[1].strip()
-                        return title or None
-    except Exception:
-        return None
-    return None
 
 
 def _curl_with_retry(url: str) -> str:
@@ -332,7 +284,7 @@ def _build_source_purchase_url_index(
         folder_path = os.path.join(booklets_dir, folder)
         if not os.path.isdir(folder_path):
             continue
-        url = _read_purchase_link_from_source(booklets_dir, folder)
+        url = read_purchase_link_from_source(booklets_dir, folder, require_url=True)
         if not url:
             continue
         key = _stable_url_key(url)
@@ -341,7 +293,7 @@ def _build_source_purchase_url_index(
             url_to_folder[key] = folder
         urls.append(url)
 
-        official = _read_official_title_from_source(booklets_dir, folder)
+        official = read_official_title_from_source(booklets_dir, folder)
         if official:
             folder_to_official_title[folder] = official
 
@@ -927,9 +879,43 @@ def main(argv: list[str]) -> int:
                 )
             )
 
-        items.append((best_display, best_url, best_local_pdf, best_local_zh, best_local_folder, best_local_norm))
+    items.append((best_display, best_url, best_local_pdf, best_local_zh, best_local_folder, best_local_norm))
     out_path = os.path.join(repo_root, args.output)
     online_norms: set[str] = {stable_norm for *_rest, stable_norm in items}
+    existing_url_keys: set[str] = {
+        _stable_url_key(url)
+        for _display_title, url, *_rest in items
+        if url and url != "待补充"
+    }
+
+    # Always keep SOURCE.md-pinned releases in the list even if:
+    # - the page is missing from sitemap,
+    # - the page is temporarily unreachable,
+    # - heuristics classify it as download-only or fail to detect booklet labels.
+    #
+    # This ensures manual/pinned entries never get dropped by regeneration.
+    for url_key, folder in sorted(source_url_to_folder.items(), key=lambda x: x[0]):
+        if url_key in existing_url_keys:
+            continue
+
+        folder_norm = normalize_title_for_dir(folder)
+        if folder_norm in online_norms:
+            continue
+
+        folder_path = os.path.join(booklets_dir, folder)
+        has_pdf = os.path.isfile(os.path.join(folder_path, "booklet.pdf"))
+        has_zh = os.path.isfile(os.path.join(folder_path, "booklet_zh.md"))
+
+        official_title = folder_to_official_title.get(folder)
+        display_title = normalize_title_for_display((official_title or folder).strip())
+        purchase = read_purchase_link_from_source(booklets_dir, folder, require_url=True)
+        url = add_store_param(purchase) if purchase else "待补充"
+
+        items.append((display_title, url, has_pdf, has_zh, folder, folder_norm))
+        online_norms.add(folder_norm)
+        if url and url != "待补充":
+            existing_url_keys.add(_stable_url_key(url))
+
     # Merge local-only releases (missing from sitemap scan) into the main list.
     for norm, (has_pdf, has_zh, folder) in local_status.items():
         if norm in online_norms:
@@ -938,7 +924,7 @@ def main(argv: list[str]) -> int:
             continue
         if not folder:
             continue
-        purchase = _read_purchase_link_from_source(booklets_dir, folder)
+        purchase = read_purchase_link_from_source(booklets_dir, folder, require_url=True)
         official_title = folder_to_official_title.get(folder)
         display_title = normalize_title_for_display((official_title or folder).strip())
         items.append((display_title, purchase or "待补充", has_pdf, has_zh, folder, norm))

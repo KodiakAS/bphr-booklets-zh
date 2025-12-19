@@ -19,7 +19,7 @@
 - 基里尔·别特连科指挥勃拉姆斯《悲剧序曲》与《第一交响曲》CD专辑
   - [x] booklet 已收集 ([目录](booklets/基里尔·别特连科指挥勃拉姆斯《悲剧序曲》与《第一交响曲》CD专辑/) · [booklet.pdf](booklets/基里尔·别特连科指挥勃拉姆斯《悲剧序曲》与《第一交响曲》CD专辑/booklet.pdf))
   - [x] 中文翻译已完成 ([目录](booklets/基里尔·别特连科指挥勃拉姆斯《悲剧序曲》与《第一交响曲》CD专辑/) · [booklet_zh.md](booklets/基里尔·别特连科指挥勃拉姆斯《悲剧序曲》与《第一交响曲》CD专辑/booklet_zh.md))
-  - 购买链接：https://www.berliner-philharmoniker-recordings.com/petrenko-brahms.html?___store=rec_zh
+  - 购买链接：https://www.berliner-philharmoniker-recordings.com/petrenko-brahms-1.html?___store=rec_zh
 - 基里尔·别特连科指挥柴可夫斯基《第六交响曲“悲怆”》
   - [x] booklet 已收集 ([目录](booklets/基里尔·别特连科指挥柴可夫斯基《第六交响曲“悲怆”》/) · [booklet.pdf](booklets/基里尔·别特连科指挥柴可夫斯基《第六交响曲“悲怆”》/booklet.pdf))
   - [x] 中文翻译已完成 ([目录](booklets/基里尔·别特连科指挥柴可夫斯基《第六交响曲“悲怆”》/) · [booklet_zh.md](booklets/基里尔·别特连科指挥柴可夫斯基《第六交响曲“悲怆”》/booklet_zh.md))
@@ -28,6 +28,10 @@
   - [x] booklet 已收集 ([目录](booklets/安东·布鲁克纳：交响曲全集9CD%20%28Hybrid-SACD%29/) · [booklet.pdf](booklets/安东·布鲁克纳：交响曲全集9CD%20%28Hybrid-SACD%29/booklet.pdf))
   - [x] 中文翻译已完成 ([目录](booklets/安东·布鲁克纳：交响曲全集9CD%20%28Hybrid-SACD%29/) · [booklet_zh.md](booklets/安东·布鲁克纳：交响曲全集9CD%20%28Hybrid-SACD%29/booklet_zh.md))
   - 购买链接：https://www.berliner-philharmoniker-recordings.com/bruckner-symphonies.html?___store=rec_zh
+- 西蒙·拉特爵士与柏林爱乐乐团：亚洲巡演
+  - [x] booklet 已收集 ([目录](booklets/西蒙·拉特爵士与柏林爱乐乐团：亚洲巡演/) · [booklet.pdf](booklets/西蒙·拉特爵士与柏林爱乐乐团：亚洲巡演/booklet.pdf))
+  - [x] 中文翻译已完成 ([目录](booklets/西蒙·拉特爵士与柏林爱乐乐团：亚洲巡演/) · [booklet_zh.md](booklets/西蒙·拉特爵士与柏林爱乐乐团：亚洲巡演/booklet_zh.md))
+  - 购买链接：https://www.berliner-philharmoniker-recordings.com/asia-tour.html?___store=rec_zh
 - 西蒙·拉特爵士指挥《贝多芬交响曲全集》5CD+3蓝光碟+下载／硬壳精装版
   - [x] booklet 已收集 ([目录](booklets/西蒙·拉特爵士指挥《贝多芬交响曲全集》5CD+3蓝光碟+下载／硬壳精装版/) · [booklet.pdf](booklets/西蒙·拉特爵士指挥《贝多芬交响曲全集》5CD+3蓝光碟+下载／硬壳精装版/booklet.pdf))
   - [x] 中文翻译已完成 ([目录](booklets/西蒙·拉特爵士指挥《贝多芬交响曲全集》5CD+3蓝光碟+下载／硬壳精装版/) · [booklet_zh.md](booklets/西蒙·拉特爵士指挥《贝多芬交响曲全集》5CD+3蓝光碟+下载／硬壳精装版/booklet_zh.md))
@@ -36,7 +40,7 @@
   - [x] booklet 已收集 ([目录](booklets/西蒙·拉特爵士指挥莫扎特《第39-41交响曲》/) · [booklet.pdf](booklets/西蒙·拉特爵士指挥莫扎特《第39-41交响曲》/booklet.pdf))
   - [x] 中文翻译已完成 ([目录](booklets/西蒙·拉特爵士指挥莫扎特《第39-41交响曲》/) · [booklet_zh.md](booklets/西蒙·拉特爵士指挥莫扎特《第39-41交响曲》/booklet_zh.md))
   - 购买链接：待补充
-- 路德维希·凡·贝多芬 第1-5钢琴协奏曲5CD (Hybrid-SACD)
+- 路德维希·凡·贝多芬 第1-5钢琴协奏曲
   - [x] booklet 已收集 ([目录](booklets/路德维希·凡·贝多芬%20第1-5钢琴协奏曲5CD%20%28Hybrid-SACD%29/) · [booklet.pdf](booklets/路德维希·凡·贝多芬%20第1-5钢琴协奏曲5CD%20%28Hybrid-SACD%29/booklet.pdf))
   - [x] 中文翻译已完成 ([目录](booklets/路德维希·凡·贝多芬%20第1-5钢琴协奏曲5CD%20%28Hybrid-SACD%29/) · [booklet_zh.md](booklets/路德维希·凡·贝多芬%20第1-5钢琴协奏曲5CD%20%28Hybrid-SACD%29/booklet_zh.md))
   - 购买链接：https://www.berliner-philharmoniker-recordings.com/beethoven-piano-concertos.html?___store=rec_zh
@@ -48,22 +52,18 @@
   - [x] booklet 已收集 ([目录](booklets/西蒙·拉特指挥《西贝柳斯交响曲全集》4CD+2蓝光碟+下载／硬壳精装/) · [booklet.pdf](booklets/西蒙·拉特指挥《西贝柳斯交响曲全集》4CD+2蓝光碟+下载／硬壳精装/booklet.pdf))
   - [ ] 中文翻译已完成
   - 购买链接：https://www.berliner-philharmoniker-recordings.com/rattle-sibelius-symphonies.html?___store=rec_zh
-- Frank Peter Zimmermann： Violin Concertos
-  - [ ] booklet 已收集
-  - [ ] 中文翻译已完成
-  - 购买链接：https://www.berliner-philharmoniker-recordings.com/zimmermann.html?___store=rec_zh
-- Nikolaus Harnoncourt conducts Schubert5CD (Hybrid-SACD)
+- NikolausHarnoncourtconductsSchubert5CD(Hybrid-SACD)
   - [ ] booklet 已收集
   - [ ] 中文翻译已完成
   - 购买链接：https://www.berliner-philharmoniker-recordings.com/harnoncourt-schubert-edition.html?___store=rec_zh
-- Simon Rattle conducts Sibelius - vinyl edition7LP · 180g clear vinyl · limited and numbered box set： 2000 copies worldwide
+- SimonRattleconductsSibelius-vinyledition7LP·180gclearvinyl·limitedandnumberedboxset：2000copiesworldwide
   - [ ] booklet 已收集
   - [ ] 中文翻译已完成
   - 购买链接：https://www.berliner-philharmoniker-recordings.com/sibelius-vinyl.html?___store=rec_zh
-- 古斯塔夫·马勒交响曲17张唱片（180克黑胶）全球限量1000套
+- 古斯塔夫·马勒交响曲10CD+4蓝光碟+下载／硬壳精装版
   - [ ] booklet 已收集
   - [ ] 中文翻译已完成
-  - 购买链接：https://www.berliner-philharmoniker-recordings.com/mahler-symphonies.html?___store=rec_zh
+  - 购买链接：https://www.berliner-philharmoniker-recordings.com/mahler-symphonies-html.html?___store=rec_zh
 - 基里尔·别特连科指挥拉赫玛尼诺夫双CD与蓝光版
   - [ ] booklet 已收集
   - [ ] 中文翻译已完成
@@ -76,11 +76,11 @@
   - [ ] booklet 已收集
   - [ ] 中文翻译已完成
   - 购买链接：https://www.berliner-philharmoniker-recordings.com/schoenberg-edition.html?___store=rec_zh
-- 威廉·富特文格勒：1939-1945年广播录音最新数字化修复处理 - 22张CD／SACD - 184页资料册
+- 威廉·富特文格勒：1939-1945年广播录音最新数字化修复处理-22张CD／SACD-184页资料册
   - [ ] booklet 已收集
   - [ ] 中文翻译已完成
   - 购买链接：https://www.berliner-philharmoniker-recordings.com/radio-recordings-877.html?___store=rec_zh
-- 威廉·富特文格勒：1939至1945年广播录音8张180克黑胶 · 独立编号限量款 · 全球1886套
+- 威廉·富特文格勒：1939至1945年广播录音8张180克黑胶·独立编号限量款·全球1886套
   - [ ] booklet 已收集
   - [ ] 中文翻译已完成
   - 购买链接：https://www.berliner-philharmoniker-recordings.com/radio-recordings-vinyl.html?___store=rec_zh
@@ -88,11 +88,11 @@
   - [ ] booklet 已收集
   - [ ] 中文翻译已完成
   - 购买链接：https://www.berliner-philharmoniker-recordings.com/rachmaninoff-150.html?___store=rec_zh
-- 柏林爱乐乐团与赫伯特·冯·卡拉扬：1953 - 1969柏林现场
+- 柏林爱乐乐团与赫伯特·冯·卡拉扬：1953-1969柏林现场
   - [ ] booklet 已收集
   - [ ] 中文翻译已完成
   - 购买链接：https://www.berliner-philharmoniker-recordings.com/karajan-edition.html?___store=rec_zh
-- 柏林爱乐乐团与赫伯特·冯·卡拉扬：1970 - 1979柏林现场
+- 柏林爱乐乐团与赫伯特·冯·卡拉扬：1970-1979柏林现场
   - [ ] booklet 已收集
   - [ ] 中文翻译已完成
   - 购买链接：https://www.berliner-philharmoniker-recordings.com/karajan-1970s.html?___store=rec_zh

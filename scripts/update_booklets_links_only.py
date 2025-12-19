@@ -6,6 +6,8 @@
 Goal:
 - Update checklist marks/links based on local filesystem state.
 - Keep non-checklist sections intact (header + any following `## ...` sections).
+- Merge any local/pinned releases (from `booklets/*/SOURCE.md`) into the main list so
+  they won't be lost by automated updates; legacy `## 手工条目` section is removed.
 - Re-sort release entries to match the documented ordering rule:
     中文翻译已完成 > booklet 已收集 > 其他；
     同一优先级内按制品标题首字母（首字符）排序。
@@ -37,6 +39,9 @@ from booklets_common import (
     get_local_status_by_normalized_title,
     md_link_escape_path,
     normalize_title_for_dir,
+    normalize_title_for_display,
+    read_official_title_from_source,
+    read_purchase_link_from_source,
 )
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -64,10 +69,288 @@ LEADING_TITLE_TRIM_CHARS = " \t\r\n\u3000\"'“”‘’《》()[]【】{}·•�
 
 PDF_CHECK_RE = re.compile(r"^\s*- \[(?P<mark>[ xX])\] booklet 已收集\b")
 ZH_CHECK_RE = re.compile(r"^\s*- \[(?P<mark>[ xX])\] 中文翻译已完成\b")
+PURCHASE_LINE_RE = re.compile(r"^\s*- 购买链接：(?P<url>.+?)\s*$")
+MANUAL_SECTION_RE = re.compile(r"^##\s*手工条目\s*$")
+STORE_PARAM = "___store=rec_zh"
+
+
+def _decode_md_folder(md_folder: str) -> str:
+    # md_link_escape_path uses percent-encoding for some characters.
+    return urllib.parse.unquote(md_folder)
+
+
+def _add_store_param(url: str) -> str:
+    url = (url or "").strip()
+    if not url:
+        return url
+    if STORE_PARAM in url:
+        return url
+    if "?" in url:
+        return url + "&" + STORE_PARAM
+    return url + "?" + STORE_PARAM
+
+
+def _stable_url_key(url: str) -> str:
+    return _add_store_param((url or "").strip())
+
+
+def _strip_blank_lines(lines: list[str]) -> list[str]:
+    out = list(lines)
+    while out and out[0].strip() == "":
+        out.pop(0)
+    while out and out[-1].strip() == "":
+        out.pop()
+    return out
+
+
+def _build_release_block(
+    *,
+    display_title: str,
+    purchase_url: str,
+    folder_name: str | None,
+    has_pdf: bool,
+    has_zh: bool,
+) -> list[str]:
+    pdf_box = "x" if has_pdf else " "
+    zh_box = "x" if has_zh else " "
+
+    lines: list[str] = [f"- {display_title}\n"]
+
+    pdf_link = ""
+    zh_link = ""
+    if folder_name:
+        folder_md = md_link_escape_path(folder_name)
+        if has_pdf:
+            pdf_link = f" ([目录](booklets/{folder_md}/) · [booklet.pdf](booklets/{folder_md}/booklet.pdf))"
+        if has_zh:
+            zh_link = f" ([目录](booklets/{folder_md}/) · [booklet_zh.md](booklets/{folder_md}/booklet_zh.md))"
+
+    lines.append(f"  - [{pdf_box}] booklet 已收集{pdf_link}\n")
+    lines.append(f"  - [{zh_box}] 中文翻译已完成{zh_link}\n")
+    lines.append(f"  - 购买链接：{purchase_url}\n")
+    return lines
+
+
+def _extract_manual_section(suffix: list[str]) -> tuple[list[str], list[str]]:
+    """Remove legacy `## 手工条目` section from suffix and return its body lines."""
+
+    start = None
+    for i, raw in enumerate(suffix):
+        if MANUAL_SECTION_RE.match(raw.rstrip("\n")):
+            start = i
+            break
+    if start is None:
+        return suffix, []
+
+    end = len(suffix)
+    for j in range(start + 1, len(suffix)):
+        if suffix[j].startswith("## "):
+            end = j
+            break
+
+    manual_body = _strip_blank_lines(suffix[start + 1 : end])
+    suffix_wo = suffix[:start] + suffix[end:]
+    return suffix_wo, manual_body
+
+
+def _collect_existing_keys(blocks: list[list[str]]) -> tuple[set[str], set[str], set[str]]:
+    existing_norms: set[str] = set()
+    existing_url_keys: set[str] = set()
+    existing_folders: set[str] = set()
+
+    for block in blocks:
+        if not _is_release_block(block):
+            continue
+
+        title_line = block[0].rstrip("\n")
+        m = TITLE_RE.match(title_line)
+        title = m.group("title").strip() if m else title_line.lstrip("- ").strip()
+        existing_norms.add(normalize_title_for_dir(title))
+
+        for raw in block:
+            line = raw.rstrip("\n")
+            m_url = PURCHASE_LINE_RE.match(line)
+            if m_url:
+                url = m_url.group("url").strip()
+                if url.startswith("http://") or url.startswith("https://"):
+                    existing_url_keys.add(_stable_url_key(url))
+            m_dir = DIR_LINK_RE.search(line)
+            if m_dir:
+                existing_folders.add(_decode_md_folder(m_dir.group("folder")))
+
+    return existing_norms, existing_url_keys, existing_folders
+
+
+def _merge_pinned_local_entries(text: str, booklets_dir: str) -> str:
+    """Merge local/pinned releases into the main release checklist region."""
+
+    lines = text.splitlines(keepends=True)
+
+    start = None
+    for i in range(len(lines)):
+        if _is_release_block_start(lines, i):
+            start = i
+            break
+    if start is None:
+        return text
+
+    end = len(lines)
+    for i in range(start, len(lines)):
+        if lines[i].startswith("## "):
+            end = i
+            break
+
+    prefix = lines[:start]
+    body = list(lines[start:end])
+    suffix = list(lines[end:])
+
+    suffix, manual_body = _extract_manual_section(suffix)
+
+    # Keep a clean body: no trailing blank lines before adding entries, then ensure a
+    # single blank line before the first `##` section.
+    while body and body[-1].strip() == "":
+        body.pop()
+    if manual_body:
+        body.extend(manual_body)
+
+    # Parse blocks from body to collect existing keys.
+    blocks: list[list[str]] = []
+    current: list[str] = []
+    for raw in body:
+        if raw.startswith("- "):
+            if current:
+                blocks.append(current)
+            current = [raw]
+            continue
+        if not current:
+            prefix.append(raw)
+            continue
+        current.append(raw)
+    if current:
+        blocks.append(current)
+
+    existing_norms, existing_url_keys, existing_folders = _collect_existing_keys(blocks)
+
+    # Scan local SOURCE.md pinned links and optional official titles.
+    url_key_to_folder: dict[str, str] = {}
+    folder_to_official: dict[str, str] = {}
+    if os.path.isdir(booklets_dir):
+        for folder in sorted(os.listdir(booklets_dir)):
+            folder_path = os.path.join(booklets_dir, folder)
+            if not os.path.isdir(folder_path):
+                continue
+            official_title = read_official_title_from_source(booklets_dir, folder)
+            if official_title:
+                folder_to_official[folder] = official_title
+            purchase = read_purchase_link_from_source(booklets_dir, folder, require_url=True)
+            if not purchase:
+                continue
+            url_key = _stable_url_key(purchase)
+            if url_key not in url_key_to_folder:
+                url_key_to_folder[url_key] = folder
+
+    # Build blocks to add: pinned-by-SOURCE first, then local-only (collected/translated).
+    to_add: list[str] = []
+
+    for url_key, folder in sorted(url_key_to_folder.items(), key=lambda x: x[0]):
+        if url_key in existing_url_keys:
+            continue
+        if folder in existing_folders:
+            continue
+
+        folder_path = os.path.join(booklets_dir, folder)
+        has_pdf = os.path.isfile(os.path.join(folder_path, "booklet.pdf"))
+        has_zh = os.path.isfile(os.path.join(folder_path, "booklet_zh.md"))
+
+        official_title = folder_to_official.get(folder)
+        display_title = normalize_title_for_display((official_title or folder).strip())
+        norm = normalize_title_for_dir(display_title)
+        if norm in existing_norms:
+            continue
+
+        purchase = read_purchase_link_from_source(booklets_dir, folder, require_url=True)
+        url_display = _add_store_param(purchase) if purchase else "待补充"
+
+        block_lines = _build_release_block(
+            display_title=display_title,
+            purchase_url=url_display,
+            folder_name=folder,
+            has_pdf=has_pdf,
+            has_zh=has_zh,
+        )
+        to_add.extend(block_lines)
+        existing_norms.add(norm)
+        existing_folders.add(folder)
+        if purchase:
+            existing_url_keys.add(url_key)
+
+    if os.path.isdir(booklets_dir):
+        for folder in sorted(os.listdir(booklets_dir)):
+            folder_path = os.path.join(booklets_dir, folder)
+            if not os.path.isdir(folder_path):
+                continue
+
+            has_pdf = os.path.isfile(os.path.join(folder_path, "booklet.pdf"))
+            has_zh = os.path.isfile(os.path.join(folder_path, "booklet_zh.md"))
+            if not (has_pdf or has_zh):
+                continue
+
+            if folder in existing_folders:
+                continue
+
+            official_title = read_official_title_from_source(booklets_dir, folder)
+            display_title = normalize_title_for_display((official_title or folder).strip())
+            norm = normalize_title_for_dir(display_title)
+            if norm in existing_norms:
+                continue
+
+            purchase = read_purchase_link_from_source(booklets_dir, folder, require_url=True)
+            if purchase and _stable_url_key(purchase) in existing_url_keys:
+                continue
+
+            block_lines = _build_release_block(
+                display_title=display_title,
+                purchase_url=_add_store_param(purchase) if purchase else "待补充",
+                folder_name=folder,
+                has_pdf=has_pdf,
+                has_zh=has_zh,
+            )
+            to_add.extend(block_lines)
+            existing_norms.add(norm)
+            existing_folders.add(folder)
+            if purchase:
+                existing_url_keys.add(_stable_url_key(purchase))
+
+    if to_add:
+        body.extend(to_add)
+
+    if suffix and suffix[0].startswith("## "):
+        # Ensure a single blank line before the first `##` section.
+        while body and body[-1].strip() == "":
+            body.pop()
+        body.append("\n")
+
+    merged = "".join(prefix + body + suffix)
+    return merged
 
 
 def main() -> int:
     local_status = get_local_status_by_normalized_title(BOOKLETS_DIR)
+    # Allow matching a title line to a local folder via `SOURCE.md` official title overrides.
+    if os.path.isdir(BOOKLETS_DIR):
+        for folder_name in os.listdir(BOOKLETS_DIR):
+            folder_path = os.path.join(BOOKLETS_DIR, folder_name)
+            if not os.path.isdir(folder_path):
+                continue
+            official_title = read_official_title_from_source(BOOKLETS_DIR, folder_name)
+            if not official_title:
+                continue
+            norm = normalize_title_for_dir(official_title)
+            if norm in local_status:
+                continue
+            has_pdf = os.path.isfile(os.path.join(folder_path, "booklet.pdf"))
+            has_zh = os.path.isfile(os.path.join(folder_path, "booklet_zh.md"))
+            local_status[norm] = (has_pdf, has_zh, folder_name)
 
     with open(BOOKLETS_MD, "r", encoding="utf-8") as f:
         lines = f.readlines()
@@ -77,10 +360,6 @@ def main() -> int:
     current_folder: str | None = None
     current_has_pdf = False
     current_has_zh = False
-
-    def _decode_folder(md_folder: str) -> str:
-        # md_link_escape_path uses percent-encoding for some characters.
-        return urllib.parse.unquote(md_folder)
 
     def _folder_status(folder: str) -> tuple[bool, bool]:
         folder_path = os.path.join(BOOKLETS_DIR, folder)
@@ -117,7 +396,7 @@ def main() -> int:
             if not folder:
                 m_dir = DIR_LINK_RE.search(line)
                 if m_dir:
-                    folder = _decode_folder(m_dir.group("folder"))
+                    folder = _decode_md_folder(m_dir.group("folder"))
                     current_folder = folder
             if folder:
                 current_has_pdf, current_has_zh = _folder_status(folder)
@@ -142,7 +421,7 @@ def main() -> int:
             if not folder:
                 m_dir = DIR_LINK_RE.search(line)
                 if m_dir:
-                    folder = _decode_folder(m_dir.group("folder"))
+                    folder = _decode_md_folder(m_dir.group("folder"))
                     current_folder = folder
             if folder:
                 current_has_pdf, current_has_zh = _folder_status(folder)
@@ -163,6 +442,7 @@ def main() -> int:
         out.append(raw)
 
     new_text = "".join(out)
+    new_text = _merge_pinned_local_entries(new_text, BOOKLETS_DIR)
     new_text = _sort_booklets_checklist_blocks(new_text)
     with open(BOOKLETS_MD, "w", encoding="utf-8") as f:
         f.write(new_text)
@@ -297,6 +577,10 @@ def _sort_booklets_checklist_blocks(text: str) -> str:
     body = lines[start:end]
     suffix = lines[end:]
 
+    trailing: list[str] = []
+    while body and body[-1].strip() == "":
+        trailing.insert(0, body.pop())
+
     blocks: list[list[str]] = []
     current: list[str] = []
     for raw in body:
@@ -312,6 +596,14 @@ def _sort_booklets_checklist_blocks(text: str) -> str:
     if current:
         blocks.append(current)
 
+    # Avoid stray blank lines between release entries by stripping trailing blank
+    # lines inside each release block (a single blank line before the first `##`
+    # section is handled by `trailing`).
+    for block in blocks:
+        if _is_release_block(block):
+            while block and block[-1].strip() == "":
+                block.pop()
+
     sorted_blocks: list[list[str]] = []
     segment: list[list[str]] = []
     for block in blocks:
@@ -325,7 +617,7 @@ def _sort_booklets_checklist_blocks(text: str) -> str:
     if segment:
         sorted_blocks.extend(sorted(segment, key=_block_sort_key))
 
-    out_lines = prefix + [line for block in sorted_blocks for line in block] + suffix
+    out_lines = prefix + [line for block in sorted_blocks for line in block] + trailing + suffix
     return "".join(out_lines)
 
 
