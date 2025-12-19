@@ -24,6 +24,10 @@
   - [x] booklet 已收集 ([目录](booklets/西蒙·拉特爵士指挥《贝多芬交响曲全集》5CD+3蓝光碟+下载／硬壳精装版/) · [booklet.pdf](booklets/西蒙·拉特爵士指挥《贝多芬交响曲全集》5CD+3蓝光碟+下载／硬壳精装版/booklet.pdf))
   - [x] 中文翻译已完成 ([目录](booklets/西蒙·拉特爵士指挥《贝多芬交响曲全集》5CD+3蓝光碟+下载／硬壳精装版/) · [booklet_zh.md](booklets/西蒙·拉特爵士指挥《贝多芬交响曲全集》5CD+3蓝光碟+下载／硬壳精装版/booklet_zh.md))
   - 购买链接：https://www.berliner-philharmoniker-recordings.com/rattle-beethoven-symphonies.html?___store=rec_zh
+- 西蒙·拉特爵士指挥莫扎特《第39-41交响曲》
+  - [x] booklet 已收集 ([目录](booklets/西蒙·拉特爵士指挥莫扎特《第39-41交响曲》/) · [booklet.pdf](booklets/西蒙·拉特爵士指挥莫扎特《第39-41交响曲》/booklet.pdf))
+  - [x] 中文翻译已完成 ([目录](booklets/西蒙·拉特爵士指挥莫扎特《第39-41交响曲》/) · [booklet_zh.md](booklets/西蒙·拉特爵士指挥莫扎特《第39-41交响曲》/booklet_zh.md))
+  - 购买链接：待补充
 - 路德维希·凡·贝多芬 第1-5钢琴协奏曲5CD (Hybrid-SACD)
   - [x] booklet 已收集 ([目录](booklets/路德维希·凡·贝多芬%20第1-5钢琴协奏曲5CD%20%28Hybrid-SACD%29/) · [booklet.pdf](booklets/路德维希·凡·贝多芬%20第1-5钢琴协奏曲5CD%20%28Hybrid-SACD%29/booklet.pdf))
   - [x] 中文翻译已完成 ([目录](booklets/路德维希·凡·贝多芬%20第1-5钢琴协奏曲5CD%20%28Hybrid-SACD%29/) · [booklet_zh.md](booklets/路德维希·凡·贝多芬%20第1-5钢琴协奏曲5CD%20%28Hybrid-SACD%29/booklet_zh.md))
@@ -44,10 +48,6 @@
   - [x] booklet 已收集 ([目录](booklets/西蒙·拉特指挥《西贝柳斯交响曲全集》4CD+2蓝光碟+下载／硬壳精装/) · [booklet.pdf](booklets/西蒙·拉特指挥《西贝柳斯交响曲全集》4CD+2蓝光碟+下载／硬壳精装/booklet.pdf))
   - [ ] 中文翻译已完成
   - 购买链接：https://www.berliner-philharmoniker-recordings.com/rattle-sibelius-symphonies.html?___store=rec_zh
-- 西蒙·拉特爵士指挥莫扎特《第39-41交响曲》
-  - [x] booklet 已收集 ([目录](booklets/西蒙·拉特爵士指挥莫扎特《第39-41交响曲》/) · [booklet.pdf](booklets/西蒙·拉特爵士指挥莫扎特《第39-41交响曲》/booklet.pdf))
-  - [ ] 中文翻译已完成
-  - 购买链接：待补充
 - Frank Peter Zimmermann： Violin Concertos
   - [ ] booklet 已收集
   - [ ] 中文翻译已完成
