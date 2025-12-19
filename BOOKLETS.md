@@ -8,6 +8,10 @@
   - 中文翻译已完成：存在 `booklets/<标题>/booklet_zh.md`
 - 列表按完成状态优先级排序（中文翻译已完成 > booklet 已收集 > 其他）；同一优先级内按制品标题首字母（首字符）排序
 
+- 克劳迪奥·阿巴多与柏林爱乐乐团2CD (Hybrid-SACD)
+  - [x] booklet 已收集 ([目录](booklets/克劳迪奥·阿巴多与柏林爱乐乐团2CD%20%28Hybrid-SACD%29/) · [booklet.pdf](booklets/克劳迪奥·阿巴多与柏林爱乐乐团2CD%20%28Hybrid-SACD%29/booklet.pdf))
+  - [x] 中文翻译已完成 ([目录](booklets/克劳迪奥·阿巴多与柏林爱乐乐团2CD%20%28Hybrid-SACD%29/) · [booklet_zh.md](booklets/克劳迪奥·阿巴多与柏林爱乐乐团2CD%20%28Hybrid-SACD%29/booklet_zh.md))
+  - 购买链接：https://www.berliner-philharmoniker-recordings.com/abbado-the-last-concert.html?___store=rec_zh
 - 基里尔·别特连科与柏林爱乐乐团：合作关系的展开
   - [x] booklet 已收集 ([目录](booklets/基里尔·别特连科与柏林爱乐乐团：合作关系的展开/) · [booklet.pdf](booklets/基里尔·别特连科与柏林爱乐乐团：合作关系的展开/booklet.pdf))
   - [x] 中文翻译已完成 ([目录](booklets/基里尔·别特连科与柏林爱乐乐团：合作关系的展开/) · [booklet_zh.md](booklets/基里尔·别特连科与柏林爱乐乐团：合作关系的展开/booklet_zh.md))
@@ -32,10 +36,6 @@
   - [x] booklet 已收集 ([目录](booklets/路德维希·凡·贝多芬%20第1-5钢琴协奏曲5CD%20%28Hybrid-SACD%29/) · [booklet.pdf](booklets/路德维希·凡·贝多芬%20第1-5钢琴协奏曲5CD%20%28Hybrid-SACD%29/booklet.pdf))
   - [x] 中文翻译已完成 ([目录](booklets/路德维希·凡·贝多芬%20第1-5钢琴协奏曲5CD%20%28Hybrid-SACD%29/) · [booklet_zh.md](booklets/路德维希·凡·贝多芬%20第1-5钢琴协奏曲5CD%20%28Hybrid-SACD%29/booklet_zh.md))
   - 购买链接：https://www.berliner-philharmoniker-recordings.com/beethoven-piano-concertos.html?___store=rec_zh
-- 克劳迪奥·阿巴多与柏林爱乐乐团2CD (Hybrid-SACD)
-  - [x] booklet 已收集 ([目录](booklets/克劳迪奥·阿巴多与柏林爱乐乐团2CD%20%28Hybrid-SACD%29/) · [booklet.pdf](booklets/克劳迪奥·阿巴多与柏林爱乐乐团2CD%20%28Hybrid-SACD%29/booklet.pdf))
-  - [ ] 中文翻译已完成
-  - 购买链接：https://www.berliner-philharmoniker-recordings.com/abbado-the-last-concert.html?___store=rec_zh
 - 基里尔·别特连科指挥柴可夫斯基《第六交响曲“悲怆”》
   - [x] booklet 已收集 ([目录](booklets/基里尔·别特连科指挥柴可夫斯基《第六交响曲“悲怆”》/) · [booklet.pdf](booklets/基里尔·别特连科指挥柴可夫斯基《第六交响曲“悲怆”》/booklet.pdf))
   - [ ] 中文翻译已完成
