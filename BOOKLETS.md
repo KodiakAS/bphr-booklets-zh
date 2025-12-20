@@ -48,6 +48,10 @@
   - [x] booklet 已收集 ([目录](booklets/西蒙·拉特爵士指挥莫扎特《第39-41交响曲》/) · [booklet.pdf](booklets/西蒙·拉特爵士指挥莫扎特《第39-41交响曲》/booklet.pdf))
   - [x] 中文翻译已完成 ([目录](booklets/西蒙·拉特爵士指挥莫扎特《第39-41交响曲》/) · [booklet_zh.md](booklets/西蒙·拉特爵士指挥莫扎特《第39-41交响曲》/booklet_zh.md))
   - 购买链接：待补充
+- 诺阿·本尼迪-巴格莱：莫扎特、欣尼加格里亚（Download）
+  - [x] booklet 已收集 ([目录](booklets/诺阿·本尼迪-巴格莱：莫扎特、欣尼加格里亚（Download）/) · [booklet.pdf](booklets/诺阿·本尼迪-巴格莱：莫扎特、欣尼加格里亚（Download）/booklet.pdf))
+  - [x] 中文翻译已完成 ([目录](booklets/诺阿·本尼迪-巴格莱：莫扎特、欣尼加格里亚（Download）/) · [booklet_zh.md](booklets/诺阿·本尼迪-巴格莱：莫扎特、欣尼加格里亚（Download）/booklet_zh.md))
+  - 购买链接：https://www.berliner-philharmoniker-recordings.com/mozart-sinigaglia-noah-bendix-balgley-download.html?___store=rec_zh
 - 路德维希·凡·贝多芬 第1-5钢琴协奏曲
   - [x] booklet 已收集 ([目录](booklets/路德维希·凡·贝多芬%20第1-5钢琴协奏曲5CD%20%28Hybrid-SACD%29/) · [booklet.pdf](booklets/路德维希·凡·贝多芬%20第1-5钢琴协奏曲5CD%20%28Hybrid-SACD%29/booklet.pdf))
   - [x] 中文翻译已完成 ([目录](booklets/路德维希·凡·贝多芬%20第1-5钢琴协奏曲5CD%20%28Hybrid-SACD%29/) · [booklet_zh.md](booklets/路德维希·凡·贝多芬%20第1-5钢琴协奏曲5CD%20%28Hybrid-SACD%29/booklet_zh.md))

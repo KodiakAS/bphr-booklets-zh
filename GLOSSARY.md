@@ -137,10 +137,15 @@
 
 常见对照（以数字音乐厅中文为准；若数字音乐厅未提供则参考 BPHR 中文站；如两站写法不一致则标注来源）：
 
+- Arthur Nikisch：阿图尔·尼基施
+- Arturo Toscanini：阿图罗·托斯卡尼尼
+- Antonín Dvořák：安东宁·德沃夏克
 - Kirill Petrenko：基里尔·别特连科
 - Sir Simon Rattle：西蒙·拉特爵士
 - Nikolaus Harnoncourt：尼克劳斯·哈农库特
 - Daniel Harding：丹尼尔·哈丁
+- Gustav Mahler：古斯塔夫·马勒
+- Kurt Masur：库尔特·马祖尔
 - Leonidas Kavakos：列奥尼达·卡瓦克斯
 - Johannes Brahms：约翰内斯·勃拉姆斯
 - Ludwig van Beethoven：路德维希·凡·贝多芬（或常用简称：贝多芬）
