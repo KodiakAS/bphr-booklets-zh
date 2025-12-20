@@ -149,7 +149,7 @@
 | --- | --- | --- |
 | I | Poco sostenuto — Vivace | 13:45 |
 | II | Allegretto | 08:43 |
-| III | Presto — Trio I und II: Assai meno presto | 08:27 |
+| III | Presto — Trio I & II: Assai meno presto | 08:27 |
 | IV | Allegro con brio | 08:17 |
 
 | 项目 | 内容 |
@@ -176,13 +176,13 @@
 
 《第六交响曲“田园”》F 大调，作品 68
 
-| 乐章 | 速度标记 | 时长 |
+| 乐章 | 速度标记 / 乐章标题 | 时长 |
 | --- | --- | --- |
-| I | Angenehme, heitere Empfindungen, welche bei der Ankunft auf dem Lande im Menschen erwachen: Allegro ma non troppo | 12:00 |
-| II | Szene am Bach: Andante molto mosso | 11:57 |
-| III | Lustiges Zusammensein der Landleute: Allegro — | 05:04 |
-| IV | Donner. Sturm: Allegro — | 03:53 |
-| V | Hirtengesang. Wohltätige, mit Dank an die Gottheit verbundene Gefühle nach dem Sturm: Allegretto | 09:42 |
+| I | 到达乡村时被唤起的愉快感受：Allegro ma non troppo | 12:00 |
+| II | 溪边场景：Andante molto mosso | 11:57 |
+| III | 乡民的欢乐聚会：Allegro — | 05:04 |
+| IV | 雷鸣，风暴：Allegro — | 03:53 |
+| V | 牧歌。暴风雨过后的愉快和感恩心情：Allegretto | 09:42 |
 
 | 项目 | 内容 |
 | --- | --- |
@@ -246,7 +246,7 @@
 | II | Molto vivace — Presto — Molto vivace — Presto | 13:27 |
 | III | Adagio molto e cantabile | 15:56 |
 | IV | Presto — | 06:02 |
-| IV | Presto — Recitativo »O Freunde, nicht diese Töne!« | 17:02 |
+| IV | Presto — 宣叙调：“啊朋友，何必重弹旧调！” | 17:02 |
 
 | 项目 | 内容 |
 | --- | --- |

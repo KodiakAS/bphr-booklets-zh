@@ -60,7 +60,7 @@
 | II | Molto vivace — Presto | 13:19 |
 | III | Adagio molto e cantabile | 12:50 |
 | IV | Presto | 05:32 |
-|  | Presto — Recitativo: “O Freunde, nicht diese Töne!” — Allegro assai — Presto | 16:00 |
+|  | Presto — 宣叙调：“啊朋友，何必重弹旧调！” — Allegro assai — Presto | 16:00 |
 
 | 项目 | 内容 |
 | --- | --- |

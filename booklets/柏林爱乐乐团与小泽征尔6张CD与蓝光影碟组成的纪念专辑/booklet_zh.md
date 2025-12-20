@@ -199,30 +199,30 @@
 
 《阿尔卑斯交响曲》，作品 64
 
-| 乐章 | 速度标记 | 时长 |
+| 乐章 | 速度标记 / 乐章标题 | 时长 |
 | --- | --- | --- |
-| 1 | Nacht | 03:16 |
-| 2 | Sonnenaufgang | 01:43 |
-| 3 | Der Anstieg | 02:23 |
-| 4 | Eintritt in den Wald | 05:10 |
-| 5 | Wanderung neben dem Bache | 00:45 |
-| 6 | Am Wasserfall | 00:14 |
-| 7 | Erscheinung | 00:46 |
-| 8 | Auf blumigen Wiesen | 00:56 |
-| 9 | Auf der Alm | 02:08 |
-| 10 | Durch Dickicht und Gestrüpp auf Irrwegen | 01:30 |
-| 11 | Auf dem Gletscher | 01:05 |
-| 12 | Gefahrvolle Augenblicke | 01:31 |
-| 13 | Auf dem Gipfel | 05:00 |
-| 14 | Vision | 03:44 |
-| 15 | Nebel steigen auf | 00:20 |
-| 16 | Die Sonne verdüstert sich allmählich | 00:56 |
-| 17 | Elegie | 02:17 |
-| 18 | Stille vor dem Sturm | 02:55 |
-| 19 | Gewitter und Sturm, Abstieg | 03:48 |
-| 20 | Sonnenuntergang | 02:52 |
-| 21 | Ausklang | 06:45 |
-| 22 | Nacht | 02:29 |
+| 1 | Nacht（夜） | 03:16 |
+| 2 | Sonnenaufgang（日出） | 01:43 |
+| 3 | Der Anstieg（登山） | 02:23 |
+| 4 | Eintritt in den Wald（进入森林） | 05:10 |
+| 5 | Wanderung neben dem Bache（溪边漫步） | 00:45 |
+| 6 | Am Wasserfall（瀑布旁） | 00:14 |
+| 7 | Erscheinung（幻影） | 00:46 |
+| 8 | Auf blumigen Wiesen（在开花的草地上） | 00:56 |
+| 9 | Auf der Alm（在高山牧场） | 02:08 |
+| 10 | Durch Dickicht und Gestrüpp auf Irrwegen（穿过灌木和棘丛，迷路） | 01:30 |
+| 11 | Auf dem Gletscher（在冰川上） | 01:05 |
+| 12 | Gefahrvolle Augenblicke（危险时刻） | 01:31 |
+| 13 | Auf dem Gipfel（在顶峰） | 05:00 |
+| 14 | Vision（异象） | 03:44 |
+| 15 | Nebel steigen auf（雾气升起） | 00:20 |
+| 16 | Die Sonne verdüstert sich allmählich（太阳逐渐被遮蔽） | 00:56 |
+| 17 | Elegie（挽歌） | 02:17 |
+| 18 | Stille vor dem Sturm（暴风雨前的宁静） | 02:55 |
+| 19 | Gewitter und Sturm, Abstieg（雷暴与风暴，下山） | 03:48 |
+| 20 | Sonnenuntergang（日落） | 02:52 |
+| 21 | Ausklang（尾声） | 06:45 |
+| 22 | Nacht（夜） | 02:29 |
 
 | 项目 | 内容 |
 | --- | --- |
