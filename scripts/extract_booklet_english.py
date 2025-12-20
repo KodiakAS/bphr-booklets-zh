@@ -71,6 +71,7 @@ DE_STOPWORDS = {
     "sind",
     "war",
     "wurden",
+    "wurde",
     "ein",
     "eine",
     "einer",
@@ -80,11 +81,15 @@ DE_STOPWORDS = {
     "nicht",
     "sich",
     "dass",
+    "nach",
 }
 
 
 _GERMAN_HINT_RE = re.compile(
-    r"[ÄÖÜäöüß]|\b(Symphonie|INHALT|Inhalt|Entstehungszeit|Uraufführung|Fassung|Brüder|Freude|überm|Satz|Takt|Dirigent|Mitglieder)\b",
+    r"\b("
+    r"Symphonie|INHALT|Inhalt|Entstehungszeit|Uraufführung|Fassung|Brüder|Freude|überm|"
+    r"Satz|Takt|Dirigent|Mitglieder|wurde|werden|wobei|folgenden|Jahren|gleich"
+    r")\b|ß",
     flags=re.IGNORECASE,
 )
 
@@ -145,7 +150,39 @@ def _filter_lines_by_language(lines: list[str], language_filter: str) -> list[st
             if m_count:
                 line = f"{m_count.group('count')} {right}".strip()
             else:
-                line = right
+                # Preserve surrounding brackets in lines like:
+                # "[BASSKLARINETTE · BASS CLARINET IN NO. 6]"
+                if left.startswith("[") and right.endswith("]") and not right.startswith("["):
+                    line = f"[{right}"
+                else:
+                    line = right
+
+        # If a bracketed note still contains bilingual "·", keep the right-hand (English) part.
+        # Example: "2 FLUTES [2. AUCH PICCOLOFLÖTE · 2ND ALSO PICCOLO IN NOS. 1 & 7]"
+        if "·" in line and "[" in line and "]" in line:
+            def _fix_bracket(m: re.Match[str]) -> str:
+                content = m.group(1)
+                if "·" not in content:
+                    return f"[{content}]"
+                _left, _right = [p.strip() for p in content.rsplit("·", maxsplit=1)]
+                return f"[{_right}]"
+
+            line = re.sub(r"\[([^\]]+)\]", _fix_bracket, line)
+
+        # If the line is clearly German and doesn't contain stable English labels,
+        # drop it early (helps remove stray German-only fragments on bilingual pages).
+        # Guard against dropping English lines with non-English names (e.g. Järnefelt, Mäkelä)
+        # by requiring explicit German hints and no stable English labels.
+        if _looks_german(line) and not _looks_english(line):
+            en_score, de_score = _lang_score(line)
+            if de_score >= en_score:
+                continue
+
+        # Protect stable English labels (e.g. "Conductor: Herbert von Karajan") from being
+        # misclassified as German due to particles like "von" in names.
+        if _looks_english(line) and not _looks_german(line):
+            filtered.append(line)
+            continue
 
         # Keep obvious numeric/time/track lines; they're useful for later structuring.
         if re.search(r"\b\d{1,2}:\d{2}\b", line) or re.search(r"\bCD\b", line):
@@ -154,8 +191,12 @@ def _filter_lines_by_language(lines: list[str], language_filter: str) -> list[st
 
         # Keep all-caps headings, but avoid obvious German-only ones.
         if line.isupper() and len(line) >= 6:
-            if not _looks_german(line):
-                filtered.append(line)
+            en_score, de_score = _lang_score(line)
+            if _looks_german(line) and not _looks_english(line):
+                continue
+            if de_score > en_score and not _looks_english(line):
+                continue
+            filtered.append(line)
             continue
 
         en, de = _lang_score(line)
@@ -360,6 +401,75 @@ def _extract_generic(page_text: str, running_title_lines: set[str], language_fil
     return "\n".join(_collapse_blank_lines(lines2))
 
 
+def _page_text_with_columns(page) -> str:
+    """Extract page text with a simple multi-column reading order.
+
+    PyMuPDF's plain get_text('text') can interleave columns in row order on
+    multi-column layouts. For booklet essays and similar pages, we prefer a
+    column-wise order (left-to-right columns, top-to-bottom within each column).
+    """
+
+    try:
+        blocks = page.get_text("blocks")
+    except Exception:
+        return page.get_text("text")
+
+    text_blocks: list[tuple[float, float, float, float, str]] = []
+    for x0, y0, x1, y1, text, _no, block_type in blocks:
+        if block_type != 0:
+            continue
+        s = text.strip()
+        if not s:
+            continue
+        compact = " ".join(s.split())
+        # Drop pure page numbers early; _clean_lines will also filter them, but
+        # excluding them here helps column detection.
+        if re.fullmatch(r"\d{1,3}", compact):
+            continue
+        text_blocks.append((x0, y0, x1, y1, s))
+
+    if not text_blocks:
+        return ""
+
+    # Detect likely column anchors by frequent x0 values.
+    from collections import Counter
+
+    x0s = [round(x0, 1) for x0, _y0, _x1, _y1, _t in text_blocks]
+    counts = Counter(x0s)
+    main_x = sorted([x for x, n in counts.items() if n >= 5])
+
+    # If we can't confidently detect columns, fall back to row-wise ordering.
+    if len(main_x) < 2 or (max(main_x) - min(main_x)) <= 120:
+        ordered = sorted(text_blocks, key=lambda b: (b[1], b[0]))
+        return "\n".join(t.strip() for *_, t in ordered)
+
+    def _nearest_main_x(x: float) -> tuple[float, float]:
+        best = min(main_x, key=lambda m: abs(x - m))
+        return best, abs(x - best)
+
+    columns: dict[float, list[tuple[float, float, float, float, str]]] = {x: [] for x in main_x}
+    misc: list[tuple[float, float, float, float, str]] = []
+
+    for x0, y0, x1, y1, t in text_blocks:
+        col_x, dist = _nearest_main_x(round(x0, 1))
+        # Allow some tolerance for minor indentations.
+        if dist <= 30:
+            columns[col_x].append((x0, y0, x1, y1, t))
+        else:
+            misc.append((x0, y0, x1, y1, t))
+
+    min_col_y = min(b[1] for col in columns.values() for b in col) if any(columns.values()) else 0.0
+    top_misc = [b for b in misc if b[1] < (min_col_y - 5)]
+    bottom_misc = [b for b in misc if b[1] >= (min_col_y - 5)]
+
+    out: list[str] = []
+    out.extend(t.strip() for *_, t in sorted(top_misc, key=lambda b: (b[1], b[0])))
+    for x in main_x:
+        out.extend(t.strip() for *_, t in sorted(columns[x], key=lambda b: (b[1], b[0])))
+    out.extend(t.strip() for *_, t in sorted(bottom_misc, key=lambda b: (b[1], b[0])))
+    return "\n".join(out)
+
+
 def _parse_page_spec(spec: str) -> list[int]:
     """Parse page specifications like: "5,6-23,53-58,61-68,79-84,95-96"."""
     pages: list[int] = []
@@ -521,7 +631,8 @@ def main() -> int:
         if not (1 <= p <= doc.page_count):
             continue
 
-        page_text = doc.load_page(p - 1).get_text("text")
+        page = doc.load_page(p - 1)
+        page_text = _page_text_with_columns(page)
 
         # Optional cutoff for pages that transition into biographies etc.
         if p >= args.cut_before_min_page:

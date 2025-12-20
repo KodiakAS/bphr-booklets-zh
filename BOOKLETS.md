@@ -28,6 +28,10 @@
   - [x] booklet 已收集 ([目录](booklets/安东·布鲁克纳：交响曲全集9CD%20%28Hybrid-SACD%29/) · [booklet.pdf](booklets/安东·布鲁克纳：交响曲全集9CD%20%28Hybrid-SACD%29/booklet.pdf))
   - [x] 中文翻译已完成 ([目录](booklets/安东·布鲁克纳：交响曲全集9CD%20%28Hybrid-SACD%29/) · [booklet_zh.md](booklets/安东·布鲁克纳：交响曲全集9CD%20%28Hybrid-SACD%29/booklet_zh.md))
   - 购买链接：https://www.berliner-philharmoniker-recordings.com/bruckner-symphonies.html?___store=rec_zh
+- 西蒙·拉特指挥《西贝柳斯交响曲全集》4CD+2蓝光碟+下载／硬壳精装
+  - [x] booklet 已收集 ([目录](booklets/西蒙·拉特指挥《西贝柳斯交响曲全集》4CD+2蓝光碟+下载／硬壳精装/) · [booklet.pdf](booklets/西蒙·拉特指挥《西贝柳斯交响曲全集》4CD+2蓝光碟+下载／硬壳精装/booklet.pdf))
+  - [x] 中文翻译已完成 ([目录](booklets/西蒙·拉特指挥《西贝柳斯交响曲全集》4CD+2蓝光碟+下载／硬壳精装/) · [booklet_zh.md](booklets/西蒙·拉特指挥《西贝柳斯交响曲全集》4CD+2蓝光碟+下载／硬壳精装/booklet_zh.md))
+  - 购买链接：https://www.berliner-philharmoniker-recordings.com/rattle-sibelius-symphonies.html?___store=rec_zh
 - 西蒙·拉特爵士与柏林爱乐乐团：亚洲巡演
   - [x] booklet 已收集 ([目录](booklets/西蒙·拉特爵士与柏林爱乐乐团：亚洲巡演/) · [booklet.pdf](booklets/西蒙·拉特爵士与柏林爱乐乐团：亚洲巡演/booklet.pdf))
   - [x] 中文翻译已完成 ([目录](booklets/西蒙·拉特爵士与柏林爱乐乐团：亚洲巡演/) · [booklet_zh.md](booklets/西蒙·拉特爵士与柏林爱乐乐团：亚洲巡演/booklet_zh.md))
@@ -48,10 +52,6 @@
   - [x] booklet 已收集 ([目录](booklets/柏林爱乐乐团与小泽征尔6张CD与蓝光影碟组成的纪念专辑/) · [booklet.pdf](booklets/柏林爱乐乐团与小泽征尔6张CD与蓝光影碟组成的纪念专辑/booklet.pdf))
   - [ ] 中文翻译已完成
   - 购买链接：https://www.berliner-philharmoniker-recordings.com/ozawa-edition.html?___store=rec_zh
-- 西蒙·拉特指挥《西贝柳斯交响曲全集》4CD+2蓝光碟+下载／硬壳精装
-  - [x] booklet 已收集 ([目录](booklets/西蒙·拉特指挥《西贝柳斯交响曲全集》4CD+2蓝光碟+下载／硬壳精装/) · [booklet.pdf](booklets/西蒙·拉特指挥《西贝柳斯交响曲全集》4CD+2蓝光碟+下载／硬壳精装/booklet.pdf))
-  - [ ] 中文翻译已完成
-  - 购买链接：https://www.berliner-philharmoniker-recordings.com/rattle-sibelius-symphonies.html?___store=rec_zh
 - NikolausHarnoncourtconductsSchubert5CD(Hybrid-SACD)
   - [ ] booklet 已收集
   - [ ] 中文翻译已完成
