@@ -4,7 +4,7 @@
 
 ## 如何阅读
 
-- 总目录/完成进度：`BOOKLETS.md`
+- 总目录/完成进度：[BOOKLETS.md](BOOKLETS.md)
 - 单个 booklet：`booklets/<booklet-标题>/booklet_zh.md`
 - 英文对照（如存在）：`booklets/<booklet-标题>/booklet_en.md`
 
@@ -21,4 +21,4 @@
 ## 维护与贡献
 
 - 命名、脚本、翻译规则（给维护者/AI）：[AGENTS.md](AGENTS.md)
-- 译名/术语对照：`GLOSSARY.md`
+- 译名/术语对照：[GLOSSARY.md](GLOSSARY.md)
