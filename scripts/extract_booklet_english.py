@@ -104,12 +104,19 @@ _ENGLISH_HINT_RE = re.compile(
 )
 
 
+_JAPANESE_HINT_RE = re.compile(r"[\u3040-\u30ff\uff66-\uff9d]")
+
+
 def _looks_german(text: str) -> bool:
     return bool(_GERMAN_HINT_RE.search(text))
 
 
 def _looks_english(text: str) -> bool:
     return bool(_ENGLISH_HINT_RE.search(text))
+
+
+def _looks_japanese(text: str) -> bool:
+    return bool(_JAPANESE_HINT_RE.search(text))
 
 
 def _word_counts(text: str) -> dict[str, int]:
@@ -142,11 +149,14 @@ def _filter_lines_by_language(lines: list[str], language_filter: str) -> list[st
             filtered.append("")
             continue
 
+        if _looks_japanese(line) and not _looks_english(line):
+            continue
+
         # Common bilingual pattern: "German · English".
         # Keep the English fragment (preserving leading counts like "3 Flöten · Flutes").
         if "·" in line:
             left, right = [p.strip() for p in line.split("·", maxsplit=1)]
-            m_count = re.match(r"^(?P<count>\d+)\b", left)
+            m_count = re.match(r"^(?P<count>\d+)\s+", left)
             if m_count:
                 line = f"{m_count.group('count')} {right}".strip()
             else:
@@ -155,7 +165,12 @@ def _filter_lines_by_language(lines: list[str], language_filter: str) -> list[st
                 if left.startswith("[") and right.endswith("]") and not right.startswith("["):
                     line = f"[{right}"
                 else:
-                    line = right
+                    # Pattern like: "Pierre Amoyal, Violine · violin" -> keep name and English role.
+                    if "," in left and right and right[:1].islower() and len(right) <= 40:
+                        name = left.split(",", maxsplit=1)[0].strip()
+                        line = f"{name}, {right}".strip()
+                    else:
+                        line = right
 
         # If a bracketed note still contains bilingual "·", keep the right-hand (English) part.
         # Example: "2 FLUTES [2. AUCH PICCOLOFLÖTE · 2ND ALSO PICCOLO IN NOS. 1 & 7]"
@@ -168,6 +183,16 @@ def _filter_lines_by_language(lines: list[str], language_filter: str) -> list[st
                 return f"[{_right}]"
 
             line = re.sub(r"\[([^\]]+)\]", _fix_bracket, line)
+
+        # Keep track / movement title lines even if they're German-only (e.g. Strauss section titles).
+        if re.match(r"^\d{1,3}\.\s", line):
+            filtered.append(line)
+            continue
+
+        # Keep work title / metadata lines with opus numbers, even if non-English.
+        if re.search(r"\bop\.\s*\d", line, flags=re.IGNORECASE):
+            filtered.append(line)
+            continue
 
         # If the line is clearly German and doesn't contain stable English labels,
         # drop it early (helps remove stray German-only fragments on bilingual pages).
@@ -337,11 +362,16 @@ def _extract_symphony_metadata_english(
         if "·" in s:
             left, right = [p.strip() for p in s.split("·", maxsplit=1)]
             # Preserve counts in instrumentation lines like "3 Flöten · Flutes".
-            m2 = re.match(r"^(?P<count>\d+)\b", left)
+            m2 = re.match(r"^(?P<count>\d+)\s+", left)
             if m2:
                 s = f"{m2.group('count')} {right}"
             else:
-                s = right
+                # Pattern like: "Pierre Amoyal, Violine · violin" -> keep name and English role.
+                if "," in left and right and right[:1].islower() and len(right) <= 40:
+                    name = left.split(",", maxsplit=1)[0].strip()
+                    s = f"{name}, {right}".strip()
+                else:
+                    s = right
 
         # If both present, keep English fragment.
         if "Symphonie" in raw and "Symphony No." in raw:
