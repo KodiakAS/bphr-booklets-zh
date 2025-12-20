@@ -11,24 +11,25 @@ folders may become unused. This script removes booklet folders that:
 By default it runs in dry-run mode.
 
 Usage:
-  python3 scripts/prune_unused_booklets.py          # dry-run
-  python3 scripts/prune_unused_booklets.py --apply # actually delete
+  python3 -m scripts.manage.prune_unused_booklets          # dry-run
+  python3 -m scripts.manage.prune_unused_booklets --apply # actually delete
 """
 
 from __future__ import annotations
 
 import argparse
 import os
-import re
 import shutil
 
-from booklets_common import normalize_title_for_dir
+from .common import (
+    BOOKLETS_DIR_PATH,
+    BOOKLETS_MD_PATH,
+    extract_booklets_md_title_line,
+    normalize_title_for_dir,
+)
 
-REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BOOKLETS_MD = os.path.join(REPO_ROOT, "BOOKLETS.md")
-BOOKLETS_DIR = os.path.join(REPO_ROOT, "booklets")
-
-TITLE_RE = re.compile(r"^- (?!\[)(?P<title>.+?)\s*$")
+BOOKLETS_MD = BOOKLETS_MD_PATH
+BOOKLETS_DIR = BOOKLETS_DIR_PATH
 
 
 def read_keep_norms() -> set[str]:
@@ -36,10 +37,7 @@ def read_keep_norms() -> set[str]:
     with open(BOOKLETS_MD, "r", encoding="utf-8") as f:
         for raw in f:
             line = raw.rstrip("\n")
-            m = TITLE_RE.match(line)
-            if not m:
-                continue
-            title = m.group("title").strip()
+            title = extract_booklets_md_title_line(line)
             if not title:
                 continue
             keep.add(normalize_title_for_dir(title))

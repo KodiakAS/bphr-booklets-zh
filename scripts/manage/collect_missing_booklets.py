@@ -20,7 +20,7 @@ What this script does:
     `booklets/<normalized-title>/` and write `SOURCE.md` (purchase link + notes).
 
 Usage:
-    python3 scripts/collect_missing_booklets.py
+    python3 -m scripts.manage.collect_missing_booklets
 
 Options:
     --limit N   Only process first N missing items
@@ -35,11 +35,15 @@ import re
 from dataclasses import dataclass
 from typing import Iterable
 
-from booklets_common import normalize_title_for_dir, sanitize_title_for_fs
+from .common import (
+    BOOKLETS_DIR_PATH,
+    BOOKLETS_MD_PATH,
+    normalize_title_for_dir,
+    sanitize_title_for_fs,
+)
 
-REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BOOKLETS_MD = os.path.join(REPO_ROOT, "BOOKLETS.md")
-BOOKLETS_DIR = os.path.join(REPO_ROOT, "booklets")
+BOOKLETS_MD = BOOKLETS_MD_PATH
+BOOKLETS_DIR = BOOKLETS_DIR_PATH
 
 @dataclass(frozen=True)
 class BookletItem:

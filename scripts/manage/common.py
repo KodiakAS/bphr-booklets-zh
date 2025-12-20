@@ -1,12 +1,15 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
 from __future__ import annotations
 
 import os
 import re
+from typing import Literal
 
 WHITESPACE_RE = re.compile(r"\s+")
+
+# Repository paths (derived from the location of this file under scripts/manage/).
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+BOOKLETS_MD_PATH = os.path.join(REPO_ROOT, "BOOKLETS.md")
+BOOKLETS_DIR_PATH = os.path.join(REPO_ROOT, "booklets")
 
 # Normalize various Unicode dash characters to ASCII hyphen to avoid
 # near-duplicate titles caused by typography differences.
@@ -191,3 +194,146 @@ def read_official_title_from_source(booklets_dir: str, folder_name: str) -> str 
     except Exception:
         return None
     return None
+
+
+BOOKLETS_MD_TITLE_RE = re.compile(r"^- (?!\[)(?P<title>.+?)\s*$")
+
+
+def extract_booklets_md_title_line(line: str) -> str | None:
+    """Extract `- <title>` lines from BOOKLETS.md (not checklist sub-items)."""
+
+    m = BOOKLETS_MD_TITLE_RE.match((line or "").rstrip("\n"))
+    if not m:
+        return None
+    title = m.group("title").strip()
+    return title or None
+
+
+STORE_PARAM = "___store=rec_zh"
+
+
+def add_store_param(url: str) -> str:
+    url = (url or "").strip()
+    if not url:
+        return url
+    if STORE_PARAM in url:
+        return url
+    if "?" in url:
+        return url + "&" + STORE_PARAM
+    return url + "?" + STORE_PARAM
+
+
+def stable_url_key(url: str) -> str:
+    """Return a stable comparable key for store URLs."""
+
+    return add_store_param((url or "").strip())
+
+
+def build_source_purchase_url_index(
+    booklets_dir: str,
+    *,
+    choose_folder: Literal["first", "prefer_assets"] = "prefer_assets",
+) -> tuple[dict[str, str], list[str], dict[str, str]]:
+    """Build an index from purchase URLs recorded in local SOURCE.md files.
+
+    Returns: (stable_url_key -> folder_name, deduped_urls, folder_name -> official_title)
+    """
+
+    def folder_preference(folder_name: str) -> tuple[bool, bool, int, str]:
+        folder_path = os.path.join(booklets_dir, folder_name)
+        has_pdf = os.path.isfile(os.path.join(folder_path, "booklet.pdf"))
+        has_zh = os.path.isfile(os.path.join(folder_path, "booklet_zh.md"))
+        return (has_pdf, has_zh, -len(folder_name), folder_name)
+
+    url_to_folder: dict[str, str] = {}
+    urls: list[str] = []
+    folder_to_official_title: dict[str, str] = {}
+
+    if not os.path.isdir(booklets_dir):
+        return url_to_folder, urls, folder_to_official_title
+
+    for folder in sorted(os.listdir(booklets_dir)):
+        if folder.startswith("."):
+            continue
+        folder_path = os.path.join(booklets_dir, folder)
+        if not os.path.isdir(folder_path):
+            continue
+
+        official = read_official_title_from_source(booklets_dir, folder)
+        if official:
+            folder_to_official_title[folder] = official
+
+        url = read_purchase_link_from_source(booklets_dir, folder, require_url=True)
+        if not url:
+            continue
+
+        key = stable_url_key(url)
+        if choose_folder == "first":
+            url_to_folder.setdefault(key, folder)
+        else:
+            prev = url_to_folder.get(key)
+            if not prev or folder_preference(folder) > folder_preference(prev):
+                url_to_folder[key] = folder
+
+        urls.append(url)
+
+    # De-dup urls while keeping order
+    seen: set[str] = set()
+    deduped: list[str] = []
+    for u in urls:
+        k = stable_url_key(u)
+        if k in seen:
+            continue
+        seen.add(k)
+        deduped.append(u)
+
+    return url_to_folder, deduped, folder_to_official_title
+
+
+MANUAL_EXPLANATION_TITLE_PREFIXES = (
+    "本章节会在重新生成清单时被保留",
+    "该章节用于维护",
+)
+
+LEADING_TITLE_TRIM_CHARS = " \t\r\n\u3000\"'“”‘’《》()[]【】{}·•—–-:：/\\"
+
+
+def completion_rank(has_pdf: bool, has_zh: bool) -> int:
+    """Ranking for checklist ordering.
+
+    0: translation done
+    1: booklet collected
+    2: others
+    """
+
+    if has_zh:
+        return 0
+    if has_pdf:
+        return 1
+    return 2
+
+
+def title_initial_key(title: str) -> tuple[str, str]:
+    """Sort key for '按首字母（首字符）' ordering.
+
+    - Trims common leading punctuation/quotes.
+    - Uses A-Z for ASCII letters.
+    - Uses '#' for digits.
+    - Otherwise uses the first remaining character as a bucket.
+
+    Returns: (bucket, full_title_key)
+    """
+
+    t = (title or "").strip().lstrip(LEADING_TITLE_TRIM_CHARS)
+    if not t:
+        return ("~", "")
+
+    first = t[0]
+    if "A" <= first <= "Z" or "a" <= first <= "z":
+        bucket = first.upper()
+    elif first.isdigit():
+        bucket = "#"
+    else:
+        bucket = first
+
+    return (bucket, t.casefold())

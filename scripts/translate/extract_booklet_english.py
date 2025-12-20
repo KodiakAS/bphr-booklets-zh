@@ -9,6 +9,8 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 
+from .common import DE_STOPWORDS_EXTRACT, EN_STOPWORDS, stopword_lang_score
+
 
 @dataclass(frozen=True)
 class ExtractConfig:
@@ -24,64 +26,6 @@ DEFAULT_RUNNING_TITLE_LINES = {
     "Listening again to Bruckner",
     "From Vienna into the World",
     "The Conductors of this Edition",
-}
-
-
-EN_STOPWORDS = {
-    "the",
-    "and",
-    "of",
-    "to",
-    "in",
-    "a",
-    "is",
-    "that",
-    "with",
-    "as",
-    "for",
-    "on",
-    "by",
-    "from",
-    "at",
-    "this",
-    "be",
-    "are",
-    "was",
-    "were",
-    "it",
-    "his",
-    "her",
-    "their",
-}
-
-
-DE_STOPWORDS = {
-    "der",
-    "die",
-    "das",
-    "und",
-    "zu",
-    "mit",
-    "im",
-    "in",
-    "auf",
-    "für",
-    "von",
-    "ist",
-    "sind",
-    "war",
-    "wurden",
-    "wurde",
-    "ein",
-    "eine",
-    "einer",
-    "eines",
-    "als",
-    "auch",
-    "nicht",
-    "sich",
-    "dass",
-    "nach",
 }
 
 
@@ -119,24 +63,13 @@ def _looks_japanese(text: str) -> bool:
     return bool(_JAPANESE_HINT_RE.search(text))
 
 
-def _word_counts(text: str) -> dict[str, int]:
-    words = re.findall(r"[A-Za-zÄÖÜäöüß']+", text.lower())
-    counts: dict[str, int] = {}
-    for w in words:
-        counts[w] = counts.get(w, 0) + 1
-    return counts
-
-
 def _lang_score(text: str) -> tuple[int, int]:
     """Return (en_score, de_score) based on stopword counts.
 
     Heuristic only: works best on paragraph-ish text, not on short labels.
     """
 
-    counts = _word_counts(text)
-    en = sum(counts.get(w, 0) for w in EN_STOPWORDS)
-    de = sum(counts.get(w, 0) for w in DE_STOPWORDS)
-    return en, de
+    return stopword_lang_score(text, en_stopwords=EN_STOPWORDS, de_stopwords=DE_STOPWORDS_EXTRACT)
 
 
 def _filter_lines_by_language(lines: list[str], language_filter: str) -> list[str]:

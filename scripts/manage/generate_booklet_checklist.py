@@ -15,7 +15,7 @@ Local status:
 - "booklet 已收集" when `booklets/<name>/booklet.pdf` exists.
 
 Usage:
-    python3 scripts/generate_booklet_checklist.py
+    python3 -m scripts.manage.generate_booklet_checklist
 
 Outputs:
 - BOOKLETS.md (repo root)
@@ -42,21 +42,22 @@ import time
 import xml.etree.ElementTree as ET
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from booklets_common import (
+from .common import (
+    REPO_ROOT,
+    add_store_param,
+    build_source_purchase_url_index,
+    completion_rank,
     get_local_status_by_normalized_title,
     md_link_escape_path,
     normalize_title_for_dir,
     normalize_title_for_display,
-    read_official_title_from_source,
     read_purchase_link_from_source,
-    sanitize_title_for_fs,
+    stable_url_key,
+    title_initial_key,
 )
 
 SITEMAP_URL = "https://www.berliner-philharmoniker-recordings.com/sitemap.xml"
-STORE_PARAM = "___store=rec_zh"
 OUTPUT_FILE = "BOOKLETS.md"
-
-MD_TITLE_RE = re.compile(r"^- (?!\[)(?P<title>.+?)\s*$")
 
 PRODUCT_TITLE_RE = re.compile(r'class="product-title"[^>]*>\s*([^<]+?)\s*</h3>', re.I)
 PRODUCT_SUBTITLE_RE = re.compile(r'class="product-subtitle"[^>]*>\s*([^<]+?)\s*</p>', re.I)
@@ -222,92 +223,11 @@ def clean_text(text: str) -> str:
     return text
 
 
-def add_store_param(url: str) -> str:
-    if STORE_PARAM in url:
-        return url
-    if "?" in url:
-        return url + "&" + STORE_PARAM
-    return url + "?" + STORE_PARAM
-
-
-def _stable_url_key(url: str) -> str:
-    """Return a stable comparable key for URLs.
-
-    We normalize the store param so URLs compare consistently regardless of
-    whether they already contain `___store=rec_zh`.
-    """
-
-    return add_store_param((url or "").strip())
-
-
 def should_skip_url_pre_fetch(url: str) -> bool:
     lower_url = url.lower()
     if NON_RECORDING_URL_HINT_RE.search(lower_url):
         return True
     return False
-
-
-def _build_source_purchase_url_index(
-    booklets_dir: str,
-) -> tuple[dict[str, str], list[str], dict[str, str]]:
-    """Build a mapping from purchase URL -> local folder name.
-
-    This is used to:
-    - Discover releases whose product pages are not present in the official sitemap.
-    - Associate a product URL with a local folder when the on-page title differs
-      from our preferred directory naming.
-
-    Returns: (stable_url_key -> folder_name, urls, folder_name -> official_title)
-    """
-
-    def folder_preference(folder_name: str) -> tuple[bool, bool, int, str]:
-        """Higher is better.
-
-        Prefer folders that already contain collected/translated assets, then
-        prefer shorter (more canonical) folder names.
-        """
-
-        folder_path = os.path.join(booklets_dir, folder_name)
-        has_pdf = os.path.isfile(os.path.join(folder_path, "booklet.pdf"))
-        has_zh = os.path.isfile(os.path.join(folder_path, "booklet_zh.md"))
-        return (has_pdf, has_zh, -len(folder_name), folder_name)
-
-    url_to_folder: dict[str, str] = {}
-    urls: list[str] = []
-    folder_to_official_title: dict[str, str] = {}
-    if not os.path.isdir(booklets_dir):
-        return url_to_folder, urls, folder_to_official_title
-
-    for folder in sorted(os.listdir(booklets_dir)):
-        if folder.startswith("."):
-            continue
-        folder_path = os.path.join(booklets_dir, folder)
-        if not os.path.isdir(folder_path):
-            continue
-        url = read_purchase_link_from_source(booklets_dir, folder, require_url=True)
-        if not url:
-            continue
-        key = _stable_url_key(url)
-        prev = url_to_folder.get(key)
-        if not prev or folder_preference(folder) > folder_preference(prev):
-            url_to_folder[key] = folder
-        urls.append(url)
-
-        official = read_official_title_from_source(booklets_dir, folder)
-        if official:
-            folder_to_official_title[folder] = official
-
-    # De-dup urls while keeping order
-    seen: set[str] = set()
-    deduped: list[str] = []
-    for u in urls:
-        k = _stable_url_key(u)
-        if k in seen:
-            continue
-        seen.add(k)
-        deduped.append(u)
-
-    return url_to_folder, deduped, folder_to_official_title
 
 
 def get_translated_names(repo_root: str) -> set[str]:
@@ -428,50 +348,6 @@ def extract_first_release_date(page_html: str) -> dt.date | None:
 
     candidates.sort(key=lambda x: (x[0], x[1]))
     return candidates[0][1]
-
-
-LEADING_TITLE_TRIM_CHARS = " \t\r\n\u3000\"'“”‘’《》()[]【】{}·•—–-:：/\\"
-
-
-def completion_rank(has_pdf: bool, has_zh: bool) -> int:
-    """Ranking for checklist ordering.
-
-    0: translation done
-    1: booklet collected
-    2: others
-    """
-
-    if has_zh:
-        return 0
-    if has_pdf:
-        return 1
-    return 2
-
-
-def title_initial_key(title: str) -> tuple[str, str]:
-    """Sort key for '按首字母' ordering.
-
-    - Trims common leading punctuation/quotes.
-    - Uses A-Z for ASCII letters.
-    - Uses '#' for digits.
-    - Otherwise uses the first remaining character as a bucket.
-
-    Returns: (bucket, full_title_key)
-    """
-
-    t = (title or "").strip().lstrip(LEADING_TITLE_TRIM_CHARS)
-    if not t:
-        return ("~", "")
-
-    first = t[0]
-    if "A" <= first <= "Z" or "a" <= first <= "z":
-        bucket = first.upper()
-    elif first.isdigit():
-        bucket = "#"
-    else:
-        bucket = first
-
-    return (bucket, t.casefold())
 
 
 def extract_title_subtitle_pairs(page_html: str) -> list[tuple[str, str]]:
@@ -674,10 +550,10 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
 
 def main(argv: list[str]) -> int:
     args = parse_args(argv)
-    repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    repo_root = REPO_ROOT
     booklets_dir = os.path.join(repo_root, "booklets")
     local_status = get_local_status_by_normalized_title(booklets_dir)
-    source_url_to_folder, source_urls, folder_to_official_title = _build_source_purchase_url_index(booklets_dir)
+    source_url_to_folder, source_urls, folder_to_official_title = build_source_purchase_url_index(booklets_dir)
 
     if args.url:
         scan_urls = [u.strip() for u in args.url if u and u.strip()]
@@ -695,7 +571,7 @@ def main(argv: list[str]) -> int:
     for u in scan_urls:
         if not u:
             continue
-        key = _stable_url_key(u)
+        key = stable_url_key(u)
         if key in seen_scan:
             continue
         seen_scan.add(key)
@@ -714,7 +590,7 @@ def main(argv: list[str]) -> int:
             if err or page is None:
                 errors.append((zh_url, " ".join((err or "").splitlines()).strip()))
                 continue
-            pinned_folder = source_url_to_folder.get(_stable_url_key(zh_url))
+            pinned_folder = source_url_to_folder.get(stable_url_key(zh_url))
             pinned_norm = normalize_title_for_dir(pinned_folder) if pinned_folder else ""
             pinned_has_pdf, pinned_has_zh, _p_folder = local_status.get(pinned_norm, (False, False, ""))
 
@@ -764,7 +640,7 @@ def main(argv: list[str]) -> int:
                 if err or page is None:
                     errors.append((zh_url, " ".join((err or "").splitlines()).strip()))
                     continue
-                pinned_folder = source_url_to_folder.get(_stable_url_key(zh_url))
+                pinned_folder = source_url_to_folder.get(stable_url_key(zh_url))
                 pinned_norm = normalize_title_for_dir(pinned_folder) if pinned_folder else ""
                 pinned_has_pdf, pinned_has_zh, _p_folder = local_status.get(pinned_norm, (False, False, ""))
 
@@ -816,7 +692,7 @@ def main(argv: list[str]) -> int:
         bucket.sort(
             key=lambda x: (
                 x[4],
-                _stable_url_key(x[2]),
+                stable_url_key(x[2]),
                 x[0],
                 normalize_title_for_dir(x[1]),
             ),
@@ -883,7 +759,7 @@ def main(argv: list[str]) -> int:
     out_path = os.path.join(repo_root, args.output)
     online_norms: set[str] = {stable_norm for *_rest, stable_norm in items}
     existing_url_keys: set[str] = {
-        _stable_url_key(url)
+        stable_url_key(url)
         for _display_title, url, *_rest in items
         if url and url != "待补充"
     }
@@ -914,7 +790,7 @@ def main(argv: list[str]) -> int:
         items.append((display_title, url, has_pdf, has_zh, folder, folder_norm))
         online_norms.add(folder_norm)
         if url and url != "待补充":
-            existing_url_keys.add(_stable_url_key(url))
+            existing_url_keys.add(stable_url_key(url))
 
     # Merge local-only releases (missing from sitemap scan) into the main list.
     for norm, (has_pdf, has_zh, folder) in local_status.items():
@@ -972,7 +848,7 @@ def main(argv: list[str]) -> int:
             errors_sorted = sorted(
                 errors,
                 key=lambda x: (
-                    _stable_url_key(x[0]),
+                    stable_url_key(x[0]),
                     " ".join((x[1] or "").split()),
                 ),
             )

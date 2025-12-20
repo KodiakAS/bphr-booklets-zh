@@ -26,7 +26,7 @@ Goal:
 This script does NOT fetch the network. It only reflects local filesystem state.
 
 Usage:
-  python3 scripts/update_booklets_links_only.py
+  python3 -m scripts.manage.update_booklets_links_only
 """
 
 from __future__ import annotations
@@ -35,21 +35,29 @@ import os
 import re
 import urllib.parse
 
-from booklets_common import (
+from .common import (
+    BOOKLETS_DIR_PATH,
+    BOOKLETS_MD_PATH,
+    BOOKLETS_MD_TITLE_RE,
+    MANUAL_EXPLANATION_TITLE_PREFIXES,
+    add_store_param,
+    build_source_purchase_url_index,
+    completion_rank,
     get_local_status_by_normalized_title,
     md_link_escape_path,
     normalize_title_for_dir,
     normalize_title_for_display,
     read_official_title_from_source,
     read_purchase_link_from_source,
+    stable_url_key,
+    title_initial_key,
 )
 
-REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BOOKLETS_MD = os.path.join(REPO_ROOT, "BOOKLETS.md")
-BOOKLETS_DIR = os.path.join(REPO_ROOT, "booklets")
+BOOKLETS_MD = BOOKLETS_MD_PATH
+BOOKLETS_DIR = BOOKLETS_DIR_PATH
 
 
-TITLE_RE = re.compile(r"^- (?!\[)(?P<title>.+?)\s*$")
+TITLE_RE = BOOKLETS_MD_TITLE_RE
 # Match the whole line and keep only the leading checklist text.
 # This makes the updater idempotent even when existing suffix contains nested parentheses
 # from Markdown links.
@@ -60,38 +68,15 @@ LEGACY_EXTRA_RE = re.compile(r"^\s*- (目录：|原文：|译文：).*$")
 # Extract folder name from existing directory links, if present.
 DIR_LINK_RE = re.compile(r"\[目录\]\(booklets/(?P<folder>[^)]+)/\)")
 
-MANUAL_EXPLANATION_TITLE_PREFIXES = (
-    "本章节会在重新生成清单时被保留",
-    "该章节用于维护",
-)
-
-LEADING_TITLE_TRIM_CHARS = " \t\r\n\u3000\"'“”‘’《》()[]【】{}·•—–-:：/\\"
-
 PDF_CHECK_RE = re.compile(r"^\s*- \[(?P<mark>[ xX])\] booklet 已收集\b")
 ZH_CHECK_RE = re.compile(r"^\s*- \[(?P<mark>[ xX])\] 中文翻译已完成\b")
 PURCHASE_LINE_RE = re.compile(r"^\s*- 购买链接：(?P<url>.+?)\s*$")
 MANUAL_SECTION_RE = re.compile(r"^##\s*手工条目\s*$")
-STORE_PARAM = "___store=rec_zh"
 
 
 def _decode_md_folder(md_folder: str) -> str:
     # md_link_escape_path uses percent-encoding for some characters.
     return urllib.parse.unquote(md_folder)
-
-
-def _add_store_param(url: str) -> str:
-    url = (url or "").strip()
-    if not url:
-        return url
-    if STORE_PARAM in url:
-        return url
-    if "?" in url:
-        return url + "&" + STORE_PARAM
-    return url + "?" + STORE_PARAM
-
-
-def _stable_url_key(url: str) -> str:
-    return _add_store_param((url or "").strip())
 
 
 def _strip_blank_lines(lines: list[str]) -> list[str]:
@@ -173,7 +158,7 @@ def _collect_existing_keys(blocks: list[list[str]]) -> tuple[set[str], set[str],
             if m_url:
                 url = m_url.group("url").strip()
                 if url.startswith("http://") or url.startswith("https://"):
-                    existing_url_keys.add(_stable_url_key(url))
+                    existing_url_keys.add(stable_url_key(url))
             m_dir = DIR_LINK_RE.search(line)
             if m_dir:
                 existing_folders.add(_decode_md_folder(m_dir.group("folder")))
@@ -232,22 +217,9 @@ def _merge_pinned_local_entries(text: str, booklets_dir: str) -> str:
     existing_norms, existing_url_keys, existing_folders = _collect_existing_keys(blocks)
 
     # Scan local SOURCE.md pinned links and optional official titles.
-    url_key_to_folder: dict[str, str] = {}
-    folder_to_official: dict[str, str] = {}
-    if os.path.isdir(booklets_dir):
-        for folder in sorted(os.listdir(booklets_dir)):
-            folder_path = os.path.join(booklets_dir, folder)
-            if not os.path.isdir(folder_path):
-                continue
-            official_title = read_official_title_from_source(booklets_dir, folder)
-            if official_title:
-                folder_to_official[folder] = official_title
-            purchase = read_purchase_link_from_source(booklets_dir, folder, require_url=True)
-            if not purchase:
-                continue
-            url_key = _stable_url_key(purchase)
-            if url_key not in url_key_to_folder:
-                url_key_to_folder[url_key] = folder
+    url_key_to_folder, _source_urls, folder_to_official = build_source_purchase_url_index(
+        booklets_dir, choose_folder="first"
+    )
 
     # Build blocks to add: pinned-by-SOURCE first, then local-only (collected/translated).
     to_add: list[str] = []
@@ -269,7 +241,7 @@ def _merge_pinned_local_entries(text: str, booklets_dir: str) -> str:
             continue
 
         purchase = read_purchase_link_from_source(booklets_dir, folder, require_url=True)
-        url_display = _add_store_param(purchase) if purchase else "待补充"
+        url_display = add_store_param(purchase) if purchase else "待补充"
 
         block_lines = _build_release_block(
             display_title=display_title,
@@ -305,12 +277,12 @@ def _merge_pinned_local_entries(text: str, booklets_dir: str) -> str:
                 continue
 
             purchase = read_purchase_link_from_source(booklets_dir, folder, require_url=True)
-            if purchase and _stable_url_key(purchase) in existing_url_keys:
+            if purchase and stable_url_key(purchase) in existing_url_keys:
                 continue
 
             block_lines = _build_release_block(
                 display_title=display_title,
-                purchase_url=_add_store_param(purchase) if purchase else "待补充",
+                purchase_url=add_store_param(purchase) if purchase else "待补充",
                 folder_name=folder,
                 has_pdf=has_pdf,
                 has_zh=has_zh,
@@ -319,7 +291,7 @@ def _merge_pinned_local_entries(text: str, booklets_dir: str) -> str:
             existing_norms.add(norm)
             existing_folders.add(folder)
             if purchase:
-                existing_url_keys.add(_stable_url_key(purchase))
+                existing_url_keys.add(stable_url_key(purchase))
 
     if to_add:
         body.extend(to_add)
@@ -449,47 +421,6 @@ def main() -> int:
 
     print("Updated BOOKLETS.md inline links based on local files.")
     return 0
-
-
-def completion_rank(has_pdf: bool, has_zh: bool) -> int:
-    """Ranking for checklist ordering.
-
-    0: translation done
-    1: booklet collected
-    2: others
-    """
-
-    if has_zh:
-        return 0
-    if has_pdf:
-        return 1
-    return 2
-
-
-def title_initial_key(title: str) -> tuple[str, str]:
-    """Sort key for '按首字母（首字符）' ordering.
-
-    - Trims common leading punctuation/quotes.
-    - Uses A-Z for ASCII letters.
-    - Uses '#' for digits.
-    - Otherwise uses the first remaining character as a bucket.
-
-    Returns: (bucket, full_title_key)
-    """
-
-    t = (title or "").strip().lstrip(LEADING_TITLE_TRIM_CHARS)
-    if not t:
-        return ("~", "")
-
-    first = t[0]
-    if "A" <= first <= "Z" or "a" <= first <= "z":
-        bucket = first.upper()
-    elif first.isdigit():
-        bucket = "#"
-    else:
-        bucket = first
-
-    return (bucket, t.casefold())
 
 
 def _is_release_block_start(lines: list[str], idx: int) -> bool:

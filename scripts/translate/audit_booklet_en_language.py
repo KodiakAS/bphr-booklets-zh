@@ -8,61 +8,7 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 
-
-EN_STOPWORDS = {
-    "the",
-    "and",
-    "of",
-    "to",
-    "in",
-    "a",
-    "is",
-    "that",
-    "with",
-    "as",
-    "for",
-    "on",
-    "by",
-    "from",
-    "at",
-    "this",
-    "be",
-    "are",
-    "was",
-    "were",
-    "it",
-    "his",
-    "her",
-    "their",
-}
-
-
-DE_STOPWORDS = {
-    "der",
-    "die",
-    "das",
-    "und",
-    "zu",
-    "mit",
-    "im",
-    "in",
-    "auf",
-    "für",
-    "von",
-    "ist",
-    "sind",
-    "war",
-    "wurden",
-    "ein",
-    "eine",
-    "einer",
-    "eines",
-    "als",
-    "auch",
-    "nicht",
-    "sich",
-    "dass",
-}
+from .common import DE_STOPWORDS_AUDIT, EN_STOPWORDS, REPO_ROOT, stopword_lang_score
 
 
 GERMAN_HINT_RE = re.compile(
@@ -70,19 +16,8 @@ GERMAN_HINT_RE = re.compile(
 )
 
 
-def _word_counts(text: str) -> dict[str, int]:
-    words = re.findall(r"[A-Za-zÄÖÜäöüß']+", text.lower())
-    counts: dict[str, int] = {}
-    for w in words:
-        counts[w] = counts.get(w, 0) + 1
-    return counts
-
-
 def _lang_score(text: str) -> tuple[int, int]:
-    counts = _word_counts(text)
-    en = sum(counts.get(w, 0) for w in EN_STOPWORDS)
-    de = sum(counts.get(w, 0) for w in DE_STOPWORDS)
-    return en, de
+    return stopword_lang_score(text, en_stopwords=EN_STOPWORDS, de_stopwords=DE_STOPWORDS_AUDIT)
 
 
 @dataclass(frozen=True)
@@ -175,7 +110,7 @@ def main() -> int:
     )
     parser.add_argument(
         "--root",
-        default=Path(__file__).resolve().parents[1],
+        default=Path(REPO_ROOT),
         type=Path,
         help="Repo root (default: parent of scripts/)",
     )
