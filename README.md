@@ -8,6 +8,13 @@
 - 单个 booklet：`booklets/<booklet-标题>/booklet_zh.md`
 - 英文对照（如存在）：`booklets/<booklet-标题>/booklet_en.md`
 
+## AI 维护者说明
+
+本仓库的 AI 维护工作主要分工如下：
+
+- gpt5.2 xhigh：脚本开发与翻译
+- gemini3 pro：校对
+
 ## 清单
 
 - 含 booklet 的官方发行物清单（仅实体版；每条发行物下有两项任务，分别表示“booklet PDF 收集情况 / 中文翻译完成情况”；按制品标题首字母/首字符排序）：[BOOKLETS.md](BOOKLETS.md)
