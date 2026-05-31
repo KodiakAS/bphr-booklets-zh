@@ -1,10 +1,3 @@
-```markdown
 # 基里尔·别特连科指挥柴可夫斯基《第六交响曲“悲怆”》
 
-- 购买链接：待补充
-- 说明：该条目为手工收集（可能不在官网 sitemap 中），为避免后续脚本覆盖/清理，请在 BOOKLETS.md 的“手工条目”章节维护。
-
-手动收集建议：
-- 若你在官方站点发现该发行物页面（或可公开访问的 booklet 直链），请补充在此文件中便于复查。
-
-```
+- 购买链接：https://www.berliner-philharmoniker-recordings.com/tchaikovsky-pathetique-24-bit-download.html?___store=rec_zh

@@ -2,17 +2,17 @@
 
 ## 巡演行程
 
-- 2017-11-10：香港文化中心（Hong Kong Cultural Centre）
-- 2017-11-11：香港文化中心（Hong Kong Cultural Centre）
-- 2017-11-12：广州大剧院（Guangzhou Opera House）
-- 2017-11-13：武汉琴台音乐厅（Wuhan Qintai Concert Hall）
-- 2017-11-16：上海东方艺术中心（Shanghai Oriental Art Center）
-- 2017-11-17：上海东方艺术中心（Shanghai Oriental Art Center）
-- 2017-11-19：首尔艺术中心（Seoul Arts Center）
-- 2017-11-20：首尔艺术中心（Seoul Arts Center）
-- 2017-11-23：川崎 Muza 交响音乐厅（Muza Kawasaki Symphony Hall）
-- 2017-11-24：东京三得利音乐厅（Suntory Hall, Tokyo）
-- 2017-11-25：东京三得利音乐厅（Suntory Hall, Tokyo）
+- 2017 年 11 月 10 日：香港文化中心（Hong Kong Cultural Centre）
+- 2017 年 11 月 11 日：香港文化中心（Hong Kong Cultural Centre）
+- 2017 年 11 月 12 日：广州大剧院（Guangzhou Opera House）
+- 2017 年 11 月 13 日：武汉琴台音乐厅（Wuhan Qintai Concert Hall）
+- 2017 年 11 月 16 日：上海东方艺术中心（Shanghai Oriental Art Center）
+- 2017 年 11 月 17 日：上海东方艺术中心（Shanghai Oriental Art Center）
+- 2017 年 11 月 19 日：首尔艺术中心（Seoul Arts Center）
+- 2017 年 11 月 20 日：首尔艺术中心（Seoul Arts Center）
+- 2017 年 11 月 23 日：川崎 Muza 交响音乐厅（Muza Kawasaki Symphony Hall）
+- 2017 年 11 月 24 日：东京三得利音乐厅（Suntory Hall, Tokyo）
+- 2017 年 11 月 25 日：东京三得利音乐厅（Suntory Hall, Tokyo）
 
 ## 前言（Foreword）
 
@@ -111,23 +111,23 @@
 
 芭蕾舞剧（1947 年修订版）
 
-| 乐章 | 速度标记 | 时长 |
+| 乐章 | 速度标记 / 乐章标题 | 时长 |
 | --- | --- | --- |
-| 1 | SCENE 1 — The Shrove-tide Fair | 07:07 |
-| 2 | Danse Russe | 07:09 |
-| 3 | SCENE 2 — Petrushka | 04:29 |
-| 4 | SCENE 3 — The Blackamoor | 03:29 |
-| 5 | Valse | 03:08 |
-| 6 | SCENE 4 — The Shrove-tide Fair and the Death of Petrushka | 01:12 |
-| 7 | Wet-nurses’ Dance | 02:33 |
-| 8 | Peasant with Bear | 01:16 |
-| 9 | Gypsies and a Rake Vendor | 01:05 |
-| 10 | Dance of the Coachmen | 01:57 |
-| 11 | Masqueraders | 01:32 |
-| 12 | The Scuffle: Blackamoor and Petrushka | 00:45 |
-| 13 | Death of Petrushka | 00:58 |
-| 14 | Police and the Juggler | 01:16 |
-| 15 | Apparition of Petrushka’s Double | 00:52 |
+| 1 | 场景 1：谢肉节集市 | 07:07 |
+| 2 | 俄罗斯舞曲 | 07:09 |
+| 3 | 场景 2：彼得鲁什卡 | 04:29 |
+| 4 | 场景 3：黑摩尔人 | 03:29 |
+| 5 | 圆舞曲 | 03:08 |
+| 6 | 场景 4：谢肉节集市与彼得鲁什卡之死 | 01:12 |
+| 7 | 奶妈之舞 | 02:33 |
+| 8 | 农民与熊 | 01:16 |
+| 9 | 吉卜赛人与耙子小贩 | 01:05 |
+| 10 | 车夫之舞 | 01:57 |
+| 11 | 化装者 | 01:32 |
+| 12 | 争斗：黑摩尔人与彼得鲁什卡 | 00:45 |
+| 13 | 彼得鲁什卡之死 | 00:58 |
+| 14 | 警察与杂耍艺人 | 01:16 |
+| 15 | 彼得鲁什卡替身的幻影 | 00:52 |
 
 | 项目 | 内容 |
 | --- | --- |

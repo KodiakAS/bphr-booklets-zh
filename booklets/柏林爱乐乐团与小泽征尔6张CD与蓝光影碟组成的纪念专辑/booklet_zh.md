@@ -174,12 +174,12 @@
 
 《宁静交响曲》（Symphonia Serena）
 
-| 乐章 | 速度标记 | 时长 |
+| 乐章 | 速度标记 / 乐章标题 | 时长 |
 | --- | --- | --- |
-| I | Moderately Fast | 10:19 |
-| II | Geschwindmarsch by Beethoven. Paraphrase | 03:53 |
-| III | Colloquy | 09:35 |
-| IV | Finale | 09:19 |
+| I | 中等快速（Moderately Fast） | 10:19 |
+| II | 贝多芬《急行军》：改写 | 03:53 |
+| III | 对话 | 09:35 |
+| IV | 终曲 | 09:19 |
 
 | 项目 | 内容 |
 | --- | --- |

@@ -90,30 +90,4 @@
 
 **您曾在一场题为“失落的一代”（Lost Generation）的音乐会中演奏这些作品。这一标题有什么含义？**
 
-在这一主题下，柏林爱乐乐团演出了那些在生前非常成功、却因历史境遇而被遗忘的作曲家作品——尤其是那些因犹太血统而遭迫害的作曲家。莱奥内·欣尼加格里亚便是其中之一。他的音乐曾被多次演出——包括柏林爱乐乐团的演出，也包括阿图尔·尼基施与阿图罗·托斯卡尼尼等指挥家的演出。20 世纪 20 年代，欣尼加格里亚退出音乐界，把自己投入到第二大热爱：登山。他进行了无数次徒步旅行，甚至写过一本关于皮埃蒙特与其群峰的书。国家社会主义者（纳粹）上台后，作为犹太人的欣尼加格里亚很快意识到威胁，却仍选择留在意大利。1944 年，他与妹妹在都灵的一家医院寻求庇护。党卫队（SS）追踪到他，意图将其 deport 至集中营——然而，就在被捕那一刻，欣尼加格里亚心脏病发并因此去世。我们希望这份录音能让他与他的音乐不被遗忘。就我个人而言，作为那些在“第三帝国”（Third Reich）时期不得不逃离德国的犹太人后代，在柏林重温这些被遗忘的欣尼加格里亚作品并演奏它们，对我格外意义重大。
-
----
-
-## 录音与制作信息（Credits）
-
-- 莫扎特协奏曲录于 2022 年 11 月 2 日至 4 日，柏林爱乐厅（Philharmonie Berlin）
-- 欣尼加格里亚作品录于 2022 年 6 月 9 日至 11 日，柏林爱乐厅（Philharmonie Berlin）
-- 录音制作人：Christoph Franke
-- 录音师：René Möller
-- 录音格式：24-bit / 192 kHz（莫扎特），24-bit / 96 kHz（欣尼加格里亚）
-- 执行制作人：Olaf Maninger、Maximilian Merkle
-- 产品管理：Felix Feustel、Zoe Howard
-- 封面图片 © Noshe
-- 艺术指导：Studio Marek Polewski
-- 平面设计：Marek Polewski、Janis Gildein
-- 摄影：Stefan Höderath（第 2 页）、Stephan Rabold（第 8、11 页）
-- 历史图片：Johann Baptist Baumgartner（1710–1773，1773 年，Heritage Images / Fine Art Images / akg-images，第 5 页）；佚名（日期不详，Lebrecht Music & Arts / Alamy Stock Foto，第 6 页）
-- 编辑：Susanne Ziese
-- 编辑团队：Phyllis Anderson、Richard Evidon、Geertje Lenkeit
-- 翻译：John Moraitis
-- 特别致谢：Timo Hagemeister、Felix Löhl
-- 编号：BPHR 24048
-- ℗ & © 2024 Berlin Phil Media GmbH
-- 保留所有权利
-- berliner-philharmoniker.de
-- berliner-philharmoniker-recordings.com
+在这一主题下，柏林爱乐乐团演出了那些在生前非常成功、却因历史境遇而被遗忘的作曲家作品——尤其是那些因犹太血统而遭迫害的作曲家。莱奥内·欣尼加格里亚便是其中之一。他的音乐曾被多次演出——包括柏林爱乐乐团的演出，也包括阿图尔·尼基施与阿图罗·托斯卡尼尼等指挥家的演出。20 世纪 20 年代，欣尼加格里亚退出音乐界，把自己投入到第二大热爱：登山。他进行了无数次徒步旅行，甚至写过一本关于皮埃蒙特与其群峰的书。国家社会主义者（纳粹）上台后，作为犹太人的欣尼加格里亚很快意识到威胁，却仍选择留在意大利。1944 年，他与妹妹在都灵的一家医院寻求庇护。党卫队（SS）追踪到他，意图将其遣送至集中营——然而，就在被捕那一刻，欣尼加格里亚心脏病发并因此去世。我们希望这份录音能让他与他的音乐不被遗忘。就我个人而言，作为那些在“第三帝国”（Third Reich）时期不得不逃离德国的犹太人后代，在柏林重温这些被遗忘的欣尼加格里亚作品并演奏它们，对我格外意义重大。

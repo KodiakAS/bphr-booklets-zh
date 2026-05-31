@@ -142,27 +142,3 @@ heart attack at the moment of his arrest. We hope that our recording ensures tha
 me personally, as a descendant of Jews who had to flee Germany during the “Third Reich”, it was particularly meaningful
 to revive these forgotten works by Sinigaglia and to perform
 them in Berlin.
-
-## [PDF p.14]
-
-Mozart concerto recorded at the Philharmonie Berlin, 2 – 4 November 2022
-Sinigaglia works recorded at the Philharmonie Berlin,  9 – 11 June 2022
-Recording producer: Christoph Franke
-Sound engineer: René Möller
-Recorded in 24-bit / 192 kHz (Mozart), 24-bit / 96 kHz (Sinigaglia)
-Executive producers: Olaf Maninger, Maximilian Merkle
-Product management: Felix Feustel, Zoe Howard
-Cover image © Noshe
-Art direction: Studio Marek Polewski
-Graphic Design: Marek Polewski, Janis Gildein
-Photos: Stefan Höderath (2), Stephan Rabold (8, 11)
-Historical images: Johann Baptist Baumgartner (1710 – 1773), 1773, Heritage Images / Fine Art Images / akg-images (5), anonymous, undated, Lebrecht Music & Arts / Alamy Stock Foto (6)
-Editorial: Susanne Ziese
-Editorial team: Phyllis Anderson, Richard Evidon, Geertje Lenkeit
-Translations: John Moraitis
-Special thanks to: Timo Hagemeister, Felix Löhl
-BPHR 24048
-℗ & © 2024 Berlin Phil Media GmbH
-All rights reserved
-berliner-philharmoniker.de
-berliner-philharmoniker-recordings.com

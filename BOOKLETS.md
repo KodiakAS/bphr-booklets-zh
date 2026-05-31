@@ -23,7 +23,7 @@
 - 基里尔·别特连科指挥柴可夫斯基《第六交响曲“悲怆”》
   - [x] booklet 已收集 ([目录](booklets/基里尔·别特连科指挥柴可夫斯基《第六交响曲“悲怆”》/) · [booklet.pdf](booklets/基里尔·别特连科指挥柴可夫斯基《第六交响曲“悲怆”》/booklet.pdf))
   - [x] 中文翻译已完成 ([目录](booklets/基里尔·别特连科指挥柴可夫斯基《第六交响曲“悲怆”》/) · [booklet_zh.md](booklets/基里尔·别特连科指挥柴可夫斯基《第六交响曲“悲怆”》/booklet_zh.md))
-  - 购买链接：待补充
+  - 购买链接：https://www.berliner-philharmoniker-recordings.com/tchaikovsky-pathetique-24-bit-download.html?___store=rec_zh
 - 安东·布鲁克纳：交响曲全集9CD (Hybrid-SACD)
   - [x] booklet 已收集 ([目录](booklets/安东·布鲁克纳：交响曲全集9CD%20%28Hybrid-SACD%29/) · [booklet.pdf](booklets/安东·布鲁克纳：交响曲全集9CD%20%28Hybrid-SACD%29/booklet.pdf))
   - [x] 中文翻译已完成 ([目录](booklets/安东·布鲁克纳：交响曲全集9CD%20%28Hybrid-SACD%29/) · [booklet_zh.md](booklets/安东·布鲁克纳：交响曲全集9CD%20%28Hybrid-SACD%29/booklet_zh.md))
@@ -47,7 +47,7 @@
 - 西蒙·拉特爵士指挥莫扎特《第39-41交响曲》
   - [x] booklet 已收集 ([目录](booklets/西蒙·拉特爵士指挥莫扎特《第39-41交响曲》/) · [booklet.pdf](booklets/西蒙·拉特爵士指挥莫扎特《第39-41交响曲》/booklet.pdf))
   - [x] 中文翻译已完成 ([目录](booklets/西蒙·拉特爵士指挥莫扎特《第39-41交响曲》/) · [booklet_zh.md](booklets/西蒙·拉特爵士指挥莫扎特《第39-41交响曲》/booklet_zh.md))
-  - 购买链接：待补充
+  - 购买链接：https://www.berliner-philharmoniker-recordings.com/mozart-symphonies-24-bit-download.html?___store=rec_zh
 - 诺阿·本尼迪-巴格莱：莫扎特、欣尼加格里亚（Download）
   - [x] booklet 已收集 ([目录](booklets/诺阿·本尼迪-巴格莱：莫扎特、欣尼加格里亚（Download）/) · [booklet.pdf](booklets/诺阿·本尼迪-巴格莱：莫扎特、欣尼加格里亚（Download）/booklet.pdf))
   - [x] 中文翻译已完成 ([目录](booklets/诺阿·本尼迪-巴格莱：莫扎特、欣尼加格里亚（Download）/) · [booklet_zh.md](booklets/诺阿·本尼迪-巴格莱：莫扎特、欣尼加格里亚（Download）/booklet_zh.md))
